@@ -81,12 +81,6 @@ class Timber {
       // Increment log count
       tap(() => this._countLogged++),
 
-      // Add timestamp if it doesn't exist on the log entry
-      map(log => ({
-        date: new Date(),
-        ...log
-      })),
-
       // Proceed only when `syncInterval` has passed
       bufferTime(this._options.syncInterval),
 
@@ -98,8 +92,6 @@ class Timber {
     // TODO - this is entirely for testing right now!
     // TODO - add _real_ logging
     this._subscription = this._observable.subscribe(logs => {
-      console.log(`${logs.length} logs`);
-
       // TODO remove this block-- it's for testing only!
       setTimeout(() => {
         this._countSynced += logs.length;
@@ -131,7 +123,13 @@ class Timber {
    * @returns number
    */
   public createObservable() {
-    return fromEvent<ITimberLog>(this._event, "log");
+    return fromEvent<ITimberLog>(this._event, "log").pipe(
+      // Add timestamp if it doesn't exist on the log entry
+      map(log => ({
+        date: new Date(),
+        ...log
+      }))
+    );
   }
 
   /**

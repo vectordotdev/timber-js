@@ -1,12 +1,13 @@
 {
-  "name": "@timber/logger",
-  "version": "0.1.0",
+  "name": "@timberio/logger",
+  "version": "0.1.1",
   "description": "Timber.io Node.js logging",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
     "dev": "nodemon",
+    "prepublishOnly": "npm run build",
     "start": "node --inspect=5858 -r ts-node/register src/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
