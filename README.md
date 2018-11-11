@@ -2,4 +2,6 @@
 
 The very start of the new Timber node package.
 
-To be continued...
+This is not intended for public consumption yet. Expect things to change quickly and without warning.
+
+TBA.
