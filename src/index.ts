@@ -52,13 +52,22 @@ class Timber {
   }
 
   /**
-   * Returns a combined pipeline, of transformers and sync
+   * Returns a custom pipeline, filtered by stage
    *
-   * @returns Pipeline[]
+   * @param stage - Stage to filtered on
+   * @returns Array of pipeline functions
+   * @private
    */
   private _getCustomPipeline(stage: Stage): Pipeline[] {
     return this._custom.filter(p => p.stage === stage).map(p => p.fn);
   }
+
+  /**
+   * Returns a combined pipeline of transformers, sync and custom functions
+   *
+   * @returns An array of pipeline functions to be executed
+   * @private
+   */
   private get _pipeline(): Pipeline[] {
     return [
       ...this._getCustomPipeline(Stage.BeforeTransform),
@@ -129,8 +138,17 @@ class Timber {
 
   /**
    * Remove a function from the pipeline
+   *
+   * @param fn - Pipeline function
    */
   public removePipeline(fn: Pipeline): boolean;
+
+  /**
+   * Remove a function from the pipeline
+   *
+   * @param fn - Pipeline function
+   * @param stage - Stage to run the pipeline (default: "before-sync")
+   */
   public removePipeline(fn: Pipeline, stage?: Stage): boolean {
     // Get the original length of the custom pipeline, to compare with
     const originalLength = this._custom.length;
