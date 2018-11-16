@@ -35,6 +35,21 @@ export interface ITimberLog {
 export type Pipeline = (log: ITimberLog) => Promise<ITimberLog>;
 
 /**
+ * Enum type to specify when a pipeline function can be added
+ */
+
+export enum Stage {
+  BeforeTransform = "before-transform",
+  BeforeSync = "before-sync",
+  AfterSync = "after-sync"
+}
+
+export interface ICustomPipeline {
+  stage: Stage;
+  fn: Pipeline;
+}
+
+/**
  * Internal queue type
  */
 export interface IQueue<T> {
