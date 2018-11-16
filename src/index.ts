@@ -72,7 +72,7 @@ class Timber {
     return [
       ...this._getCustomPipeline(Stage.BeforeTransform),
       ...this._transformers,
-      ...this._getCustomPipeline(Stage.BeforeTransform),
+      ...this._getCustomPipeline(Stage.BeforeSync),
       ...this._sync,
       ...this._getCustomPipeline(Stage.AfterSync)
     ];
