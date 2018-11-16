@@ -1,6 +1,6 @@
 {
   "name": "@timberio/logger",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Timber.io Node.js logging",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -22,16 +22,11 @@
   },
   "homepage": "https://github.com/timberio/node-logger#readme",
   "devDependencies": {
-    "@types/double-ended-queue": "^2.1.0",
     "@types/node": "^10.12.5",
     "nodemon": "^1.18.6",
     "prettier": "^1.15.1",
     "ts-node": "^7.0.1",
     "typescript": "^3.1.6"
   },
-  "dependencies": {
-    "async-sema": "^2.1.4",
-    "double-ended-queue": "^2.1.0-0",
-    "rxjs": "^6.3.3"
-  }
+  "dependencies": {}
 }
