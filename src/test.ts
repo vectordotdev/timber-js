@@ -1,6 +1,6 @@
 import Logger from "./index";
 
-const add = 10000;
+const add = 100;
 const logger = new Logger("testing");
 
 const promises = [];
