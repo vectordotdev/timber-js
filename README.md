@@ -1,5 +1,7 @@
 # 🌲 Timber - Beautiful Logging, Made Easy
 
+![Speed: Blazing](https://img.shields.io/badge/speed-blazing%20%F0%9F%94%A5-brightgreen.svg)
+
 [Timber.io](https://timber.io) is a hosted service for aggregating logs across your entire stack - any language, any platform, any data source.
 
 Unlike traditional logging tools with proprietary log formats and protocols, Timber lets you capture system logs, visitor stats, user events and any other kind of log you wish to track, in whatever format makes sense for your app.
