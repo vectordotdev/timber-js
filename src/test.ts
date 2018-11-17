@@ -1,6 +1,21 @@
 import Logger from "./index";
 
+const add = 10000;
 const logger = new Logger("testing");
+
+const promises = [];
+
+console.time("Added");
+
+for (let i = 0; i < add; i++) {
+  promises.push(
+    logger.log({
+      message: "Testing"
+    })
+  );
+}
+
+console.timeEnd("Added");
 
 function print() {
   console.log(`Logged: ${logger.logged}`);
@@ -9,12 +24,8 @@ function print() {
 
 (async () => {
   print();
-  void logger.log({
-    message: "This is a test!"
-  });
+  console.time("Added2");
+  await Promise.all(promises);
+  console.timeEnd("Added2");
   print();
-
-  setTimeout(() => {
-    print();
-  }, 3000);
 })();
