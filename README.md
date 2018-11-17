@@ -22,7 +22,7 @@ This Javascript library features:
 
 - **NPM or CDN**. `npm i timber` or drop in a `<script src="https://cdn.timber.io/logger.js></script>` tag to your HTML
 
-- **Written in Typescript; runs anywhere**. Enjoy a fully typed API, whether you use Typescript or plain JS. Plays nicely with React, Angular
+- **Written in Typescript; runs anywhere**. Enjoy a fully typed API, whether you use Typescript or plain JS. Plays nicely with any view engine (React, Angular, Vue, jQuery, etc), any web server (Express, Koa, HAPI, a static SPA, etc), and any back-end stack you can think of.
 
 - **Blazing fast**. Queue 100 logs in < 1.5ms, with automatic background syncing, batching and throttling with Timber.io, optimising network I/O and reducing CPU load.
 
