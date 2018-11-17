@@ -1,6 +1,7 @@
 # 🌲 Timber - Beautiful Logging, Made Easy
 
 ![Speed: Blazing](https://img.shields.io/badge/speed-blazing%20%F0%9F%94%A5-brightgreen.svg)
+[![ISC License](https://img.shields.io/badge/license-ISC-ff69b4.svg)](LICENSE.md)
 
 [Timber.io](https://timber.io) is a hosted service for aggregating logs across your entire stack - any language, any platform, any data source.
 
