@@ -39,16 +39,6 @@ This Javascript library features:
 
 ## Installation
 
-The Timber JS lib can be installed easily in any Javascript app, whether it's running on Node, built via Webpack/Rollup, or served directly from our CDN on any web page:
+**Signup at [timber.io](https://app.timber.io/) and follow the in-app instructions.**
 
-### Node.js / Webpack / Rollup
-
-Install with NPM/Yarn:
-
-```
-npm i timber
-```
-
-### Via a `<script>` tag
-
-WIP, TBA
+For those interested in manual instructions, see the timber.io installation docs.
