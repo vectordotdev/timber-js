@@ -1,17 +1,4 @@
 /**
- * Options for instantiating a Timber logger instance
- * @interface
- */
-export interface ITimberOptions {
-  /**
-   *  Maximum requests to the Timber.io service at any one time.
-   *  Recommended setting for most apps (to avoid excessive network I/O): 10
-   *  @abstract
-   */
-  maxRequests: number;
-}
-
-/**
  *  Represents a Timber log entry
  *  @interface
  */

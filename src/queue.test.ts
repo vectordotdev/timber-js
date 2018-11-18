@@ -1,50 +1,52 @@
 import Queue from "./queue";
 
-test("should store correct number of items in queue", () => {
-  const q = new Queue();
-  const numberOfItems = 10;
+describe("queue tests", () => {
+  it("should store correct number of items in queue", () => {
+    const q = new Queue();
+    const numberOfItems = 10;
 
-  for (let i = 0; i < numberOfItems; i++) {
-    q.push(i);
-  }
+    for (let i = 0; i < numberOfItems; i++) {
+      q.push(i);
+    }
 
-  expect(q.length).toEqual(numberOfItems);
-});
-
-test("should retrieve the items in FIFO order", () => {
-  const q = new Queue();
-  const numberOfItems = 10;
-  const list = [];
-
-  // Insert items to both the array and queue
-  for (let i = 0; i < numberOfItems; i++) {
-    list.push(i);
-    q.push(i);
-  }
-
-  // Map over plain array (which is ordered), and test
-  // against the values from the queue
-  list.forEach(item => {
-    expect(q.shift()).toEqual(item);
+    expect(q.length).toEqual(numberOfItems);
   });
 
-  // Queue should now be empty
-  expect(q.length).toEqual(0);
-});
+  it("should retrieve the items in FIFO order", () => {
+    const q = new Queue();
+    const numberOfItems = 10;
+    const list = [];
 
-test("should handle 100,000 items", () => {
-  const q = new Queue();
-  const numberOfItems = 100000;
+    // Insert items to both the array and queue
+    for (let i = 0; i < numberOfItems; i++) {
+      list.push(i);
+      q.push(i);
+    }
 
-  for (let i = 0; i < numberOfItems; i++) {
-    q.push(i);
-  }
+    // Map over plain array (which is ordered), and test
+    // against the values from the queue
+    list.forEach(item => {
+      expect(q.shift()).toEqual(item);
+    });
 
-  expect(q.length).toEqual(numberOfItems);
-});
+    // Queue should now be empty
+    expect(q.length).toEqual(0);
+  });
 
-test("should return undefined if queue is empty", () => {
-  const q = new Queue();
+  it("should handle 100,000 items", () => {
+    const q = new Queue();
+    const numberOfItems = 100000;
 
-  expect(q.shift()).toEqual(undefined);
+    for (let i = 0; i < numberOfItems; i++) {
+      q.push(i);
+    }
+
+    expect(q.length).toEqual(numberOfItems);
+  });
+
+  it("should return undefined if queue is empty", () => {
+    const q = new Queue();
+
+    expect(q.shift()).toEqual(undefined);
+  });
 });
