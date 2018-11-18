@@ -27,7 +27,7 @@ This Javascript library features:
 
 - **Written in Typescript; runs anywhere**. Enjoy a fully typed API, whether you use Typescript or plain JS. Plays nicely with any view engine (React, Angular, Vue, jQuery, etc), any web server (Express, Koa, HAPI, a static SPA, etc), and any back-end stack you can think of.
 
-- **Blazing fast**. Queue 100 logs in < 1.5ms, with automatic background syncing, batching and throttling with Timber.io, optimising network I/O and reducing CPU load.
+- **Blazing fast**. Queue 100 logs in ~1.5ms, with automatic background syncing, batching and throttling with Timber.io, optimising network I/O and reducing CPU load.
 
 - **Environment-aware optimizations**. Import in Node.js, and syncing will use the native `http.request` lib. Drop in the browser, and it'll switch to WebSockets and register as a web worker, keeping your app's performance tip-top.
 

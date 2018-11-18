@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1542567757896" clover="3.2.0">
+  <project timestamp="1542567757896" name="All files">
+    <metrics statements="11" coveredstatements="11" conditionals="6" coveredconditionals="6" methods="3" coveredmethods="3" elements="20" coveredelements="20" complexity="0" loc="11" ncloc="11" packages="1" files="1" classes="1">
+      <file name="queue.ts" path="/Users/leebenson/dev/github/timberio/node-logger/src/queue.ts">
+        <metrics statements="11" coveredstatements="11" conditionals="6" coveredconditionals="6" methods="3" coveredmethods="3"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="21" count="4" type="stmt"/>
+        <line num="28" count="100020" type="stmt"/>
+        <line num="29" count="100020" type="cond" truecount="2" falsecount="0"/>
+        <line num="30" count="100020" type="stmt"/>
+        <line num="37" count="11" type="cond" truecount="2" falsecount="0"/>
+        <line num="38" count="10" type="stmt"/>
+        <line num="39" count="10" type="stmt"/>
+        <line num="40" count="10" type="cond" truecount="2" falsecount="0"/>
+        <line num="41" count="1" type="stmt"/>
+        <line num="43" count="10" type="stmt"/>
+      </file>
+    </metrics>
+  </project>
+</coverage>
