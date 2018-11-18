@@ -22,10 +22,12 @@ class Timber {
   private _countSynced = 0;
 
   // Transform pipeline
-  private _pipeline = [preProcess];
+  protected _pipeline = [preProcess];
 
   // Sync function
   protected _sync?: Pipeline;
+
+  /* CONSTRUCTOR */
 
   /**
    * Initializes a new Timber instance
@@ -36,6 +38,8 @@ class Timber {
   public constructor(apiKey: string, options: Partial<ITimberOptions> = {}) {
     this._options = { ...defaultOptions, ...options };
   }
+
+  /* PUBLIC METHODS */
 
   /**
    * Number of entries logged
@@ -80,6 +84,16 @@ class Timber {
 
     // Return the resulting log
     return transformedLog;
+  }
+
+  /**
+   * Sets the sync method - i.e. the final step in the pipeline to get logs
+   * over to Timber.io
+   *
+   * @param fn - Pipeline function to use as sync method
+   */
+  public setSync(fn: Pipeline): void {
+    this._sync = fn;
   }
 
   /**

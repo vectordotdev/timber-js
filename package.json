@@ -13,14 +13,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/timberio/node-logger.git"
+    "url": "git+https://github.com/timberio/npm-logger.git"
   },
   "author": "Lee Benson <lee@leebenson.com>",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/timberio/node-logger/issues"
+    "url": "https://github.com/timberio/npm-logger/issues"
   },
-  "homepage": "https://github.com/timberio/node-logger#readme",
+  "homepage": "https://github.com/timberio/npm-logger#readme",
   "devDependencies": {
     "@types/jest": "^23.3.9",
     "@types/node": "^10.12.5",
