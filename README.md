@@ -21,24 +21,70 @@ Node.js and the browser are two of many [languages](https://docs.timber.io/langu
 
 This Javascript library features:
 
-- **Isomorphic Node/browser support**. Log user/system errors, visits, clicks, events - _anything_ - in Chrome, Safari, Edge, or on a Node.js server, and search logs in real-time via the [Timber.io console](https://timber.io).
+- **Universal Node/browser support**. Log user/system errors, visits, clicks, events - _anything_ - in Chrome, Safari, Edge, or on a Node.js server, and search logs in real-time via the [Timber.io console](https://timber.io).
 
-- **NPM or CDN**. `npm i timber` or drop in a `<script src="https://cdn.timber.io/logger.js></script>` tag to your HTML
+- **NPM or CDN**. Use natively in your app, Webpack/Rollup into your Node/browser bundle, or just drop in a `<script>` tag to your final HTML. Integrates easily into any app.
 
 - **Written in Typescript; runs anywhere**. Enjoy a fully typed API, whether you use Typescript or plain JS. Plays nicely with any view engine (React, Angular, Vue, jQuery, etc), any web server (Express, Koa, HAPI, a static SPA, etc), and any back-end stack you can think of.
 
 - **Blazing fast**. Queue 100 logs in ~1.5ms, with automatic background syncing, batching and throttling with Timber.io, optimising network I/O and reducing CPU load.
 
-- **Environment-aware optimizations**. Import in Node.js, and syncing will use the native `http.request` lib. Drop in the browser, and it'll switch to WebSockets and register as a web worker, keeping your app's performance tip-top.
-
 - **Guaranteed consistency**. `timber.log()` returns a Promise that resolves when the log has been ACK'd by Timber, so you know your log has been stored safely.
 
 - **Easy hooks/pipeline middleware**. Pass an async func to `timber.addPipeline()` to chain your own transforms or log middleware; `.log()` only resolves when it completes!
 
-- **Light as a feather.** Zero external dependencies. The gzipped browser bundle weighs in at just XXkb!
+- **Light as a feather.** Zero external dependencies in the browser version. The gzipped browser bundle weighs in at just XXkb!
+
+- **Plays nicely with other loggers**. Using Bunyan or Winston? There are integrations for that.
 
 ## Installation
 
-**Signup at [timber.io](https://app.timber.io/) and follow the in-app instructions.**
+### Guided
 
-For those interested in manual instructions, see the timber.io installation docs.
+**Recommended:** Signup at [timber.io](https://app.timber.io/) and follow the in-app instructions.
+
+### Manual
+
+The Timber Javascript lib integrates easily into any Node.js, Webpack/Rollup or HTML app:
+
+**Node.js, Webpack/Rollup, universal apps**
+
+Install with:
+
+```
+npm i @timberio/logger
+```
+
+You can then create an instance of the logger with:
+
+```ts
+import Timber from "@timberio/logger";
+
+// Pass in your Timber API key -- sign-up at timber.io to get yours
+const timber = new Timber("apiKeyHere");
+
+// To log
+timber.log({ message: "Hello Timber!" }); // <-- returns a Promise when ACK'd
+```
+
+**Browser / HTML apps**
+
+Drop in the following `<script>` tag before the closing `</body>`:
+
+```
+<script src="TODO-INSERT-REAL-LINK"></script>
+```
+
+This will give you a global `window.Timber` class, which you can instantiate with:
+
+```
+const timber = new Timber("apiKey")
+```
+
+## Integrations
+
+TBA
+
+## The logging pipeline
+
+TBA
