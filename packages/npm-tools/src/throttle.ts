@@ -1,11 +1,13 @@
 import Queue from "./queue";
-import { ITimberLog, Pipeline } from "./types";
+import { InferArgs } from "./types";
 
 /**
  * Create a throttle which runs up to `max` async functions at once
  * @param max - maximum number of async functions to run
  */
-export default function makeThrottle(max: number) {
+export default function makeThrottle<T extends (...args: any[]) => any>(
+  max: number
+) {
   // Current iteration cycle
   let current = 0;
 
@@ -16,9 +18,9 @@ export default function makeThrottle(max: number) {
    * Throttle function that throttles the passed func according to `max`
    * @param fn - async function to resolve
    */
-  function throttle(fn: Pipeline) {
-    return async (log: ITimberLog) => {
-      return new Promise<ITimberLog>((resolve, reject) => {
+  function throttle(fn: T) {
+    return async (...args: InferArgs<T>[]) => {
+      return new Promise<InferArgs<T>>((resolve, reject) => {
         /**
          * Handler for resolving the Promise chain
          */
@@ -31,7 +33,7 @@ export default function makeThrottle(max: number) {
             try {
               // Await the passed function here first, to determine if any
               // errors are thrown, so they can be handled by our outside `reject`
-              resolve(await fn(log));
+              resolve(await fn(...args));
             } catch (e) {
               reject(e);
             }
