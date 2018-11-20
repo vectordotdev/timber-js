@@ -2,9 +2,13 @@
   "name": "@timberio/tools",
   "version": "0.1.0",
   "description": "Javascript logging tools",
-  "main": "dist/index.ts",
+  "main": "dist/cjs/index.js",
+  "module": "dist/es6/index.js",
+  "types": "dist/es6/index.d.ts",
+  "sideEffects": false,
   "scripts": {
-    "build": "tsc",
+    "build": "tsc -p tsconfig.json && tsc -p tsconfig.es6.json",
+    "prepublish": "npm run build",
     "test": "jest"
   },
   "repository": {
