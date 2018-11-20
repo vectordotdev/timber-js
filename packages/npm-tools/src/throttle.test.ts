@@ -1,9 +1,11 @@
 import makeThrottle from "./throttle";
 
+// Sample log type
 interface ILog {
   message: string;
 }
 
+// Sample pipeline type
 type Pipeline = (log: ILog) => Promise<ILog>;
 
 describe("Throttle tests", () => {
@@ -49,6 +51,9 @@ describe("Throttle tests", () => {
   });
 
   it("should handle rejections", async () => {
+    // Fixtures
+    const numberOfPromises = 10;
+
     // Create the throttle function
     const throttle = makeThrottle(5);
 
@@ -56,8 +61,17 @@ describe("Throttle tests", () => {
     let errors = 0;
 
     // Create a throttled function that will throw half the time
-    const pipeline = throttle(async log => {
-      throw new Error("Thrown inside throttled function!");
+    const pipeline = throttle(async i => {
+      if (i % 2 == 0) {
+        throw new Error("Thrown inside throttled function!");
+      }
+      return i;
     });
+
+    for (let i = 0; i < numberOfPromises; i++) {
+      await pipeline(i).catch(() => errors++);
+    }
+
+    expect(errors).toEqual(numberOfPromises / 2);
   });
 });
