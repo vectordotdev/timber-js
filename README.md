@@ -31,7 +31,7 @@ This Javascript library features:
 
 - **Guaranteed consistency**. `timber.log()` returns a Promise that resolves when the log has been ACK'd by Timber, so you know your log has been stored safely.
 
-- **Easy hooks/pipeline middleware**. Pass an async func to `timber.addPipeline()` to chain your own transforms or log middleware; `.log()` only resolves when it completes!
+- **Easy hooks/pipeline middleware**. Pass an async func to `timber.addPipeline()` to chain your own transforms or log middleware; `.log()` only resolves when all pipelines complete!
 
 - **Light as a feather.** Zero external dependencies in the browser version. The gzipped browser bundle weighs in at just XXkb!
 

@@ -1,4 +1,4 @@
-import Base from "./index";
+import Base from "./base";
 import { ITimberLog } from "./types";
 
 describe("base class tests", () => {

@@ -1,11 +1,12 @@
 {
   "name": "@timberio/logger",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Timber.io Node.js logging",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/cjs/index.js",
+  "module": "dist/es6/index.js",
+  "types": "dist/es6/index.d.ts",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && tsc -p tsconfig.es6.json",
     "dev": "nodemon",
     "prepublishOnly": "npm run build",
     "start": "node --inspect=5858 -r ts-node/register src/index.ts",
@@ -31,5 +32,7 @@
     "ts-node": "^7.0.1",
     "typescript": "^3.1.6"
   },
-  "dependencies": {}
+  "dependencies": {
+    "@timberio/tools": "^0.2.0"
+  }
 }
