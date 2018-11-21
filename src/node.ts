@@ -1,12 +1,12 @@
 import Base from "./lib/base";
 
-class BrowserLogger extends Base {
+class NodeLogger extends Base {
   public constructor(apiKey: string) {
     super(apiKey);
-    console.log("Hello from the browser!");
+    console.log("Hello from Node.js!");
 
     this.setSync(async log => log);
   }
 }
 
-export default BrowserLogger;
+export default NodeLogger;

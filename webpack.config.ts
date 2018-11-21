@@ -2,9 +2,9 @@ import path from "path";
 
 import webpack from "webpack";
 
-const config: webpack.Configuration = {
+const umdConfig: webpack.Configuration = {
   mode: "production",
-  entry: path.join(__dirname, "src", "browser.ts"),
+  entry: path.join(__dirname, "src", "umd.ts"),
   output: {
     libraryTarget: "umd",
     path: path.join(__dirname, "dist", "umd"),
@@ -28,4 +28,4 @@ const config: webpack.Configuration = {
   }
 };
 
-export default config;
+export default umdConfig;
