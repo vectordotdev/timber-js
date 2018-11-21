@@ -1,4 +1,4 @@
-import Base from "./lib/base";
+import Base from "../lib/base";
 
 class NodeLogger extends Base {
   public constructor(apiKey: string) {
