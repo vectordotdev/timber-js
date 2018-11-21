@@ -141,7 +141,7 @@ You can add any number of pipeline functions to your logger instance (which will
 timber.addPipeline(preProcess);
 ```
 
-Pipelines are run _before_ the final sync to Timber.io. Pipeline functions should return a `Promise<ITimberLog>`, making it possible to augment logs, send to another destination, throw errors, etc.
+Pipelines run _before_ the final sync to Timber.io. Pipeline functions should return a `Promise<ITimberLog>`, making it possible to augment logs, send to another destination, throw errors, etc.
 
 **Note: If an exception is thrown anywhere in the pipeline chain, the log _won't_ be synced.**
 
