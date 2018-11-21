@@ -73,3 +73,33 @@ void (async () => {
   void (await promises); // <-- will take 10 seconds total!
 })();
 ```
+
+### atob(ascii: string): string
+
+**Node.js only**
+
+Converts ASCII text to a Base64 encoded string. Equivalent to [window.atob()](https://www.w3schools.com/jsref/met_win_atob.asp) in the browser.
+
+Used by the logger to convert an API key to Timber's `user:password` basic auth.
+
+**Usage example:**
+
+```typescript
+import { atob } from "@timberio/tools";
+
+console.log(atob("hello world")); // <-- returns "aGVsbG8gd29ybGQ="
+```
+
+### btoa(base64: string): string
+
+**Node.js only**
+
+Converts Base64 encoded string to an ASCII string. Equivalent to [window.btoa()](https://www.w3schools.com/jsref/met_win_btoa.asp)
+
+**Usage example:**
+
+```typescript
+import { btoa } from "@timberio/tools";
+
+console.log(btoa("aGVsbG8gd29ybGQ=")); // <-- returns "hello world"
+```
