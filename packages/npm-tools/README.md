@@ -74,11 +74,11 @@ void (async () => {
 })();
 ```
 
-### `atob(ascii: string): string`
+### `base64Encode(str: string): string`
 
 **Node.js only**
 
-Converts ASCII text to a Base64 encoded string. Equivalent to [window.atob()](https://www.w3schools.com/jsref/met_win_atob.asp) in the browser.
+Converts a plain-text string to a Base64 encoded string. Similar to [window.btoa()](https://www.w3schools.com/jsref/met_win_atob.asp) in the browser.
 
 Used by the logger to convert an API key to Timber's `user:password` basic auth.
 
@@ -88,18 +88,4 @@ Used by the logger to convert an API key to Timber's `user:password` basic auth.
 import { atob } from "@timberio/tools";
 
 console.log(atob("hello world")); // <-- returns "aGVsbG8gd29ybGQ="
-```
-
-### `btoa(base64: string): string`
-
-**Node.js only**
-
-Converts Base64 encoded string to an ASCII string. Equivalent to [window.btoa()](https://www.w3schools.com/jsref/met_win_btoa.asp) in the browser.
-
-**Usage example:**
-
-```typescript
-import { btoa } from "@timberio/tools";
-
-console.log(btoa("aGVsbG8gd29ybGQ=")); // <-- returns "hello world"
 ```

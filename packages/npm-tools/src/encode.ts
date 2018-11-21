@@ -1,17 +1,8 @@
 /**
- * Converts ASCII to Base64
+ * Converts a plain-text string to a base64 string
  *
- * @param ascii - ASCII string -> base64
+ * @param str - Plain text string -> base64
  */
-export function atob(ascii: string): string {
-  return Buffer.from(ascii).toString("base64");
-}
-
-/**
- * Converts Base64 to ASCII
- *
- * @param base64 - Base64 -> ASCII
- */
-export function btoa(base64: string): string {
-  return Buffer.from(base64, "base64").toString("ascii");
+export function base64Encode(str: string): string {
+  return Buffer.from(str).toString("base64");
 }
