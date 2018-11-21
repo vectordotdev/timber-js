@@ -74,7 +74,7 @@ void (async () => {
 })();
 ```
 
-### atob(ascii: string): string
+### `atob(ascii: string): string`
 
 **Node.js only**
 
@@ -90,11 +90,11 @@ import { atob } from "@timberio/tools";
 console.log(atob("hello world")); // <-- returns "aGVsbG8gd29ybGQ="
 ```
 
-### btoa(base64: string): string
+### `btoa(base64: string): string`
 
 **Node.js only**
 
-Converts Base64 encoded string to an ASCII string. Equivalent to [window.btoa()](https://www.w3schools.com/jsref/met_win_btoa.asp)
+Converts Base64 encoded string to an ASCII string. Equivalent to [window.btoa()](https://www.w3schools.com/jsref/met_win_btoa.asp) in the browser.
 
 **Usage example:**
 
