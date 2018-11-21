@@ -1,13 +1,15 @@
 {
   "name": "@timberio/tools",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Javascript logging tools",
   "main": "dist/cjs/index.js",
   "module": "dist/es6/index.js",
   "types": "dist/es6/index.d.ts",
   "sideEffects": false,
   "scripts": {
-    "build": "tsc && tsc -p tsconfig.es6.json",
+    "build:cjs": "tsc",
+    "build:es6": "tsc -p tsconfig.es6.json",
+    "build": "run-p build:*",
     "prepublish": "npm run build",
     "test": "jest"
   },
@@ -25,6 +27,7 @@
     "@types/jest": "^23.3.9",
     "@types/node": "^10.12.9",
     "jest": "^23.6.0",
+    "npm-run-all": "^4.1.3",
     "prettier": "^1.15.2",
     "ts-jest": "^23.10.4",
     "typescript": "^3.1.6"

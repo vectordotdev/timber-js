@@ -4,14 +4,42 @@ This library provides helper tools used by the [Javascript logger](https://githu
 
 ## Tools
 
-### `makeThrottle<TFunc>(max: number)`
+### `Queue<T>`
+
+Generic [FIFO](<https://en.wikipedia.org/wiki/FIFO_(computing_and_electronics)>) queue. Used by `makeThrottle` to store pipeline functions to be executed as concurrent 'slots' become available. Provides fast retrieval for any primitive or object that needs ordered, first-in, first-out retrieval.
+
+**Usage example**
+
+```typescript
+import { Queue } from "@timberio/tools";
+
+// Interface representing a person
+interface IPerson {
+  name: string;
+  age: number;
+}
+
+// Create a queue to store `IPerson` objects
+const q = new Queue<IPerson>();
+
+// Add a couple of records...
+q.push({ name: "Jeff", age: 50 });
+q.push({ name: "Sally", age: 39 });
+
+// Pull values from the queue...
+while (q.length) {
+  console.log(q.shift().name); // <-- first Jeff, then Sally...
+}
+```
+
+### `makeThrottle<T>(max: number)`
 
 Returns a `throttle` higher-order function, which wraps an `async` function, and limits the number of active Promises to `max: number`
 
 The `throttle` function has this signature:
 
 ```
-throttle(fn: TFunc): (...args: TFuncArg[]) => Promise<TFuncArg>
+throttle(fn: T): (...args: InferArgs<T>[]) => Promise<InferArgs<T>>
 ```
 
 **Usage example**
