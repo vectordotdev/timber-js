@@ -74,7 +74,7 @@ timber.log({ message: "Hello Timber!" }); // <-- returns a Promise when ACK'd
 Drop in the following `<script>` tag before the closing `</body>`:
 
 ```
-<script src="TODO-INSERT-REAL-LINK"></script>
+<script src="https://unpkg.com/@timberio/logger@0.4.0/dist/umd/timber.js"></script>
 ```
 
 This will give you a global `window.Timber` class, which you can instantiate with:

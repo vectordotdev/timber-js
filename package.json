@@ -4,8 +4,8 @@
   "description": "Timber.io Node.js logging",
   "main": "dist/cjs/index.js",
   "browser": "dist/es6/browser.js",
-  "module": "dist/es6/index.js",
-  "types": "dist/es6/index.d.ts",
+  "module": "dist/es6/node.js",
+  "types": "dist/es6/node.d.ts",
   "scripts": {
     "build:cjs": "tsc",
     "build:es6": "tsc -p tsconfig.es6.json",
