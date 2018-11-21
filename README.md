@@ -35,7 +35,7 @@ This Javascript library features:
 
 - **Easy hooks/pipeline middleware**. Pass an async func to `timber.addPipeline()` to chain your own transforms or log middleware; `.log()` only resolves when all pipelines complete!
 
-- **Light as a feather.** Zero external dependencies in the browser version. The gzipped browser bundle weighs in at just XXkb!
+- **Light as a feather.** Zero external dependencies in the browser version. The gzipped browser bundle weighs in at just 4.8kb!
 
 - **Plays nicely with other loggers**. Using Bunyan or Winston? There are integrations for that.
 
@@ -61,7 +61,7 @@ You can then create an instance of the logger with:
 
 ```typescript
 // Choose the browser and/or Node logger, to match your environment
-import { BrowserLogger as Timber } from "@timberio/logger";
+import { Browser as Timber } from "@timberio/logger";
 
 // Pass in your Timber API key -- sign-up at timber.io to get yours
 const timber = new Timber("apiKeyHere");
@@ -75,7 +75,7 @@ timber.log({ message: "Hello Timber!" }); // <-- returns a Promise when synced w
 Drop in the following `<script>` tag before the closing `</body>`:
 
 ```
-<script src="https://unpkg.com/@timberio/logger@0.4.0/dist/umd/timber.js"></script>
+<script src="https://unpkg.com/@timberio/logger@0.6.0/dist/umd/timber.js"></script>
 ```
 
 This will give you a global `window.Timber` class, which you can instantiate with:
@@ -92,20 +92,20 @@ The package exports two classes:
 
 ```typescript
 // Choose between browser or Node.js-flavored logging
-import { BrowserLogger, NodeLogger } from "@timberio/logger";
+import { Browser, Node } from "@timberio/logger";
 ```
 
 You can create an instance of either class the same way - by passing an `apiKey: string` to the constructor:
 
 ```typescript
-const logger = new BrowserLogger("api-key-goes-here");
+const logger = new Browser("api-key-goes-here");
 ```
 
 Having separate classes means:
 
 1. **Reduced bundle sizes/tree-shaking**. Imports are limited to the packages each environment requires, ensuring Webpack/Rollup can tree-shake out unused imports. The result is a less code for your users to download.
 
-2. **Environment-aware enhancements**. `NodeLogger`, for example, offers a `fromStream(stream.Readable)` function (coming soon!), for reading logs from a stream; `BrowserLogger` will soon offer WebSocket support for quicker fast between the browser and Timber.io servers.
+2. **Environment-aware enhancements**. `Node`, for example, offers a `fromStream(stream.Readable)` function (coming soon!), for reading logs from a stream; `Browser` will soon offer WebSocket support for quicker fast between the browser and Timber.io servers.
 
 ## Integrations
 
@@ -147,7 +147,7 @@ Pipelines are run _before_ the final sync to Timber.io. Pipeline functions shoul
 
 ### Syncing with Timber.io / extending the logger
 
-By default, `BrowserLogger` and `NodeLogger` use a [throttled](https://github.com/timberio/npm-tools#makethrottletfuncmax-number) `fetch()` polyfill to sync requests with Timber.io.
+By default, `Browser` and `Node` use a [throttled](https://github.com/timberio/npm-tools#makethrottletfuncmax-number) `fetch()` polyfill to sync requests with Timber.io.
 
 A maximum of 5 log requests will be processed concurrently, to provide a sensible default for limiting network I/O.
 

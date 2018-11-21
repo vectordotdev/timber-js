@@ -1,6 +1,6 @@
 import Base from "./lib/base";
-import BrowserLogger from "./entry/browser";
-import NodeLogger from "./entry/node";
+import Browser from "./entry/browser";
+import Node from "./entry/node";
 import { ITimberLog, Pipeline } from "./lib/types";
 
 export {
@@ -13,6 +13,6 @@ export {
    * Classes
    */
   Base,
-  BrowserLogger,
-  NodeLogger
+  Browser,
+  Node
 };

@@ -1,6 +1,6 @@
 {
   "name": "@timberio/logger",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Timber.io Node.js logging",
   "main": "dist/cjs/index.js",
   "module": "dist/es6/index.js",
