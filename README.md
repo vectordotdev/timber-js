@@ -35,7 +35,7 @@ This Javascript library features:
 
 - **Easy hooks/pipeline middleware**. Pass an async func to `timber.addPipeline()` to chain your own transforms or log middleware; `.log()` only resolves when all pipelines complete!
 
-- **Light as a feather.** Zero external dependencies in the browser version. The gzipped browser bundle weighs in at just 4.8kb!
+- **Light as a feather.** The gzipped browser bundle weighs in at just **4.8kb**!
 
 - **Plays nicely with other loggers**. Using Bunyan or Winston? There are integrations for that.
 
@@ -86,7 +86,7 @@ const timber = new Timber("apiKey")
 
 ## Browser and Node.js logging
 
-The `@timberio/logger` package provides out-the-box support for browser and Node.js logging:
+The `@timberio/logger` package provides out-the-box support for browser and Node.js logging.
 
 The package exports two classes:
 
