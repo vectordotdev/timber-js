@@ -1,6 +1,6 @@
 {
   "name": "@timberio/logger",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "Timber.io Node.js logging",
   "main": "dist/cjs/index.js",
   "module": "dist/es6/index.js",
@@ -46,7 +46,6 @@
   },
   "dependencies": {
     "@timberio/tools": "^0.6.0",
-    "node-fetch": "^2.3.0",
-    "whatwg-fetch": "^3.0.0"
+    "cross-fetch": "^2.2.3"
   }
 }

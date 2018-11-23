@@ -1,9 +1,9 @@
-import "whatwg-fetch";
+import fetch from "cross-fetch";
 
 import { makeThrottle } from "@timberio/tools";
-import { ITimberLog, Pipeline } from "../lib/types";
+import { ITimberLog, Pipeline } from "./lib/types";
 
-import Base from "../lib/base";
+import Base from "./lib/base";
 
 class BrowserLogger extends Base {
   public constructor(apiKey: string) {

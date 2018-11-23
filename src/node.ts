@@ -1,11 +1,11 @@
-import fetch from "node-fetch";
+import fetch from "cross-fetch";
 
 import { makeThrottle, base64Encode } from "@timberio/tools";
-import { ITimberLog, Pipeline } from "../lib/types";
+import { ITimberLog, Pipeline } from "./lib/types";
 
-import Base from "../lib/base";
+import Base from "./lib/base";
 
-class BrowserLogger extends Base {
+class NodeLogger extends Base {
   public constructor(apiKey: string) {
     super(apiKey);
 
@@ -36,4 +36,4 @@ class BrowserLogger extends Base {
   }
 }
 
-export default BrowserLogger;
+export default NodeLogger;
