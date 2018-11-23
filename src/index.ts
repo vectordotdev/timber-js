@@ -1,4 +1,6 @@
 import Base from "./lib/base";
+import Node from "./node";
+import Browser from "./browser";
 import { ITimberLog, Pipeline } from "./lib/types";
 
 export {
@@ -10,5 +12,7 @@ export {
   /**
    * Classes
    */
-  Base
+  Base,
+  Node,
+  Browser
 };

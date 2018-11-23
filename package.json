@@ -1,10 +1,11 @@
 {
   "name": "@timberio/logger",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "description": "Timber.io Node.js logging",
   "main": "dist/cjs/index.js",
   "module": "dist/es6/index.js",
   "types": "dist/es6/index.d.ts",
+  "sideEffects": false,
   "scripts": {
     "build:cjs": "tsc",
     "build:es6": "tsc -p tsconfig.es6.json",
