@@ -11,11 +11,11 @@
   "author": "Lee Benson <lee@leebenson.com>",
   "homepage": "https://github.com/timberio/npm-logger/tree/master/packages/browser#readme",
   "license": "ISC",
-  "main": "dist/cjs/browser.js",
-  "module": "dist/es6/browser.js",
-  "types": "dist/es6/browser.d.ts",
+  "main": "dist/cjs/index.js",
+  "module": "dist/es6/index.js",
+  "types": "dist/es6/index.d.ts",
   "files": [
-    "lib",
+    "src",
     "dist"
   ],
   "sideEffects": false,

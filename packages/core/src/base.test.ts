@@ -1,5 +1,5 @@
 import Base from "./base";
-import { ITimberLog } from "../../types/src/types";
+import { ITimberLog } from "@timberio/types";
 
 describe("base class tests", () => {
   it("should initialize with API key", () => {

@@ -3,7 +3,7 @@ import fetch from "cross-fetch";
 import { makeThrottle } from "@timberio/tools";
 import { ITimberLog, Pipeline } from "@timberio/types";
 
-import Base from "@timberio/core";
+import { Base } from "@timberio/core";
 
 class BrowserLogger extends Base {
   public constructor(apiKey: string) {

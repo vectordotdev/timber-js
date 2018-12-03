@@ -10,9 +10,9 @@
   "author": "Lee Benson <lee@leebenson.com>",
   "homepage": "https://github.com/timberio/npm-logger/tree/master/packages/core#readme",
   "license": "ISC",
-  "main": "dist/cjs/core/src/index.js",
-  "module": "dist/es6/core/src/index.js",
-  "types": "dist/es6/core/src/index.d.ts",
+  "main": "dist/cjs/index.js",
+  "module": "dist/es6/index.js",
+  "types": "dist/es6/index.d.ts",
   "files": [
     "src",
     "dist"
