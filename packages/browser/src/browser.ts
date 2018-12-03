@@ -1,16 +1,16 @@
 import fetch from "cross-fetch";
 
-import { makeThrottle, base64Encode } from "@timberio/tools";
-import { ITimberLog, Pipeline } from "../packages/types/src/types";
+import { makeThrottle } from "@timberio/tools";
+import { ITimberLog, Pipeline } from "@timberio/types";
 
-import Base from "../packages/core/src/base";
+import Base from "@timberio/core";
 
-class NodeLogger extends Base {
+class BrowserLogger extends Base {
   public constructor(apiKey: string) {
     super(apiKey);
 
     // TODO - remove this in production... dump out the env for dev!
-    console.log("Hello from Node!");
+    console.log("Hello from the browser!");
 
     // Create a sync throttler
     const throttler = makeThrottle<Pipeline>(5);
@@ -23,7 +23,7 @@ class NodeLogger extends Base {
         method: "POST",
         headers: {
           "Content-Type": "text/plain",
-          Authorization: `Basic ${base64Encode(this._apiKey)}`
+          Authorization: `Basic ${btoa(this._apiKey)}`
         },
         body: `debug: ${log.message}`
       });
@@ -36,4 +36,4 @@ class NodeLogger extends Base {
   }
 }
 
-export default NodeLogger;
+export default BrowserLogger;

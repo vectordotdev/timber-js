@@ -1,5 +1,5 @@
 import { default as Timber } from "../src/node";
-import { ITimberLog } from "../src/index";
+import { ITimberLog } from "../packages/core/src";
 
 describe("Node logger tests", () => {
   // Check that there's an API key

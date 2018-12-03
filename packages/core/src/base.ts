@@ -1,5 +1,6 @@
+import { ITimberLog, Pipeline } from "@timberio/types";
+
 import { preProcess } from "./pipeline";
-import { ITimberLog, Pipeline } from "./types";
 
 /**
  * Timber core class for logging to the Timber.io service

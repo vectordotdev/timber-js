@@ -1,4 +1,4 @@
-import { ITimberLog } from "./types";
+import { ITimberLog } from "@timberio/types";
 
 /**
  * Pre-process Timber log, by adding missing/required fields

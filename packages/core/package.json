@@ -1,0 +1,42 @@
+{
+  "name": "@timberio/core",
+  "version": "0.6.2",
+  "description": "Timber.io - logging core",
+  "keywords": [
+    "Timber",
+    "logger",
+    "logging"
+  ],
+  "author": "Lee Benson <lee@leebenson.com>",
+  "homepage": "https://github.com/timberio/npm-logger/tree/master/packages/core#readme",
+  "license": "ISC",
+  "main": "dist/cjs/core/src/index.js",
+  "module": "dist/es6/core/src/index.js",
+  "types": "dist/es6/core/src/index.d.ts",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "sideEffects": false,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/timberio/npm-logger.git"
+  },
+  "scripts": {
+    "build:cjs": "tsc",
+    "build:es6": "tsc -p tsconfig.es6.json",
+    "build": "run-p build:*",
+    "prepublishOnly": "npm run build",
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/timberio/npm-logger/issues"
+  },
+  "devDependencies": {
+    "npm-run-all": "^4.1.5",
+    "typescript": "^3.2.1"
+  },
+  "dependencies": {
+    "@timberio/types": "^0.6.2"
+  }
+}

@@ -1,9 +1,9 @@
 import fetch from "cross-fetch";
 
 import { makeThrottle } from "@timberio/tools";
-import { ITimberLog, Pipeline } from "./lib/types";
+import { ITimberLog, Pipeline } from "../packages/types/src/types";
 
-import Base from "./lib/base";
+import Base from "../packages/core/src/base";
 
 class BrowserLogger extends Base {
   public constructor(apiKey: string) {
