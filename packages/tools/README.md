@@ -1,5 +1,7 @@
 # 🌲 Timber - Javascript tools
 
+## 👷‍️ WIP - Don't use yet! Use [this Timber JS lib](https://github.com/timberio/timber-node) for now
+
 This library provides helper tools used by the [Javascript logger](https://github.com/timberio/npm-logger).
 
 ## Tools

@@ -1,5 +1,7 @@
 # 🌲 Timber - Browser logging
 
+## 👷‍️ WIP - Don't use yet! Use [this Timber JS lib](https://github.com/timberio/timber-node) for now
+
 **New to Timber?** [Here's a low-down on logging in Javascript.](https://github.com/timberio/timber-js)
 
 ## `@timberio/browser`

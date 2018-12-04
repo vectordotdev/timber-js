@@ -50,8 +50,8 @@ This Javascript library features:
 Logging works in Node.js or the browser. Choose the appropriate lib for installation instructions:
 
 #### [`@timberio/node`](packages/node)
-#### [`@timberio/browser`](packages/browser)
 
+#### [`@timberio/browser`](packages/browser)
 
 **Node.js**
 
