@@ -1,6 +1,6 @@
 {
   "name": "@timberio/browser",
-  "version": "0.10.0",
+  "version": "0.10.1",
   "description": "Timber.io browser logging",
   "keywords": [
     "Timber",
@@ -35,7 +35,7 @@
     "url": "https://github.com/timberio/npm-logger/issues"
   },
   "devDependencies": {
-    "@timberio/types": "^0.10.0",
+    "@timberio/types": "^0.10.1",
     "@types/node": "^10.12.12",
     "@types/webpack": "^4.4.20",
     "npm-run-all": "^4.1.5",
@@ -46,8 +46,8 @@
     "webpack-cli": "^3.1.2"
   },
   "dependencies": {
-    "@timberio/core": "^0.10.0",
-    "@timberio/tools": "^0.10.0",
+    "@timberio/core": "^0.10.1",
+    "@timberio/tools": "^0.10.1",
     "cross-fetch": "^2.2.3"
   },
   "gitHead": "1c032ee408f0d1657bdb326232c04aee2b5d7cd9"
