@@ -1,6 +1,7 @@
 .idea
 coverage
 node_modules
+lerna-debug.log
 packages/*/node_modules
 dist
 packages/*/dist

@@ -1,11 +1,11 @@
 import fetch from "cross-fetch";
 
 import { makeThrottle, base64Encode } from "@timberio/tools";
-import { ITimberLog, Pipeline } from "../packages/types/src/types";
+import { ITimberLog, Pipeline } from "@timberio/types";
 
-import Base from "../packages/core/src/base";
+import { Base } from "@timberio/core";
 
-class NodeLogger extends Base {
+export class Node extends Base {
   public constructor(apiKey: string) {
     super(apiKey);
 
@@ -36,4 +36,3 @@ class NodeLogger extends Base {
   }
 }
 
-export default NodeLogger;

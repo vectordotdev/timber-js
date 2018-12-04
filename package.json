@@ -1,53 +1,13 @@
 {
   "name": "@timberio/logger",
-  "version": "0.9.2",
-  "description": "Timber.io Node.js logging",
-  "main": "dist/cjs/index.js",
-  "module": "dist/es6/index.js",
-  "types": "dist/es6/index.d.ts",
-  "sideEffects": false,
-  "scripts": {
-    "build:cjs": "tsc",
-    "build:es6": "tsc -p tsconfig.es6.json",
-    "build:umd": "webpack",
-    "build": "run-p build:*",
-    "clean": "rimraf dist",
-    "dev": "nodemon",
-    "prepublishOnly": "npm run build",
-    "start": "node --inspect=5858 -r ts-node/register src/index.ts",
-    "test": "jest"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/timberio/npm-logger.git"
-  },
-  "author": "Lee Benson <lee@leebenson.com>",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/timberio/npm-logger/issues"
-  },
-  "homepage": "https://github.com/timberio/npm-logger#readme",
+  "private": true,
   "devDependencies": {
     "@types/jest": "^23.3.10",
-    "@types/node": "^10.12.11",
-    "@types/node-fetch": "^2.1.4",
-    "@types/webpack": "^4.4.20",
+    "@types/node": "^10.12.12",
     "jest": "^23.6.0",
     "lerna": "^3.5.1",
-    "nodemon": "^1.18.7",
-    "npm-run-all": "^4.1.5",
     "prettier": "^1.15.3",
-    "rimraf": "^2.6.2",
-    "source-map": "^0.7.3",
     "ts-jest": "^23.10.5",
-    "ts-loader": "^5.3.1",
-    "ts-node": "^7.0.1",
-    "typescript": "^3.2.1",
-    "webpack": "^4.26.1",
-    "webpack-cli": "^3.1.2"
-  },
-  "dependencies": {
-    "@timberio/tools": "^0.6.1",
-    "cross-fetch": "^2.2.3"
+    "typescript": "^3.2.1"
   }
 }

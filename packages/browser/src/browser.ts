@@ -5,7 +5,7 @@ import { ITimberLog, Pipeline } from "@timberio/types";
 
 import { Base } from "@timberio/core";
 
-class BrowserLogger extends Base {
+export class Browser extends Base {
   public constructor(apiKey: string) {
     super(apiKey);
 
@@ -35,5 +35,3 @@ class BrowserLogger extends Base {
     this.setSync(throttler(sync));
   }
 }
-
-export default BrowserLogger;

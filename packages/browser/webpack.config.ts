@@ -1,6 +1,6 @@
-import path from "path";
+import * as path from "path";
 
-import webpack from "webpack";
+import * as webpack from "webpack";
 
 const umdConfig: webpack.Configuration = {
   mode: "production",

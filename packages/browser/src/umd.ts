@@ -1,3 +1,3 @@
 import { Browser } from "./browser";
 
-export { Browser as Timber };
+(window as any).Timber = Browser;

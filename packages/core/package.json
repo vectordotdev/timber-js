@@ -38,5 +38,6 @@
   },
   "dependencies": {
     "@timberio/types": "^0.9.2"
-  }
+  },
+  "gitHead": "e79d7375380a63143df099d6f31c31681bb95d48"
 }

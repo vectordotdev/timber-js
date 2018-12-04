@@ -33,11 +33,11 @@ This Javascript library features:
 
 - **Guaranteed consistency**. `timber.log()` returns a Promise that resolves when the log has been ACK'd by Timber, so you know your log has been stored safely.
 
-- **Easy hooks/pipeline middleware**. Pass an async func to `timber.addPipeline()` to chain your own transforms or log middleware; `.log()` only resolves when all pipelines complete!
+- **Easy logging middleware**. Pass an async func to `timber.use()` to chain your own transforms or log middleware; `.log()` only resolves when all middleware complete!
 
-- **Light as a feather.** The gzipped browser bundle weighs in at just **4.8kb**!
+- **Light as a feather.** The gzipped browser bundle weighs in at just **4.3kb**!
 
-- **Plays nicely with other loggers**. Using Bunyan or Winston? There are integrations for that.
+- **Plays nicely with other loggers**. Using Bunyan or Winston? Official integrations are coming soon.
 
 ## Installation
 
@@ -47,21 +47,25 @@ This Javascript library features:
 
 ### Manual
 
-The Timber Javascript lib integrates easily into any Node.js, Webpack/Rollup or HTML app:
+Logging works in Node.js or the browser. Choose the appropriate lib for installation instructions:
 
-**Node.js, Webpack/Rollup, universal apps**
+#### [`@timberio/node`](packages/node)
+#### [`@timberio/browser`](packages/browser)
+
+
+**Node.js**
 
 Install with:
 
 ```
-npm i @timberio/logger
+npm i @timberio/node
 ```
 
 You can then create an instance of the logger with:
 
 ```typescript
-// Choose the browser and/or Node logger, to match your environment
-import { Browser as Timber } from "@timberio/logger";
+// Choose the Node.js logger
+import Timber from "@timberio/node";
 
 // Pass in your Timber API key -- sign-up at timber.io to get yours
 const timber = new Timber("apiKeyHere");
