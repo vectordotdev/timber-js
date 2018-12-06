@@ -9,7 +9,7 @@
     "browser"
   ],
   "author": "Lee Benson <lee@leebenson.com>",
-  "homepage": "https://github.com/timberio/npm-logger/tree/master/packages/browser#readme",
+  "homepage": "https://github.com/timberio/timber-js/tree/master/packages/browser#readme",
   "license": "ISC",
   "main": "dist/cjs/index.js",
   "module": "dist/es6/index.js",
@@ -21,7 +21,7 @@
   "sideEffects": false,
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/timberio/npm-logger.git"
+    "url": "git+https://github.com/timberio/timber-js.git"
   },
   "scripts": {
     "build:cjs": "tsc",
@@ -32,7 +32,7 @@
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
   "bugs": {
-    "url": "https://github.com/timberio/npm-logger/issues"
+    "url": "https://github.com/timberio/timber-js/issues"
   },
   "devDependencies": {
     "@timberio/types": "^0.10.2",

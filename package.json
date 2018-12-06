@@ -1,6 +1,38 @@
 {
   "name": "@timberio/logger",
-  "private": true,
+  "version": "0.10.2",
+  "description": "Timber.io Javascript logging",
+  "keywords": [
+    "Timber",
+    "logging",
+    "logger",
+    "browser"
+  ],
+  "author": "Lee Benson <lee@leebenson.com>",
+  "homepage": "https://github.com/timberio/timber-js#readme",
+  "license": "ISC",
+  "main": "dist/cjs/index.js",
+  "module": "dist/es6/index.js",
+  "types": "dist/es6/index.d.ts",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "sideEffects": false,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/timberio/timber-js.git"
+  },
+  "scripts": {
+    "build:cjs": "tsc",
+    "build:es6": "tsc -p tsconfig.es6.json",
+    "build": "run-p build:*",
+    "prepublishOnly": "npm run build",
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/timberio/timber-js/issues"
+  },
   "devDependencies": {
     "@types/jest": "^23.3.10",
     "@types/node": "^10.12.12",
@@ -9,5 +41,10 @@
     "prettier": "^1.15.3",
     "ts-jest": "^23.10.5",
     "typescript": "^3.2.1"
+  },
+  "dependencies": {
+    "@timberio/browser": "^0.10.2",
+    "@timberio/node": "^0.10.2",
+    "npm-run-all": "^4.1.5"
   }
 }

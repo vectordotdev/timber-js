@@ -13,13 +13,13 @@
     "prepublish": "npm run build",
     "test": "jest"
   },
-  "repository": "https://github.com/timberio/npm-logger/tree/master/packages/tools",
+  "repository": "https://github.com/timberio/timber-js/tree/master/packages/tools",
   "author": "Lee Benson <lee@leebenson.com>",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/timberio/npm-logger/issues"
+    "url": "https://github.com/timberio/timber-js/issues"
   },
-  "homepage": "https://github.com/timberio/npm-logger/tree/master/packages/tools#readme",
+  "homepage": "https://github.com/timberio/timber-js/tree/master/packages/tools#readme",
   "devDependencies": {
     "@types/jest": "^23.3.10",
     "@types/node": "^10.12.10",
