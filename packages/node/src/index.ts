@@ -1,3 +1,3 @@
-import { Node } from "./node"
+import { Node } from "./node";
 
-export default Node
+export { Node as Timber };
