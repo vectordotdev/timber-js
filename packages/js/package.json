@@ -1,6 +1,6 @@
 {
   "name": "@timberio/js",
-  "version": "0.12.0",
+  "version": "0.13.0",
   "description": "Timber.io Node.js + browser logging",
   "keywords": [
     "Timber",
@@ -39,7 +39,7 @@
     "typescript": "^3.2.1"
   },
   "dependencies": {
-    "@timberio/browser": "^0.12.0",
-    "@timberio/node": "^0.12.0"
+    "@timberio/browser": "^0.13.0",
+    "@timberio/node": "^0.13.0"
   }
 }
