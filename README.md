@@ -55,6 +55,8 @@ Logging works in Node.js or the browser. Choose the appropriate lib for installa
 
 #### [`@timberio/js`](packages/js) <-- both Node.js/browser logging, in a single package
 
+### Helper libraries
+
 There are a few helper libraries available that you typically won't need to use directly:
 
 #### [`@timberio/core`](packages/core) <-- core library to extend for custom loggers
