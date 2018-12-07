@@ -1,25 +1,25 @@
 {
-  "name": "@timberio/types",
+  "name": "@timberio/js",
   "version": "0.11.0",
-  "description": "Timber.io - Typescript types",
+  "description": "Timber.io Node.js + browser logging",
   "keywords": [
     "Timber",
     "logging",
     "logger",
-    "typescript",
-    "types"
+    "browser",
+    "node"
   ],
   "author": "Lee Benson <lee@leebenson.com>",
-  "homepage": "https://github.com/timberio/timber-js/tree/master/packages/types#readme",
+  "homepage": "https://github.com/timberio/timber-js/tree/master/packages/js#readme",
   "license": "ISC",
-  "main": "dist/cjs/types.js",
-  "module": "dist/es6/types.js",
-  "types": "dist/es6/types.d.ts",
-  "sideEffects": false,
+  "main": "dist/cjs/index.js",
+  "module": "dist/es6/index.js",
+  "types": "dist/es6/index.d.ts",
   "files": [
     "src",
     "dist"
   ],
+  "sideEffects": false,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/timberio/timber-js.git"
@@ -35,10 +35,11 @@
     "url": "https://github.com/timberio/timber-js/issues"
   },
   "devDependencies": {
-    "npm-run-all": "^4.1.5"
+    "npm-run-all": "^4.1.5",
+    "typescript": "^3.2.1"
   },
-  "gitHead": "74d3b0ec69032230c7acd4f390922c13222ffa5d",
   "dependencies": {
-    "js": "^0.1.0"
+    "@timberio/browser": "^0.11.0",
+    "@timberio/node": "^0.11.0"
   }
 }

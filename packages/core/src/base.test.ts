@@ -119,7 +119,7 @@ describe("base class tests", () => {
     const newMessage = "Second message";
 
     // Add a custom pipeline that replaces `message`
-    base.addPipeline(async log => {
+    base.use(async log => {
       return {
         ...log,
         message: newMessage
@@ -140,7 +140,7 @@ describe("base class tests", () => {
     const customPipeline = async (log: ITimberLog) => log;
 
     // Add the pipeline
-    base.addPipeline(customPipeline);
+    base.use(customPipeline);
 
     // Confirm that it exists in the `_pipeline` array
     expect((base as any)._pipeline).toContain(customPipeline);

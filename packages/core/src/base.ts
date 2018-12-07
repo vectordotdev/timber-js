@@ -90,12 +90,12 @@ class Timber {
   }
 
   /**
-   * Add a function to the pipeline
+   * Add a middleware function to the logging pipeline
    *
    * @param fn - Function to add to the log pipeline
    * @returns void
    */
-  public addPipeline(fn: Pipeline): void {
+  public use(fn: Pipeline): void {
     this._pipeline.push(fn);
   }
 

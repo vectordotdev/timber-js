@@ -49,9 +49,11 @@ This Javascript library features:
 
 Logging works in Node.js or the browser. Choose the appropriate lib for installation instructions:
 
-#### [`@timberio/node`](packages/node)
+#### [`@timberio/node`](packages/node) <-- for Node.js logging
 
-#### [`@timberio/browser`](packages/browser)
+#### [`@timberio/browser`](packages/browser) <-- for browser logging
+
+#### [`@timberio/js`](packages/js) <-- both Node.js/browser logging, in a single package
 
 **Node.js**
 
