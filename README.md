@@ -11,9 +11,7 @@ Unlike traditional logging tools with proprietary log formats and protocols, Tim
 
 Environment-aware meta and relevant context data is added to your logs automatically, and Timber's rich free-form query tools and real-time tailing, make drilling down into important stats easier than ever.
 
-The result: Beautiful, fast, powerful logging --
-
-[![Timber Console](http://files.timber.io/images/readme-interface7.gif)](https://timber.io/docs/app)
+The result: Beautiful, fast, powerful logging.
 
 Sign-up for a [free Timber account](https://timber.io) to access the console.
 
