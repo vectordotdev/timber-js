@@ -1,4 +1,4 @@
-import { Deferred } from "ts-deferred"
+import { Deferred } from "ts-deferred";
 
 /*
  * Min buffer size to gracefully fix a bad value with an obvious default.
@@ -23,14 +23,18 @@ const MIN_FLUSH_TIMEOUT = 1000;
  * @param size - Number
  * @param flushTimeout - Number
  */
-export default function makeBatch (size: number, flushTimeout: number = 100) {
+export default function makeBatch(size: number, flushTimeout: number = 100) {
   if (size < MIN_BUFFER_SIZE) {
-    console.log(`warning: Gracefully fixing bad value of batch size to default ${MIN_BUFFER_SIZE}`)
-    size = MIN_BUFFER_SIZE
+    console.log(
+      `warning: Gracefully fixing bad value of batch size to default ${MIN_BUFFER_SIZE}`
+    );
+    size = MIN_BUFFER_SIZE;
   }
   if (flushTimeout < MIN_FLUSH_TIMEOUT) {
-    console.log(`warning: Gracefully fixing bad value of timeout to default ${MIN_FLUSH_TIMEOUT}`)
-    flushTimeout = MIN_FLUSH_TIMEOUT
+    console.log(
+      `warning: Gracefully fixing bad value of timeout to default ${MIN_FLUSH_TIMEOUT}`
+    );
+    flushTimeout = MIN_FLUSH_TIMEOUT;
   }
 
   let timeout: any;
@@ -41,28 +45,30 @@ export default function makeBatch (size: number, flushTimeout: number = 100) {
   /*
    * Process then flush the list
    */
-  async function flush () {
-    if (timeout) { clearTimeout(timeout) }
-    timeout = null 
+  async function flush() {
+    if (timeout) {
+      clearTimeout(timeout);
+    }
+    timeout = null;
 
-    const currentBuffer = buffer
-    const currentDeferreds = deferreds
+    const currentBuffer = buffer;
+    const currentDeferreds = deferreds;
 
-    buffer = []
-    deferreds = []
+    buffer = [];
+    deferreds = [];
 
-    await cb(currentBuffer)
-    currentDeferreds.forEach(d => d.resolve())
+    await cb(currentBuffer);
+    currentDeferreds.forEach(d => d.resolve());
   }
 
   /*
    * Start timeout to flush
    */
-  async function setupTimeout () {
+  async function setupTimeout() {
     if (!timeout) {
-      timeout = setTimeout(async function () {
-        await flush()
-      }, flushTimeout)
+      timeout = setTimeout(async function() {
+        await flush();
+      }, flushTimeout);
     }
   }
 
@@ -70,27 +76,30 @@ export default function makeBatch (size: number, flushTimeout: number = 100) {
    * Batcher which takes a process function
    * @param fn - Any function to process list
    */
-  return function (fn: Function) {
-    cb = fn
+  return function(fn: Function) {
+    cb = fn;
 
     /*
      * Pushes each log into list
      * @param log - Any object to push into list
      */
-    return async function <T>(log: T): Promise<any> {
-      const d = new Deferred()
-      const p = d.promise
+    return async function<T>(log: T): Promise<any> {
+      const d = new Deferred();
+      const p = d.promise;
 
-      deferreds.push(d)
-      buffer.push(log)
+      deferreds.push(d);
+      buffer.push(log);
 
-      if (deferreds.length >= size || deferreds.length === (MAX_BUFFER_SIZE - 1)) {
-        await flush()
+      if (
+        deferreds.length >= size ||
+        deferreds.length === MAX_BUFFER_SIZE - 1
+      ) {
+        await flush();
       } else {
-        await setupTimeout()
+        await setupTimeout();
       }
 
-      return p
-    }
-  }
+      return p;
+    };
+  };
 }
