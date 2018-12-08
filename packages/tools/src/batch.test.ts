@@ -2,18 +2,37 @@ import makeBatch from "./batch";
 import { ITimberLog } from "@timberio/types";
 import fetchMock from "fetch-mock";
 
+/**
+ * Create a log with a random string / current date
+ */
+function getRandomLog(): ITimberLog {
+  return {
+    message: String(Math.random()),
+    date: new Date()
+  };
+}
+
+/**
+ * Returns an `n` sized array of logger functions
+ *
+ * @param logger - Logger function to pass in `getRandomLog()`
+ * @param n - Number of functions to return
+ */
+function logNumberTimes(logger: Function, n: Number): Function[] {
+  return [...Array(n).keys()].map(() => logger(getRandomLog()));
+}
+
 describe("batch tests", () => {
-  it("should default to size of 5, if size is less than 5", async done => {
+  it("should default to size of 5, if size is less than 5", async () => {
     const size = 4;
     const sendTimeout = 1000;
 
     const batcher = makeBatch(size, sendTimeout);
     const logger = batcher((batch: ITimberLog[]) => {
       expect(batch.length).toEqual(5);
-      done();
     });
 
-    Promise.all(logNumberTimes(logger, 5)).catch(e => {
+    await Promise.all(logNumberTimes(logger, 5)).catch(e => {
       throw e;
     });
   }, 1100);
@@ -107,14 +126,3 @@ describe("batch tests", () => {
     done();
   });
 });
-
-function logNumberTimes(logger: Function, n: Number): Function[] {
-  return [...Array(n).keys()].map(() => logger(getRandomLog()));
-}
-
-function getRandomLog(): ITimberLog {
-  return {
-    message: String(Math.random()),
-    date: new Date(),
-  };
-}

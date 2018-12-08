@@ -1,4 +1,15 @@
-import Deferred from "./deferred";
+import { ITimberLog } from "@timberio/types";
+
+// Types
+
+/**
+ * Buffer time for storing the log, and Promise resolve/reject
+ */
+interface IBuffer {
+  log: ITimberLog;
+  resolve: (log: ITimberLog | Promise<ITimberLog>) => void;
+  reject: (reason: any) => void;
+}
 
 /*
  * Min buffer size to gracefully fix a bad value with an obvious default.
@@ -23,7 +34,10 @@ const MIN_FLUSH_TIMEOUT = 1000;
  * @param size - Number
  * @param flushTimeout - Number
  */
-export default function makeBatch(size: number, flushTimeout: number = 100) {
+export default function makeBatch(
+  size: number,
+  flushTimeout: number = MIN_FLUSH_TIMEOUT
+) {
   if (size < MIN_BUFFER_SIZE) {
     console.warn(
       `warning: Gracefully fixing bad value of batch size to default ${MIN_BUFFER_SIZE}`
@@ -37,9 +51,9 @@ export default function makeBatch(size: number, flushTimeout: number = 100) {
     flushTimeout = MIN_FLUSH_TIMEOUT;
   }
 
-  let timeout: any;
+  let timeout: NodeJS.Timeout | null;
   let cb: Function;
-  let buffer: any[] = [];
+  let buffer: IBuffer[] = [];
 
   /*
    * Process then flush the list
@@ -54,8 +68,8 @@ export default function makeBatch(size: number, flushTimeout: number = 100) {
     buffer = [];
 
     try {
-      await cb(currentBuffer.map(d => d.val));
-      currentBuffer.forEach(d => d.resolve(d.val));
+      await cb(currentBuffer.map(d => d.log));
+      currentBuffer.forEach(d => d.resolve(d.log));
     } catch (e) {
       currentBuffer.map(d => d.reject(e));
     }
@@ -81,21 +95,20 @@ export default function makeBatch(size: number, flushTimeout: number = 100) {
 
     /*
      * Pushes each log into list
-     * @param log - Any object to push into list
+     * @param log: ITimberLog - Any object to push into list
      */
-    return async function<T>(log: T): Promise<any> {
-      const d = new Deferred(log);
-      const p = d.promise;
+    return async function(log: ITimberLog): Promise<ITimberLog> {
+      return new Promise<ITimberLog>(async (resolve, reject) => {
+        buffer.push({ log, resolve, reject });
 
-      buffer.push(d);
+        if (buffer.length >= size || buffer.length === MAX_BUFFER_SIZE - 1) {
+          await flush();
+        } else {
+          await setupTimeout();
+        }
 
-      if (buffer.length >= size || buffer.length === MAX_BUFFER_SIZE - 1) {
-        await flush();
-      } else {
-        await setupTimeout();
-      }
-
-      return p;
+        return resolve;
+      });
     };
   };
 }
