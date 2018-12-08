@@ -57,7 +57,7 @@ export default function makeBatch(size: number, flushTimeout: number = 100) {
       await cb(currentBuffer.map(d => d.val));
       currentBuffer.forEach(d => d.resolve(d.val));
     } catch (e) {
-      currentBuffer.map(d => d.reject(e))
+      currentBuffer.map(d => d.reject(e));
     }
   }
 
