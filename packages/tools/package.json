@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/timberio/timber-js/tree/master/packages/tools#readme",
   "devDependencies": {
+    "@types/fetch-mock": "^6.0.4",
     "@types/jest": "^23.3.10",
     "@types/node": "^10.12.10",
     "@types/source-map": "^0.5.7",
@@ -35,7 +36,6 @@
   "gitHead": "74d3b0ec69032230c7acd4f390922c13222ffa5d",
   "dependencies": {
     "@timberio/types": "^0.13.0",
-    "@types/fetch-mock": "^6.0.4",
     "js": "^0.1.0"
   }
 }
