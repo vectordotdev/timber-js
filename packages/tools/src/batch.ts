@@ -1,4 +1,4 @@
-import { Deferred } from "ts-deferred";
+import Deferred from "./deferred";
 
 /*
  * Min buffer size to gracefully fix a bad value with an obvious default.
@@ -40,7 +40,6 @@ export default function makeBatch(size: number, flushTimeout: number = 100) {
   let timeout: any;
   let cb: Function;
   let buffer: any[] = [];
-  let deferreds: Deferred<any>[] = [];
 
   /*
    * Process then flush the list
@@ -52,13 +51,14 @@ export default function makeBatch(size: number, flushTimeout: number = 100) {
     timeout = null;
 
     const currentBuffer = buffer;
-    const currentDeferreds = deferreds;
-
     buffer = [];
-    deferreds = [];
 
-    await cb(currentBuffer);
-    currentDeferreds.forEach(d => d.resolve());
+    try {
+      await cb(currentBuffer.map(d => d.val));
+      currentBuffer.forEach(d => d.resolve(d.val));
+    } catch (e) {
+      currentBuffer.map(d => d.reject(e))
+    }
   }
 
   /*
@@ -84,16 +84,12 @@ export default function makeBatch(size: number, flushTimeout: number = 100) {
      * @param log - Any object to push into list
      */
     return async function<T>(log: T): Promise<any> {
-      const d = new Deferred();
+      const d = new Deferred(log);
       const p = d.promise;
 
-      deferreds.push(d);
-      buffer.push(log);
+      buffer.push(d);
 
-      if (
-        deferreds.length >= size ||
-        deferreds.length === MAX_BUFFER_SIZE - 1
-      ) {
+      if (buffer.length >= size || buffer.length === MAX_BUFFER_SIZE - 1) {
         await flush();
       } else {
         await setupTimeout();
