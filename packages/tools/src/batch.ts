@@ -25,13 +25,13 @@ const MIN_FLUSH_TIMEOUT = 1000;
  */
 export default function makeBatch(size: number, flushTimeout: number = 100) {
   if (size < MIN_BUFFER_SIZE) {
-    console.log(
+    console.warn(
       `warning: Gracefully fixing bad value of batch size to default ${MIN_BUFFER_SIZE}`
     );
     size = MIN_BUFFER_SIZE;
   }
   if (flushTimeout < MIN_FLUSH_TIMEOUT) {
-    console.log(
+    console.warn(
       `warning: Gracefully fixing bad value of timeout to default ${MIN_FLUSH_TIMEOUT}`
     );
     flushTimeout = MIN_FLUSH_TIMEOUT;
