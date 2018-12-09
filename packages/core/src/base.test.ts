@@ -25,7 +25,7 @@ describe("base class tests", () => {
     const base = new Base("testing");
 
     // Add a mock sync method
-    base.setSync(async log => log);
+    base.setSync(async logs => logs);
 
     // Basic log
     const log = {
@@ -76,7 +76,7 @@ describe("base class tests", () => {
 
     // Create a sync function that resolves after 500ms
     base.setSync(async log => {
-      return new Promise<ITimberLog>(resolve => {
+      return new Promise<ITimberLog[]>(resolve => {
         setTimeout(() => {
           resolve(log);
         }, 500);
@@ -146,7 +146,7 @@ describe("base class tests", () => {
     expect((base as any)._pipeline).toContain(customPipeline);
 
     // Remove the pipeline
-    base.removePipeline(customPipeline);
+    base.remove(customPipeline);
 
     // Confirm that it has disappeared from the array
     expect((base as any)._pipeline).not.toContain(customPipeline);
