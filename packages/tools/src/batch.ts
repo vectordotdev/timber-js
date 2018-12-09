@@ -35,7 +35,7 @@ const MIN_FLUSH_TIMEOUT = 1000;
  * @param flushTimeout - Number
  */
 export default function makeBatch(
-  size: number,
+  size: number = MIN_BUFFER_SIZE,
   flushTimeout: number = MIN_FLUSH_TIMEOUT
 ) {
   if (size < MIN_BUFFER_SIZE) {

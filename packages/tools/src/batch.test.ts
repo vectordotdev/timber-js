@@ -23,6 +23,53 @@ function logNumberTimes(logger: Function, n: Number): Function[] {
 }
 
 describe("batch tests", () => {
+  it("should log warning if buffer size is lower than 5", () => {
+    const size = 3;
+    const sendTimeout = 1000;
+    const expectedWarning = 'warning: Gracefully fixing bad value of batch size to default 5'
+    const warning = jest.spyOn(global.console, 'warn')
+
+    const batcher = makeBatch(size, sendTimeout);
+    expect(warning).toBeCalledWith(expectedWarning)
+
+    warning.mockRestore()
+  })
+
+  it("should log warning if flush timeout is lower than 1000", () => {
+    const size = 5;
+    const sendTimeout = 999;
+    const expectedWarning = 'warning: Gracefully fixing bad value of timeout to default 1000'
+    const warning = jest.spyOn(global.console, 'warn')
+    jest.spyOn(global.console, 'warn')
+
+    const batcher = makeBatch(size, sendTimeout);
+    expect(console.warn).toBeCalledWith(expectedWarning)
+
+    warning.mockRestore()
+  })
+
+  it("should use default buffer size value 5 when size is passed as undefined", () => {
+    const size = undefined;
+    const sendTimeout = 1000;
+    const warning = jest.spyOn(global.console, 'warn')
+
+    const batcher = makeBatch(size, sendTimeout);
+    expect(console.warn).toHaveBeenCalledTimes(0)
+
+    warning.mockRestore()
+  })
+
+  it("should use default flush timeout value 1000 when passed as undefined", () => {
+    const size = 5;
+    const sendTimeout = undefined;
+    const warning = jest.spyOn(global.console, 'warn')
+
+    const batcher = makeBatch(size, sendTimeout);
+    expect(console.warn).toHaveBeenCalledTimes(0)
+
+    warning.mockRestore()
+  })
+
   it("should default to size of 5, if size is less than 5", async () => {
     const size = 4;
     const sendTimeout = 1000;
@@ -47,12 +94,12 @@ describe("batch tests", () => {
       done();
     });
 
-    logger<ITimberLog>(getRandomLog()).catch(e => {
+    logger(getRandomLog()).catch(e => {
       throw e;
     });
 
-    setTimeout(() => logger<ITimberLog>(getRandomLog()), 500);
-    setTimeout(() => logger<ITimberLog>(getRandomLog()), 1001);
+    setTimeout(() => logger(getRandomLog()), 500);
+    setTimeout(() => logger(getRandomLog()), 1001);
   }, 2100);
 
   it("should flush the batch when batch length is one less than max possible size.", done => {
@@ -66,7 +113,7 @@ describe("batch tests", () => {
     });
 
     for (let i = 0; i <= 100; i++) {
-      logger<ITimberLog>(getRandomLog()).catch(e => {
+      logger(getRandomLog()).catch(e => {
         throw e;
       });
     }
