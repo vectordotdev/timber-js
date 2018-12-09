@@ -1,4 +1,5 @@
 import makeBatch from "./batch";
+import makeThrottle from "./throttle";
 import { ITimberLog } from "@timberio/types";
 import fetchMock from "fetch-mock";
 
@@ -18,57 +19,68 @@ function getRandomLog(): ITimberLog {
  * @param logger - Logger function to pass in `getRandomLog()`
  * @param n - Number of functions to return
  */
-function logNumberTimes(logger: Function, n: Number): Function[] {
+function logNumberTimes(logger: Function, n: number): Function[] {
   return [...Array(n).keys()].map(() => logger(getRandomLog()));
+}
+
+/**
+ * Calculate end time in milliseconds
+ * @param start: [number, number] = NodeJS `process.hrtime` start time
+ */
+function calcEndTime(start: [number, number]): number {
+  const end = process.hrtime(start);
+  return (end[0] * 1e9 + end[1]) / 1e6;
 }
 
 describe("batch tests", () => {
   it("should log warning if buffer size is lower than 5", () => {
     const size = 3;
     const sendTimeout = 1000;
-    const expectedWarning = 'warning: Gracefully fixing bad value of batch size to default 5'
-    const warning = jest.spyOn(global.console, 'warn')
+    const expectedWarning =
+      "warning: Gracefully fixing bad value of batch size to default 5";
+    const warning = jest.spyOn(global.console, "warn");
 
     const batcher = makeBatch(size, sendTimeout);
-    expect(warning).toBeCalledWith(expectedWarning)
+    expect(warning).toBeCalledWith(expectedWarning);
 
-    warning.mockRestore()
-  })
+    warning.mockRestore();
+  });
 
   it("should log warning if flush timeout is lower than 1000", () => {
     const size = 5;
     const sendTimeout = 999;
-    const expectedWarning = 'warning: Gracefully fixing bad value of timeout to default 1000'
-    const warning = jest.spyOn(global.console, 'warn')
-    jest.spyOn(global.console, 'warn')
+    const expectedWarning =
+      "warning: Gracefully fixing bad value of timeout to default 1000";
+    const warning = jest.spyOn(global.console, "warn");
+    jest.spyOn(global.console, "warn");
 
     const batcher = makeBatch(size, sendTimeout);
-    expect(console.warn).toBeCalledWith(expectedWarning)
+    expect(console.warn).toBeCalledWith(expectedWarning);
 
-    warning.mockRestore()
-  })
+    warning.mockRestore();
+  });
 
   it("should use default buffer size value 5 when size is passed as undefined", () => {
     const size = undefined;
     const sendTimeout = 1000;
-    const warning = jest.spyOn(global.console, 'warn')
+    const warning = jest.spyOn(global.console, "warn");
 
     const batcher = makeBatch(size, sendTimeout);
-    expect(console.warn).toHaveBeenCalledTimes(0)
+    expect(console.warn).toHaveBeenCalledTimes(0);
 
-    warning.mockRestore()
-  })
+    warning.mockRestore();
+  });
 
   it("should use default flush timeout value 1000 when passed as undefined", () => {
     const size = 5;
     const sendTimeout = undefined;
-    const warning = jest.spyOn(global.console, 'warn')
+    const warning = jest.spyOn(global.console, "warn");
 
     const batcher = makeBatch(size, sendTimeout);
-    expect(console.warn).toHaveBeenCalledTimes(0)
+    expect(console.warn).toHaveBeenCalledTimes(0);
 
-    warning.mockRestore()
-  })
+    warning.mockRestore();
+  });
 
   it("should default to size of 5, if size is less than 5", async () => {
     const size = 4;
@@ -132,7 +144,7 @@ describe("batch tests", () => {
     const logger = batcher(async (batch: ITimberLog[]) => {
       called();
       try {
-        const res = await fetch("http://example.com");
+        await fetch("http://example.com");
       } catch (e) {
         throw e;
       }
@@ -156,10 +168,10 @@ describe("batch tests", () => {
     const sendTimeout = 10;
 
     const batcher = makeBatch(size, sendTimeout);
-    const logger = batcher(async (batch: ITimberLog[]) => {
+    const logger = batcher(async () => {
       called();
       try {
-        const res = await fetch("http://example.com");
+        await fetch("http://example.com");
       } catch (e) {
         throw e;
       }
@@ -171,5 +183,55 @@ describe("batch tests", () => {
     fetchMock.restore();
     expect(called).toHaveBeenCalledTimes(2);
     done();
+  });
+
+  it("should play nicely with `throttle`", async () => {
+    // Fixtures
+    const maxThrottle = 2;
+    const throttleResolveAfter = 1000; // ms
+    const batchSize = 5;
+    const numberOfLogs = 20;
+
+    // Create a throttle that processes 1 pipeline at once
+    const throttle = makeThrottle(maxThrottle);
+
+    // Resolve the throttler after 1 second
+    const throttler = throttle(async logs => {
+      return new Promise(resolve => {
+        setTimeout(() => resolve(logs), throttleResolveAfter);
+      });
+    });
+
+    // Store the throttled promises in an array
+    const promises = [];
+
+    // Create a batcher that 'emits' after `batchSize` logs
+    const batch = makeBatch(batchSize, 5000);
+
+    // The batcher should be throttled
+    const batcher = batch((logs: any) => {
+      expect(logs.length).toEqual(batchSize);
+      return throttler(logs);
+    });
+
+    // Start the timer
+    const start = process.hrtime();
+
+    // Fire off a bunch of logs into the batcher
+    for (let i = 0; i < numberOfLogs; i++) {
+      promises.push(batcher(getRandomLog()));
+    }
+
+    // Await batching and throttling
+    await Promise.all(promises);
+
+    // Get the time once all promises have been fulfilled
+    const end = calcEndTime(start);
+
+    // Expect time to have taken at least this long...
+    const expectedTime =
+      ((numberOfLogs / batchSize) * throttleResolveAfter) / maxThrottle;
+
+    expect(end).toBeGreaterThanOrEqual(expectedTime);
   });
 });
