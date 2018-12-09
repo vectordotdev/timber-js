@@ -1,6 +1,19 @@
-import { ITimberLog, Pipeline } from "@timberio/types";
+import { ITimberLog, Middleware, ITimberOptions, Sync } from "@timberio/types";
+import { makeBatch, makeThrottle } from "@timberio/tools";
 
 import { preProcess } from "./pipeline";
+
+// Set default options for Timber
+const defaultOptions: ITimberOptions = {
+  // Maximum number of logs to sync in a single request to Timber.io
+  batchSize: 10,
+
+  // Max interval (in milliseconds) before a batch of logs proceeds to syncing
+  batchInterval: 1000,
+
+  // Maximum number of sync requests to make concurrently
+  syncMax: 5
+};
 
 /**
  * Timber core class for logging to the Timber.io service
@@ -9,27 +22,56 @@ class Timber {
   // Timber API key
   protected _apiKey: string;
 
+  // Timber library options
+  protected _options: ITimberOptions;
+
+  // Batch function
+  protected _batch: any;
+
+  // Transform pipeline
+  protected _pipeline = [preProcess];
+
+  // Sync function
+  protected _sync?: Sync;
+
   // Number of logs logged
   private _countLogged = 0;
 
   // Number of logs successfully synced with Timber
   private _countSynced = 0;
 
-  // Transform pipeline
-  protected _pipeline = [preProcess];
-
-  // Sync function
-  protected _sync?: Pipeline;
-
   /* CONSTRUCTOR */
 
   /**
    * Initializes a new Timber instance
    *
-   * @param apiKey - Private API key for logging to Timber.io
+   * @param apiKey: string - Private API key for logging to Timber.io
+   * @param options?: ITimberOptions - Optionally specify Timber options
    */
-  public constructor(apiKey: string) {
+  public constructor(apiKey: string, options?: ITimberOptions) {
+    // Store the API key, to use for syncing with Timber.io
     this._apiKey = apiKey;
+
+    // Merge default and user options
+    this._options = { ...defaultOptions, ...options };
+
+    // Create a throttler, for sync operations
+    const throttle = makeThrottle(this._options.syncMax);
+
+    // Sync after throttling
+    const throttler = throttle((logs: any) => {
+      return this._sync!(logs);
+    });
+
+    // Create a batcher, for aggregating logs by buffer size/interval
+    const batcher = makeBatch(
+      this._options.batchSize,
+      this._options.batchInterval
+    );
+
+    this._batch = batcher((logs: any) => {
+      return throttler(logs);
+    });
   }
 
   /* PUBLIC METHODS */
@@ -67,10 +109,14 @@ class Timber {
     // Increment log count
     this._countLogged++;
 
-    // Pass the log through the transform/sync pipeline
-    const transformedLog = await this._pipeline
-      .concat(this._sync)
-      .reduceRight((fn, log) => fn.then(log), Promise.resolve(log));
+    // Pass the log through the middleware pipeline
+    const transformedLog = await this._pipeline.reduceRight(
+      (fn, log) => fn.then(log),
+      Promise.resolve(log)
+    );
+
+    // Push the log through the batcher, and sync
+    await this._batch(transformedLog);
 
     // Increment sync count
     this._countSynced++;
@@ -85,7 +131,7 @@ class Timber {
    *
    * @param fn - Pipeline function to use as sync method
    */
-  public setSync(fn: Pipeline): void {
+  public setSync(fn: Sync): void {
     this._sync = fn;
   }
 
@@ -95,7 +141,7 @@ class Timber {
    * @param fn - Function to add to the log pipeline
    * @returns void
    */
-  public use(fn: Pipeline): void {
+  public use(fn: Middleware): void {
     this._pipeline.push(fn);
   }
 
@@ -105,7 +151,7 @@ class Timber {
    * @param fn - Pipeline function
    * @returns void
    */
-  public removePipeline(fn: Pipeline): void {
+  public remove(fn: Middleware): void {
     this._pipeline = this._pipeline.filter(p => p !== fn);
   }
 }

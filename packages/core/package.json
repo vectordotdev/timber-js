@@ -37,6 +37,7 @@
     "typescript": "^3.2.1"
   },
   "dependencies": {
+    "@timberio/tools": "^0.13.0",
     "@timberio/types": "^0.13.0"
   },
   "gitHead": "74d3b0ec69032230c7acd4f390922c13222ffa5d"
