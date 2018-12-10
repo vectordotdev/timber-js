@@ -1,13 +1,24 @@
 import { Node as Timber } from "../src/node";
 
+// Fixtures
+const logLabel = "Node logging";
+
 // Init Node logging lib
 const timber = new Timber(process.env.TIMBER_API_KEY!, {
-  syncMax: 10
+  batchSize: 1000,
+  syncMax: 50
 });
 
-// Build a collection of log messages
-const logs = [...Array(50).keys()].map(i => {
-  message: `Log message ${i}`;
-});
+// Build a collection of 10,000 log messages
+const logs = [...Array(10000).keys()].map(i => ({
+  message: `Log message ${i}`
+}));
 
-//
+// Log the start time
+console.time(logLabel);
+
+// Await syncing to Timber.io
+Promise.all(logs.map(log => timber.log(log))).then(() => {
+  // Log the end time
+  console.timeEnd(logLabel);
+});

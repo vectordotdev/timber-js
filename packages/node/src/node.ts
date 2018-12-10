@@ -22,7 +22,7 @@ export class Node extends Base {
           "Content-Type": "text/plain",
           Authorization: `Basic ${base64Encode(this._apiKey)}`
         },
-        body: `debug: ${logs[0].message}`
+        body: logs.map(log => `debug: ${log.message}`).join("\n")
       });
 
       return logs;

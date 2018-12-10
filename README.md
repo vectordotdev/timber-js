@@ -41,7 +41,7 @@ This Javascript library features:
 
 ### Guided
 
-**Recommended:** Signup at [timber.io](https://app.timber.io/) and follow the in-app instructions.
+**Recommended:** Sign-up at [timber.io](https://app.timber.io/) and follow the in-app instructions.
 
 ### Manual
 
@@ -61,11 +61,64 @@ There are a few helper libraries available that you typically won't need to use 
 
 #### [`@timberio/tools`](packages/tools) <-- tools/utils used by loggers for throttling, batching, queuing logs
 
-#### [`@timberio/types`](packages/tools) <-- shared Typescript types
+#### [`@timberio/types`](packages/types) <-- shared Typescript types
 
 ## Integrations
 
 Coming soon - Bunyan, Winston and more.
+
+## FAQs
+
+**Which package should I install to start logging?**
+
+For most Javascript projects, just `npm i @timberio/js`.
+
+This will install both the [Node.js](packages/node) and [browser](packages/browser) variants, which you can import as follows:
+
+```typescript
+import { Browser, Node } from "@timberio/js";
+
+// Create either a browser logger...
+const browserLogger = new Browser("timber-api-key");
+
+// ... or a Node logger (or both!)
+const nodeLogger = new Node("timber-api-key");
+
+// Then, log the same way via either browser
+browserLogger.log({ message: "Hello from the browser! " });
+```
+
+Alternatively, if you only need to log in a single environment, import [`@timberio/browser`](packages/browser) or [`@timberio/node`](packages/node) directly.
+
+**Why are there separate loggers for Node/the browser?**
+
+Both loggers extend [`@timberio/core`](packages/core), and share the same `.log()` API.
+
+But each offer unique features optimized for the target environment.
+
+For example, the browser version uses built-in features of a client's web browser and client-side `fetch()` to synchronize logs with Timber.io. The result is a fast, and nimble `<script>` tag or bundle that drops easily into any client-side app.
+
+The Node version includes features such as _msgpack_ encoding, logging from streams and deep exception handling (coming soon!), which are specific to Node.js and would have no purpose in a client-side logger.
+
+Importing a distinct version of the logger makes it simple for bundlers like [Parcel](https://parceljs.org/) or [Webpack](https://webpack.js.org/) to leave out the parts that aren't required in the browser, resulting in a much smaller download &mdash; only 4.3kb!
+
+**Are Typescript types available?**
+
+Yes! Every part of the Timber JS library is written in Typescript, so you get full types (and documentation) right out-the-box.
+
+**The root `package.json` is named `@timberio/logger` - do I need to import this?**
+
+Nope. This library and its associated components are laid out as a mono-repo using [Lerna](https://github.com/lerna/lerna), to make it easier to maintain all code from one home on Github.
+
+`@timberio/logger` is the private name that governs all code, tests and other stuff that only concerns the maintainers of this library, and is not importable.
+
+Instead, simply use [`@timberio/js`](packages/js)
+
+**Do you accept PRs / feature suggestions?**
+
+Right now, the best way to have a feature considered is to make a suggestion using [git issues](issues).
+
+Soon, we'll have contribution guidelines and will be accept community code submissions at that time.
 
 ### LICENSE
 

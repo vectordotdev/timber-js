@@ -6,7 +6,7 @@ import { preProcess } from "./pipeline";
 // Set default options for Timber
 const defaultOptions: ITimberOptions = {
   // Maximum number of logs to sync in a single request to Timber.io
-  batchSize: 10,
+  batchSize: 1000,
 
   // Max interval (in milliseconds) before a batch of logs proceeds to syncing
   batchInterval: 1000,
@@ -49,6 +49,11 @@ class Timber {
    * @param options?: ITimberOptions - Optionally specify Timber options
    */
   public constructor(apiKey: string, options?: Partial<ITimberOptions>) {
+    // First, check we have a valid API key
+    if (typeof apiKey !== "string" || apiKey === "") {
+      throw new Error("Timber API key missing");
+    }
+
     // Store the API key, to use for syncing with Timber.io
     this._apiKey = apiKey;
 
