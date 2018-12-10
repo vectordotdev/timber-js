@@ -48,7 +48,7 @@ class Timber {
    * @param apiKey: string - Private API key for logging to Timber.io
    * @param options?: ITimberOptions - Optionally specify Timber options
    */
-  public constructor(apiKey: string, options?: ITimberOptions) {
+  public constructor(apiKey: string, options?: Partial<ITimberOptions>) {
     // Store the API key, to use for syncing with Timber.io
     this._apiKey = apiKey;
 

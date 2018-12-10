@@ -1,13 +1,13 @@
 import fetch from "cross-fetch";
 
 import { base64Encode } from "@timberio/tools";
-import { ITimberLog } from "@timberio/types";
+import { ITimberLog, ITimberOptions } from "@timberio/types";
 
 import { Base } from "@timberio/core";
 
 export class Node extends Base {
-  public constructor(apiKey: string) {
-    super(apiKey);
+  public constructor(apiKey: string, options?: Partial<ITimberOptions>) {
+    super(apiKey, options);
 
     // TODO - remove this in production... dump out the env for dev!
     console.log("Hello from Node!");
