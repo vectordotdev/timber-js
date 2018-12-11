@@ -15,16 +15,24 @@ export class Browser extends Base {
     const sync = async (logs: ITimberLog[]): Promise<ITimberLog[]> => {
       // TODO - obviously, this doesn't conform perfectly to the spec
       // yet... dev only!
-      await fetch("https://logs.timber.io/frames", {
+      const res = await fetch("https://logs.timber.io/frames", {
         method: "POST",
         headers: {
           "Content-Type": "text/plain",
-          Authorization: `Basic ${btoa(this._apiKey)}`
+          Authorization: `Basic ${btoa(this._apiKey)}`,
         },
         body: logs.map(log => `${log.level}: ${log.message}`).join("\n")
       });
 
-      return logs;
+      if (res.ok) {
+        return logs;
+      }
+
+      /**
+       * TODO: if status is 50x throw custom ServerError
+       * to be used in retry logic
+       */
+      throw new Error(res.statusText);
     };
 
     // Set the throttled sync function
