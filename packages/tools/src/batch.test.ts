@@ -1,7 +1,8 @@
+import nock from 'nock';
+import fetch from 'cross-fetch';
+import { ITimberLog, LogLevel } from "@timberio/types";
 import makeBatch from "./batch";
 import makeThrottle from "./throttle";
-import { ITimberLog, LogLevel } from "@timberio/types";
-import fetchMock from "fetch-mock";
 
 /**
  * Create a log with a random string / current date
@@ -133,10 +134,10 @@ describe("batch tests", () => {
   }, 1100);
 
   it("should not fire timeout while a send was happening.", async done => {
-    fetchMock.mock(
-      "http://example.com",
-      new Promise(res => setTimeout(() => res(200), 1003))
-    );
+    nock('http://example.com')
+    .get('/')
+    .reply(200, new Promise(res => setTimeout(() => res(200), 1003)))
+
     const called = jest.fn();
     const size = 5;
     const sendTimeout = 10;
@@ -154,16 +155,16 @@ describe("batch tests", () => {
     await Promise.all(logNumberTimes(logger, 5)).catch(e => {
       throw e;
     });
-    fetchMock.restore();
     expect(called).toHaveBeenCalledTimes(1);
+    nock.restore()
     done();
   });
 
   it("should handle another log that comes in while it's sending...", async done => {
-    fetchMock.mock(
-      "http://example.com",
-      new Promise(res => setTimeout(() => res(200), 1003))
-    );
+    nock('http://example.com')
+    .get('/')
+    .reply(200, new Promise(res => setTimeout(() => res(200), 1003)))
+
     const called = jest.fn();
     const size = 5;
     const sendTimeout = 10;
@@ -181,8 +182,8 @@ describe("batch tests", () => {
     await Promise.all(logNumberTimes(logger, 6)).catch(e => {
       throw e;
     });
-    fetchMock.restore();
     expect(called).toHaveBeenCalledTimes(2);
+    nock.restore()
     done();
   });
 
