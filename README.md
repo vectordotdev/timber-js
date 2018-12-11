@@ -84,7 +84,7 @@ const browserLogger = new Browser("timber-api-key");
 // ... or a Node logger (or both!)
 const nodeLogger = new Node("timber-api-key");
 
-// Then, log the same way via either browser
+// Then, log the same way via either
 browserLogger.log("Hello from the browser!");
 ```
 
