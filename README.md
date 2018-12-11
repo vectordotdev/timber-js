@@ -59,9 +59,9 @@ There are a few helper libraries available that you typically won't need to use 
 
 | Package                             | What's it for?                                                     |
 | ----------------------------------- | ------------------------------------------------------------------ |
-| [`@timberio/core`](packages/core)   | core library to extend for custom loggers                          |
-| [`@timberio/tools`](packages/tools) | tools/utils used by loggers for throttling, batching, queuing logs |
-| [`@timberio/types`](packages/types) | shared Typescript types                                            |
+| [`@timberio/core`](packages/core)   | Core library to extend for custom loggers                          |
+| [`@timberio/tools`](packages/tools) | Tools/utils used by loggers for throttling, batching, queuing logs |
+| [`@timberio/types`](packages/types) | Shared Typescript types                                            |
 
 ## Integrations
 
