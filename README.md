@@ -85,7 +85,7 @@ const browserLogger = new Browser("timber-api-key");
 const nodeLogger = new Node("timber-api-key");
 
 // Then, log the same way via either browser
-browserLogger.log({ message: "Hello from the browser! " });
+browserLogger.log("Hello from the browser!");
 ```
 
 Alternatively, if you only need to log in a single environment, import [`@timberio/browser`](packages/browser) or [`@timberio/node`](packages/node) directly.

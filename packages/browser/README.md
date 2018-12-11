@@ -35,7 +35,7 @@ const { Timber } = require("@timberio/browser");
 If you're not using a Node.js module bundler, you can log in any client-side app by dropping in a `<script>` tag:
 
 ```
-<script src="https://unpkg.com/@timberio/browser@0.9.2/dist/umd/timber.js"></script>
+<script src="https://unpkg.com/@timberio/browser@0.16.0/dist/umd/timber.js"></script>
 ```
 
 This will place the `Timber` class on `window.Timber`.
