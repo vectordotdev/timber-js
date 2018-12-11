@@ -18,7 +18,7 @@ interface IBuffer {
 const MIN_BUFFER_SIZE = 5;
 
 /*
- * Min buffer Size to flush when limit is about to reach.
+ * Min buffer size to flush when limit is about to be reached.
  */
 const MAX_BUFFER_SIZE = 100;
 
