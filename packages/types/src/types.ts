@@ -20,12 +20,21 @@ export interface ITimberOptions {
   syncMax: number;
 }
 
+export enum LogLevel {
+  Debug = "debug",
+  Info = "info",
+  Warn = "warn",
+  Error = "error"
+}
+
 /**
  * Interface representing a Timber log
  */
 export interface ITimberLog {
+  dt: Date;
+  level: LogLevel;
   message: string;
-  date?: Date;
+  context?: object;
 }
 
 /**

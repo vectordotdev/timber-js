@@ -1,6 +1,6 @@
 import makeBatch from "./batch";
 import makeThrottle from "./throttle";
-import { ITimberLog } from "@timberio/types";
+import { ITimberLog, LogLevel } from "@timberio/types";
 import fetchMock from "fetch-mock";
 
 /**
@@ -8,8 +8,9 @@ import fetchMock from "fetch-mock";
  */
 function getRandomLog(): ITimberLog {
   return {
-    message: String(Math.random()),
-    date: new Date()
+    dt: new Date(),
+    level: LogLevel.Info,
+    message: String(Math.random())
   };
 }
 

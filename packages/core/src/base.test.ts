@@ -1,5 +1,5 @@
 import Base from "./base";
-import { ITimberLog } from "@timberio/types";
+import { ITimberLog, LogLevel } from "@timberio/types";
 
 describe("base class tests", () => {
   it("should initialize with API key", () => {
@@ -12,34 +12,26 @@ describe("base class tests", () => {
   it("should throw if a `sync` method is missing", async () => {
     const base = new Base("testing");
 
-    // Basic log
-    const log = {
-      message: "Test"
-    };
-
     // Expect logging to throw an error, since we're missing a `sync` func
-    await expect(base.log(log)).rejects.toThrowError(/sync/);
+    await expect(base.log("Test")).rejects.toThrowError(/sync/);
   });
 
   it("should use the preProcess pipeline", async () => {
+    // Fixtures
+    const message = "Test";
     const base = new Base("testing");
 
     // Add a mock sync method
     base.setSync(async logs => logs);
 
-    // Basic log
-    const log = {
-      message: "Test"
-    };
-
     // Pass the log through the `.log()` function and get the result
-    const result = await base.log(log);
+    const result = await base.log(message);
 
     // Expect the message to be same
-    expect(result.message).toEqual(log.message);
+    expect(result.message).toEqual(message);
 
     // ... but a new `date` should be added
-    expect(result.date).not.toBeUndefined();
+    expect(result.dt).not.toBeUndefined();
   });
 
   it("should default log count to zero", () => {
@@ -60,12 +52,7 @@ describe("base class tests", () => {
     // Add a mock sync method
     base.setSync(async log => log);
 
-    // Basic log
-    const log = {
-      message: "Test"
-    };
-
-    void (await base.log(log));
+    void (await base.log("Test"));
 
     // Logged count should now be 1
     expect(base.logged).toEqual(1);
@@ -83,13 +70,8 @@ describe("base class tests", () => {
       });
     });
 
-    // Basic log
-    const log = {
-      message: "Test"
-    };
-
     // Fire the log event, and store the pending promise
-    const pending = base.log(log);
+    const pending = base.log("Test");
 
     // The log count should be 1
     expect(base.logged).toEqual(1);
@@ -105,15 +87,12 @@ describe("base class tests", () => {
   });
 
   it("should add a pipeline function", async () => {
+    // Fixtures
+    const firstMessage = "First message";
     const base = new Base("testing");
 
     // Add a mock sync method
     base.setSync(async log => log);
-
-    // Initial log
-    const log = {
-      message: "First message"
-    };
 
     // Message to replacement with
     const newMessage = "Second message";
@@ -127,7 +106,7 @@ describe("base class tests", () => {
     });
 
     // Get the resulting log
-    const result = await base.log(log);
+    const result = await base.log(firstMessage);
 
     // The resulting message should equal the new message
     expect(result.message).toEqual(newMessage);
@@ -143,12 +122,87 @@ describe("base class tests", () => {
     base.use(customPipeline);
 
     // Confirm that it exists in the `_pipeline` array
-    expect((base as any)._pipeline).toContain(customPipeline);
+    expect((base as any)._middleware).toContain(customPipeline);
 
     // Remove the pipeline
     base.remove(customPipeline);
 
     // Confirm that it has disappeared from the array
-    expect((base as any)._pipeline).not.toContain(customPipeline);
+    expect((base as any)._middleware).not.toContain(customPipeline);
+  });
+
+  it("should default to 'info' level logging", async () => {
+    // Fixtures
+    const message = "Test";
+    const base = new Base("testing");
+
+    // Add a mock sync method
+    base.setSync(async log => log);
+
+    // Log
+    const log = await base.log(message);
+
+    // Should log at 'info' level
+    expect(log.level).toEqual(LogLevel.Info);
+  });
+
+  it("should handle 'debug' logging", async () => {
+    // Fixtures
+    const message = "Test";
+    const base = new Base("testing");
+
+    // Add a mock sync method
+    base.setSync(async log => log);
+
+    // Log
+    const log = await base.debug(message);
+
+    // Should log at 'debug' level
+    expect(log.level).toEqual(LogLevel.Debug);
+  });
+
+  it("should handle 'info' logging", async () => {
+    // Fixtures
+    const message = "Test";
+    const base = new Base("testing");
+
+    // Add a mock sync method
+    base.setSync(async log => log);
+
+    // Log
+    const log = await base.info(message);
+
+    // Should log at 'info' level
+    expect(log.level).toEqual(LogLevel.Info);
+  });
+
+  it("should handle 'warn' logging", async () => {
+    // Fixtures
+    const message = "Test";
+    const base = new Base("testing");
+
+    // Add a mock sync method
+    base.setSync(async log => log);
+
+    // Log
+    const log = await base.warn(message);
+
+    // Should log at 'info' level
+    expect(log.level).toEqual(LogLevel.Warn);
+  });
+
+  it("should handle 'error' logging", async () => {
+    // Fixtures
+    const message = "Test";
+    const base = new Base("testing");
+
+    // Add a mock sync method
+    base.setSync(async log => log);
+
+    // Log
+    const log = await base.error(message);
+
+    // Should log at 'info' level
+    expect(log.level).toEqual(LogLevel.Error);
   });
 });

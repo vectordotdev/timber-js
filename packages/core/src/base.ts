@@ -1,7 +1,11 @@
-import { ITimberLog, Middleware, ITimberOptions, Sync } from "@timberio/types";
+import {
+  ITimberLog,
+  ITimberOptions,
+  LogLevel,
+  Middleware,
+  Sync
+} from "@timberio/types";
 import { makeBatch, makeThrottle } from "@timberio/tools";
-
-import { preProcess } from "./pipeline";
 
 // Set default options for Timber
 const defaultOptions: ITimberOptions = {
@@ -28,8 +32,8 @@ class Timber {
   // Batch function
   protected _batch: any;
 
-  // Transform pipeline
-  protected _pipeline = [preProcess];
+  // Middleware
+  protected _middleware: Middleware[] = [];
 
   // Sync function
   protected _sync?: Sync;
@@ -102,10 +106,16 @@ class Timber {
   /**
    * Log an entry, to be synced with Timber.io
    *
-   * @param log - Log entry
-   * @returns Promise<ILog> - resolves to the transformed log
+   * @param message: string - Log message
+   * @param level (LogLevel) - Level to log at (debug|info|warn|error)
+   * @param log: (Partial<ITimberLog>) - Initial log (optional)
+   * @returns Promise<ITimberLog> after syncing
    */
-  public async log(log: ITimberLog): Promise<ITimberLog> {
+  public async log(
+    message: string,
+    level: LogLevel = LogLevel.Info,
+    log: Partial<ITimberLog> = {}
+  ): Promise<ITimberLog> {
     // Check that we have a sync function
     if (typeof this._sync !== "function") {
       throw new Error("No Timber logger sync function provided");
@@ -114,10 +124,18 @@ class Timber {
     // Increment log count
     this._countLogged++;
 
+    // Build the initial log
+    const initialLog: ITimberLog = {
+      dt: new Date(),
+      level,
+      message,
+      ...log
+    };
+
     // Pass the log through the middleware pipeline
-    const transformedLog = await this._pipeline.reduceRight(
-      (fn, log) => fn.then(log),
-      Promise.resolve(log)
+    const transformedLog = await this._middleware.reduceRight(
+      (fn, pipedLog) => fn.then(pipedLog),
+      Promise.resolve(initialLog)
     );
 
     // Push the log through the batcher, and sync
@@ -128,6 +146,66 @@ class Timber {
 
     // Return the resulting log
     return transformedLog;
+  }
+
+  /**
+   *
+   * Debug level log, to be synced with Timber.io
+   *
+   * @param message: string - Log message
+   * @param log: (Partial<ITimberLog>) - Initial log (optional)
+   * @returns Promise<ITimberLog> after syncing
+   */
+  public async debug(
+    message: string,
+    log: Partial<ITimberLog> = {}
+  ): Promise<ITimberLog> {
+    return this.log(message, LogLevel.Debug, log);
+  }
+
+  /**
+   *
+   * Info level log, to be synced with Timber.io
+   *
+   * @param message: string - Log message
+   * @param log: (Partial<ITimberLog>) - Initial log (optional)
+   * @returns Promise<ITimberLog> after syncing
+   */
+  public async info(
+    message: string,
+    log: Partial<ITimberLog> = {}
+  ): Promise<ITimberLog> {
+    return this.log(message, LogLevel.Info, log);
+  }
+
+  /**
+   *
+   * Warning level log, to be synced with Timber.io
+   *
+   * @param message: string - Log message
+   * @param log: (Partial<ITimberLog>) - Initial log (optional)
+   * @returns Promise<ITimberLog> after syncing
+   */
+  public async warn(
+    message: string,
+    log: Partial<ITimberLog> = {}
+  ): Promise<ITimberLog> {
+    return this.log(message, LogLevel.Warn, log);
+  }
+
+  /**
+   *
+   * Warning level log, to be synced with Timber.io
+   *
+   * @param message: string - Log message
+   * @param log: (Partial<ITimberLog>) - Initial log (optional)
+   * @returns Promise<ITimberLog> after syncing
+   */
+  public async error(
+    message: string,
+    log: Partial<ITimberLog> = {}
+  ): Promise<ITimberLog> {
+    return this.log(message, LogLevel.Error, log);
   }
 
   /**
@@ -147,7 +225,7 @@ class Timber {
    * @returns void
    */
   public use(fn: Middleware): void {
-    this._pipeline.push(fn);
+    this._middleware.push(fn);
   }
 
   /**
@@ -157,7 +235,7 @@ class Timber {
    * @returns void
    */
   public remove(fn: Middleware): void {
-    this._pipeline = this._pipeline.filter(p => p !== fn);
+    this._middleware = this._middleware.filter(p => p !== fn);
   }
 }
 

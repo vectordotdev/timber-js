@@ -10,15 +10,13 @@ const timber = new Timber(process.env.TIMBER_API_KEY!, {
 });
 
 // Build a collection of 10,000 log messages
-const logs = [...Array(10000).keys()].map(i => ({
-  message: `Log message ${i}`
-}));
+const messages = [...Array(10000).keys()].map(i => `Log message ${i}`);
 
 // Log the start time
 console.time(logLabel);
 
 // Await syncing to Timber.io
-Promise.all(logs.map(log => timber.log(log))).then(() => {
+Promise.all(messages.map(m => timber.info(m))).then(() => {
   // Log the end time
   console.timeEnd(logLabel);
 });
