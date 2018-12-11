@@ -47,21 +47,21 @@ This Javascript library features:
 
 Logging works in Node.js or the browser. Choose the appropriate lib for installation instructions:
 
-#### [`@timberio/node`](packages/node) <-- for Node.js logging
-
-#### [`@timberio/browser`](packages/browser) <-- for browser logging
-
-#### [`@timberio/js`](packages/js) <-- both Node.js/browser logging, in a single package
+| Package                                 | What's it for?                               |
+| --------------------------------------- | -------------------------------------------- |
+| [`@timberio/node`](packages/node)       | Node.js logger                               |
+| [`@timberio/browser`](packages/browser) | Browser logger                               |
+| [`@timberio/js`](packages/js)           | Node.js/browser logging, in a single package |
 
 ### Helper libraries
 
 There are a few helper libraries available that you typically won't need to use directly:
 
-#### [`@timberio/core`](packages/core) <-- core library to extend for custom loggers
-
-#### [`@timberio/tools`](packages/tools) <-- tools/utils used by loggers for throttling, batching, queuing logs
-
-#### [`@timberio/types`](packages/types) <-- shared Typescript types
+| Package                             | What's it for?                                                     |
+| ----------------------------------- | ------------------------------------------------------------------ |
+| [`@timberio/core`](packages/core)   | core library to extend for custom loggers                          |
+| [`@timberio/tools`](packages/tools) | tools/utils used by loggers for throttling, batching, queuing logs |
+| [`@timberio/types`](packages/types) | shared Typescript types                                            |
 
 ## Integrations
 
