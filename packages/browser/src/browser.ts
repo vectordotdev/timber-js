@@ -3,6 +3,13 @@ import fetch from "cross-fetch";
 import { ITimberLog, ITimberOptions } from "@timberio/types";
 
 import { Base } from "@timberio/core";
+import * as pjson from "../package.json";
+
+const { version } = pjson;
+
+export function getUserAgent(): string {
+  return `timber-js/${version}`;
+}
 
 export class Browser extends Base {
   public constructor(apiKey: string, options?: Partial<ITimberOptions>) {
@@ -19,9 +26,10 @@ export class Browser extends Base {
         method: "POST",
         headers: {
           "Content-Type": "text/plain",
-          Authorization: `Basic ${btoa(this._apiKey)}`
-        }
-        // body: logs.map(log => `${log.level}: ${log.message}`).join("\n")
+          Authorization: `Basic ${btoa(this._apiKey)}`,
+          "User-Agent": getUserAgent(),
+        },
+        // body: logs.map(log => `${log.level}: ${log.message}`).join("\n"),
       });
 
       if (res.ok) {

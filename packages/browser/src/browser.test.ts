@@ -1,7 +1,10 @@
 import nock from "nock";
 import { base64Encode } from "@timberio/tools";
-import { ITimberLog } from "@timberio/types";
-import { Browser } from "./browser";
+import { ITimberLog, LogLevel } from "@timberio/types";
+import { Browser, getUserAgent } from "./browser";
+import * as pjson from "../package.json";
+
+const { version } = pjson;
 
 /**
  * Create a log with a random string / current date
@@ -12,13 +15,21 @@ function getRandomLog(message: string): Partial<ITimberLog> {
   };
 }
 
+describe("browser user-agent tests", () => {
+  it("should include version number in user-agent", () => {
+    const expectedValue = `timber-js/${version}`;
+    const actualValue = getUserAgent();
+    expect(actualValue).toEqual(expectedValue);
+  });
+});
+
 /**
  * set new property btoa in node enviroment to run the tests
  */
 const _global: any = global;
 _global.btoa = base64Encode;
 
-describe("node tests", () => {
+describe("browser tests", () => {
   it("should echo log if timber sends 20x status code", async done => {
     nock("https://logs.timber.io")
       .post("/frames")

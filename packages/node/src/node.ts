@@ -5,6 +5,13 @@ import { base64Encode } from "@timberio/tools";
 import { ITimberLog, ITimberOptions } from "@timberio/types";
 
 import { Base } from "@timberio/core";
+import * as pjson from "../package.json";
+
+const { version } = pjson;
+
+export function getUserAgent(): string {
+  return `timber-js/${version}`;
+}
 
 // Namespace the msgpack library
 // const msgpack = Msgpack();
@@ -25,8 +32,9 @@ export class Node extends Base {
         method: "POST",
         headers: {
           // "Content-Type": "application/msgpack",
-          "Content-Type": "application/json",
-          Authorization: `Basic ${base64Encode(this._apiKey)}`
+          "Content-Type": "text/plain",
+          Authorization: `Basic ${base64Encode(this._apiKey)}`,
+          "User-Agent": getUserAgent(),
         },
         // body: logs.map(log => `${log.level}: ${log.message}`).join("\n")
         // body: msgpack.encode(logsWithSchema).slice()
