@@ -22,7 +22,7 @@ export class Node extends Base {
           "Content-Type": "text/plain",
           Authorization: `Basic ${base64Encode(this._apiKey)}`,
         },
-        body: logs.map(log => `${log.level}: ${log.message}`).join("\n")
+        body: logs.map(log => `${log.level}: ${log.message}`).join("\n"),
       });
 
       if (res.ok) {
@@ -38,5 +38,9 @@ export class Node extends Base {
 
     // Set the throttled sync function
     this.setSync(sync);
+  }
+
+  public writeStream(ws: any) {
+    this.setWritableStream(ws);
   }
 }
