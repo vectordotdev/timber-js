@@ -9,6 +9,9 @@ import { makeBatch, makeThrottle } from "@timberio/tools";
 
 // Set default options for Timber
 const defaultOptions: ITimberOptions = {
+  // Default sync endpoint:
+  endpoint: "https://logs.timber.io/frames",
+
   // Maximum number of logs to sync in a single request to Timber.io
   batchSize: 1000,
 

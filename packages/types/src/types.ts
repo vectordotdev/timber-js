@@ -4,6 +4,11 @@
 
 export interface ITimberOptions {
   /**
+   * Endpoint URL for syncing logs with Timber.io
+   */
+  endpoint: string;
+
+  /**
    * Maximum number of logs to sync in a single request to Timber.io
    */
   batchSize: number;

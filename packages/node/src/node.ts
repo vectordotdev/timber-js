@@ -21,7 +21,7 @@ export class Node extends Base {
       // TODO - obviously, this doesn't conform perfectly to the spec
       // yet... dev only!
 
-      const res = await fetch("https://logs.timber.io/frames", {
+      const res = await fetch(this._options.endpoint, {
         method: "POST",
         headers: {
           // "Content-Type": "application/msgpack",
