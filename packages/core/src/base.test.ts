@@ -16,7 +16,7 @@ describe("base class tests", () => {
     await expect(base.log("Test")).rejects.toThrowError(/sync/);
   });
 
-  it("should use the preProcess pipeline", async () => {
+  it("should add an implicit `dt` timestamp", async () => {
     // Fixtures
     const message = "Test";
     const base = new Base("testing");

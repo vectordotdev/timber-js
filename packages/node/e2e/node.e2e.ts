@@ -10,7 +10,7 @@ const timber = new Timber(process.env.TIMBER_API_KEY!, {
 });
 
 // Build a collection of 10,000 log messages
-const messages = [...Array(10000).keys()].map(i => `Log message ${i}`);
+const messages = [...Array(10000).keys()].map(i => `Log ${i}`);
 
 // Log the start time
 console.time(logLabel);

@@ -5,11 +5,11 @@ import { Node } from "./node";
 /**
  * Create a log with a random string / current date
  */
-function getRandomLog(message: string): ITimberLog {
+function getRandomLog(message: string): Partial<ITimberLog> {
   return {
     dt: new Date(),
     level: LogLevel.Info,
-    message,
+    message
   };
 }
 

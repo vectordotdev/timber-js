@@ -8,9 +8,11 @@ import makeRetry from "./retry";
  */
 function getRandomLog(): ITimberLog {
   return {
+    $schema:
+      "https://raw.githubusercontent.com/timberio/log-event-json-schema/v4.1.0/schema.json",
     dt: new Date(),
     level: LogLevel.Info,
-    message: String(Math.random()),
+    message: String(Math.random())
   };
 }
 

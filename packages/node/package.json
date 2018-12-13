@@ -42,7 +42,9 @@
     "@timberio/core": "^0.16.0",
     "@timberio/tools": "^0.16.0",
     "@timberio/types": "^0.16.0",
-    "cross-fetch": "^2.2.3"
+    "@types/msgpack5": "^3.4.1",
+    "cross-fetch": "^2.2.3",
+    "msgpack5": "^4.2.1"
   },
   "gitHead": "058a53d4e59a2ee9b547043ce0af63632d0af2ed"
 }

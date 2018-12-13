@@ -126,10 +126,21 @@ class Timber {
 
     // Build the initial log
     const initialLog: ITimberLog = {
+      // Implicit date timestamp
       dt: new Date(),
+
+      // Overwrite defaults / add context, with `log` object
+      ...log,
+
+      // Explicit level
       level,
+
+      // Explicit message
       message,
-      ...log
+
+      // Finally, add the definitive schema
+      $schema:
+        "https://raw.githubusercontent.com/timberio/log-event-json-schema/v4.1.0/schema.json"
     };
 
     // Pass the log through the middleware pipeline

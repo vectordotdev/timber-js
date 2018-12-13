@@ -21,7 +21,7 @@ export class Browser extends Base {
           "Content-Type": "text/plain",
           Authorization: `Basic ${btoa(this._apiKey)}`,
         },
-        body: logs.map(log => `${log.level}: ${log.message}`).join("\n")
+        // body: logs.map(log => `${log.level}: ${log.message}`).join("\n")
       });
 
       if (res.ok) {

@@ -1,16 +1,14 @@
 import nock from "nock";
 import { base64Encode } from "@timberio/tools";
-import { ITimberLog, LogLevel } from "@timberio/types";
+import { ITimberLog } from "@timberio/types";
 import { Browser } from "./browser";
 
 /**
  * Create a log with a random string / current date
  */
-function getRandomLog(message: string): ITimberLog {
+function getRandomLog(message: string): Partial<ITimberLog> {
   return {
-    dt: new Date(),
-    level: LogLevel.Info,
-    message,
+    message
   };
 }
 

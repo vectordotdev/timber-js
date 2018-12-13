@@ -1,9 +1,13 @@
 import fetch from "cross-fetch";
+// import Msgpack from "msgpack5";
 
 import { base64Encode } from "@timberio/tools";
 import { ITimberLog, ITimberOptions } from "@timberio/types";
 
 import { Base } from "@timberio/core";
+
+// Namespace the msgpack library
+// const msgpack = Msgpack();
 
 export class Node extends Base {
   public constructor(apiKey: string, options?: Partial<ITimberOptions>) {
@@ -16,13 +20,17 @@ export class Node extends Base {
     const sync = async (logs: ITimberLog[]): Promise<ITimberLog[]> => {
       // TODO - obviously, this doesn't conform perfectly to the spec
       // yet... dev only!
+
       const res = await fetch("https://logs.timber.io/frames", {
         method: "POST",
         headers: {
-          "Content-Type": "text/plain",
-          Authorization: `Basic ${base64Encode(this._apiKey)}`,
+          // "Content-Type": "application/msgpack",
+          "Content-Type": "application/json",
+          Authorization: `Basic ${base64Encode(this._apiKey)}`
         },
-        body: logs.map(log => `${log.level}: ${log.message}`).join("\n")
+        // body: logs.map(log => `${log.level}: ${log.message}`).join("\n")
+        // body: msgpack.encode(logsWithSchema).slice()
+        body: JSON.stringify(logs)
       });
 
       if (res.ok) {

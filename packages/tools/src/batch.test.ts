@@ -1,5 +1,5 @@
-import nock from 'nock';
-import fetch from 'cross-fetch';
+import nock from "nock";
+import fetch from "cross-fetch";
 import { ITimberLog, LogLevel } from "@timberio/types";
 import makeBatch from "./batch";
 import makeThrottle from "./throttle";
@@ -9,6 +9,8 @@ import makeThrottle from "./throttle";
  */
 function getRandomLog(): ITimberLog {
   return {
+    $schema:
+      "https://raw.githubusercontent.com/timberio/log-event-json-schema/v4.1.0/schema.json",
     dt: new Date(),
     level: LogLevel.Info,
     message: String(Math.random())
@@ -134,9 +136,9 @@ describe("batch tests", () => {
   }, 1100);
 
   it("should not fire timeout while a send was happening.", async done => {
-    nock('http://example.com')
-    .get('/')
-    .reply(200, new Promise(res => setTimeout(() => res(200), 1003)))
+    nock("http://example.com")
+      .get("/")
+      .reply(200, new Promise(res => setTimeout(() => res(200), 1003)));
 
     const called = jest.fn();
     const size = 5;
@@ -156,14 +158,14 @@ describe("batch tests", () => {
       throw e;
     });
     expect(called).toHaveBeenCalledTimes(1);
-    nock.restore()
+    nock.restore();
     done();
   });
 
   it("should handle another log that comes in while it's sending...", async done => {
-    nock('http://example.com')
-    .get('/')
-    .reply(200, new Promise(res => setTimeout(() => res(200), 1003)))
+    nock("http://example.com")
+      .get("/")
+      .reply(200, new Promise(res => setTimeout(() => res(200), 1003)));
 
     const called = jest.fn();
     const size = 5;
@@ -183,7 +185,7 @@ describe("batch tests", () => {
       throw e;
     });
     expect(called).toHaveBeenCalledTimes(2);
-    nock.restore()
+    nock.restore();
     done();
   });
 
