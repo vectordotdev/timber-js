@@ -1,6 +1,6 @@
 {
   "name": "@timberio/core",
-  "version": "0.16.0",
+  "version": "0.17.0",
   "description": "Timber.io - logging core",
   "keywords": [
     "Timber",
@@ -37,8 +37,8 @@
     "typescript": "^3.2.1"
   },
   "dependencies": {
-    "@timberio/tools": "^0.16.0",
-    "@timberio/types": "^0.16.0"
+    "@timberio/tools": "^0.17.0",
+    "@timberio/types": "^0.17.0"
   },
   "gitHead": "058a53d4e59a2ee9b547043ce0af63632d0af2ed"
 }
