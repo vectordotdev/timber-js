@@ -33,12 +33,14 @@
     "url": "https://github.com/timberio/timber-js/issues"
   },
   "devDependencies": {
+    "@types/is-stream": "^1.1.0",
     "npm-run-all": "^4.1.5",
     "typescript": "^3.2.1"
   },
   "dependencies": {
     "@timberio/tools": "^0.19.0",
-    "@timberio/types": "^0.19.0"
+    "@timberio/types": "^0.19.0",
+    "is-stream": "^1.1.0"
   },
   "gitHead": "058a53d4e59a2ee9b547043ce0af63632d0af2ed"
 }

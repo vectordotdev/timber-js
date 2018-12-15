@@ -1,5 +1,6 @@
 import Base from "./base";
 import { ITimberLog, LogLevel } from "@timberio/types";
+import { Writable, Readable } from "stream";
 
 describe("base class tests", () => {
   it("should initialize with API key", () => {
@@ -101,7 +102,7 @@ describe("base class tests", () => {
     base.use(async log => {
       return {
         ...log,
-        message: newMessage
+        message: newMessage,
       };
     });
 
@@ -129,6 +130,86 @@ describe("base class tests", () => {
 
     // Confirm that it has disappeared from the array
     expect((base as any)._middleware).not.toContain(customPipeline);
+  });
+
+  it("should throw if other than writable stream is passed as i/o stream.", () => {
+    // Fixtures
+    const rs = new Readable();
+    const base = new Base("testing");
+
+    expect(() => {
+      // should throw a TypeError
+      base.setWritableStream(rs);
+    }).toThrow(TypeError);
+  });
+
+  it("should write logs in string format to writable stream if objectMode is not set to true", async () => {
+    // Fixtures
+    const firstMessage = "First message";
+    const base = new Base("testing");
+
+    // Add a mock sync method
+    base.setSync(async log => log);
+
+    // Message to replacement with
+    const newMessage = "Second message";
+
+    // Add a custom pipeline that replaces `message`
+    base.use(async log => {
+      return {
+        ...log,
+        message: newMessage,
+      };
+    });
+
+    // create a writable stream to write tranformed logs
+    const ws = new Writable();
+    ws._write = function(chunk, enc, next) {
+      const log = chunk.toString();
+      // expect each string log written to stream to have transfored message
+      expect(log.includes(newMessage)).toEqual(true);
+      next();
+    };
+    base.setWritableStream(ws);
+
+    await base.log(firstMessage);
+    await base.log(firstMessage);
+    ws.end();
+  });
+
+  it("should write logs in object format to writable stream if objectMode is set to true", async () => {
+    // Fixtures
+    const firstMessage = "First message";
+    const base = new Base("testing");
+
+    // Add a mock sync method
+    base.setSync(async log => log);
+
+    // Message to replacement with
+    const newMessage = "Second message";
+
+    // Add a custom pipeline that replaces `message`
+    base.use(async log => {
+      return {
+        ...log,
+        message: newMessage,
+      };
+    });
+
+    // create a writable stream with objectMode set to true
+    // to write tranformed logs in object form
+    const ws = new Writable({ objectMode: true });
+    ws._write = function(chunk, enc, next) {
+      // chunk is an object here
+      const log = chunk;
+      expect(log.message).toEqual(newMessage);
+      next();
+    };
+    base.setWritableStream(ws);
+
+    await base.log(firstMessage);
+    await base.log(firstMessage);
+    ws.end();
   });
 
   it("should default to 'info' level logging", async () => {

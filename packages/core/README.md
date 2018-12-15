@@ -74,4 +74,24 @@ Pipelines run _before_ the final sync to Timber.io. Pipeline functions should re
 
 **Note: If an exception is thrown anywhere in the pipeline chain, the log _won't_ be synced. Wrap an async `try/catch` block around your call to `.log()` or tack on a `.catch()` to ensure your errors are handled.**
 
+
+## Writing logs to a stream
+
+Writing to IO device - just pass an instance of Writable stream to `.setWritableStream`
+
+```typescript
+const ws = new Writable();
+ws._write = function (chunk, enc, next) {
+  console.log(chunk); // Hello Timber!
+  next()
+}
+
+timber.setWritableStream(ws);
+timber.log("Hello Timber!");
+ws.end()
+```
+
+When you give setWritableStream an instance of writable stream. Timber starts to write pre-processed logs to that stream.
+If objectMode is set on a stream, timber would write objects instead of string.
+
 > More docs TBA

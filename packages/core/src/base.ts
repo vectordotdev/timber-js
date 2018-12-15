@@ -3,9 +3,10 @@ import {
   ITimberOptions,
   LogLevel,
   Middleware,
-  Sync
+  Sync,
 } from "@timberio/types";
 import { makeBatch, makeThrottle } from "@timberio/tools";
+import isStream from "is-stream";
 
 // Set default options for Timber
 const defaultOptions: ITimberOptions = {
@@ -19,7 +20,7 @@ const defaultOptions: ITimberOptions = {
   batchInterval: 1000,
 
   // Maximum number of sync requests to make concurrently
-  syncMax: 5
+  syncMax: 5,
 };
 
 /**
@@ -46,6 +47,9 @@ class Timber {
 
   // Number of logs successfully synced with Timber
   private _countSynced = 0;
+
+  // i/o writable stream to write logs to
+  private _writableStream?: any;
 
   /* CONSTRUCTOR */
 
@@ -152,6 +156,17 @@ class Timber {
       Promise.resolve(initialLog)
     );
 
+    // write transformed logs to i/o write stream if present
+    if (this._writableStream) {
+      // check if the stream is in object mode
+      // if so write object else write JSON
+      const inObjectMode: boolean = this._writableStream._writableState
+        .objectMode;
+      this._writableStream.write(
+        inObjectMode ? transformedLog : JSON.stringify(transformedLog)
+      );
+    }
+
     // Push the log through the batcher, and sync
     await this._batch(transformedLog);
 
@@ -250,6 +265,21 @@ class Timber {
    */
   public remove(fn: Middleware): void {
     this._middleware = this._middleware.filter(p => p !== fn);
+  }
+
+  /**
+   * sets the i/o write steram
+   *
+   * @param ws - i/o write stream
+   * @returns void
+   */
+  public setWritableStream(ws: any): void {
+    // use `is-stream` because `@types/node` does not include
+    // type for `_writableState`
+    if (!isStream.writable(ws)) {
+      throw new TypeError("Not a writable stream.");
+    }
+    this._writableStream = ws;
   }
 }
 

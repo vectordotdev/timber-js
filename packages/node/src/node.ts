@@ -45,4 +45,8 @@ export class Node extends Base {
     // Set the throttled sync function
     this.setSync(sync);
   }
+
+  public writeStream(ws: any) {
+    this.setWritableStream(ws);
+  }
 }
