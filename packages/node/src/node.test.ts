@@ -1,6 +1,9 @@
 import nock from "nock";
 import { ITimberLog, LogLevel } from "@timberio/types";
+
 import { Node } from "./node";
+import { getUserAgent } from "./helpers";
+import { version } from "../package.json";
 
 /**
  * Create a log with a random string / current date
@@ -14,6 +17,12 @@ function getRandomLog(message: string): Partial<ITimberLog> {
 }
 
 describe("node tests", () => {
+  it("should set a User-Agent based on the right version number", () => {
+    const expectedValue = `timber-js(node)/${version}`;
+    const actualValue = getUserAgent();
+    expect(actualValue).toEqual(expectedValue);
+  });
+
   it("should echo log if timber sends 20x status code", async done => {
     nock("https://logs.timber.io")
       .post("/frames")
