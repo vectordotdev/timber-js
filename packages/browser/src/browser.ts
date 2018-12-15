@@ -1,35 +1,24 @@
 import fetch from "cross-fetch";
 
 import { ITimberLog, ITimberOptions } from "@timberio/types";
-
 import { Base } from "@timberio/core";
-import * as pjson from "../package.json";
 
-const { version } = pjson;
-
-export function getUserAgent(): string {
-  return `timber-js/${version}`;
-}
+import { getUserAgent } from "./helpers";
 
 export class Browser extends Base {
   public constructor(apiKey: string, options?: Partial<ITimberOptions>) {
     super(apiKey, options);
 
-    // TODO - remove this in production... dump out the env for dev!
-    console.log("Hello from the browser!");
-
     // Sync function
     const sync = async (logs: ITimberLog[]): Promise<ITimberLog[]> => {
-      // TODO - obviously, this doesn't conform perfectly to the spec
-      // yet... dev only!
       const res = await fetch(this._options.endpoint, {
         method: "POST",
         headers: {
-          "Content-Type": "text/plain",
+          "Content-Type": "application/json",
           Authorization: `Basic ${btoa(this._apiKey)}`,
-          "User-Agent": getUserAgent(),
+          "User-Agent": getUserAgent()
         },
-        // body: logs.map(log => `${log.level}: ${log.message}`).join("\n"),
+        body: JSON.stringify(logs)
       });
 
       if (res.ok) {
