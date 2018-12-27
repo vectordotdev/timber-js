@@ -1,7 +1,6 @@
 # 🌲 Timber - Beautiful Logging, Made Easy
 
-## 👷‍️ WIP - Don't use yet! Use [this Timber JS lib](https://github.com/timberio/timber-node) for now
-
+![Beta: Ready for testing](https://img.shields.io/badge/early_release-beta-green.svg)
 ![Speed: Blazing](https://img.shields.io/badge/speed-blazing%20%F0%9F%94%A5-brightgreen.svg)
 [![ISC License](https://img.shields.io/badge/license-ISC-ff69b4.svg)](LICENSE.md)
 
@@ -39,11 +38,32 @@ This Javascript library features:
 
 ## Installation
 
-### Guided
+### Quick Start
 
-**Recommended:** Sign-up at [timber.io](https://app.timber.io/) and follow the in-app instructions.
+First, install the universal Timber JS library:
 
-### Manual
+```
+npm i @timberio/js
+```
+
+Then in your code, import the relevant logger -- either `Browser` (for any web browser) or `Node` for Node.js logging:
+
+```typescript
+import { Browser, Node } from "@timberio/js";
+
+// Create either a browser logger...
+const browserLogger = new Browser("timber-api-key");
+
+// ... or a Node logger (or both!)
+const nodeLogger = new Node("timber-api-key");
+
+// You can log by .debug, .info, .warn or .error -- returns a Promise
+browserLogger.info("Hello from the browser!").then(log => {
+  // At this point, your log is synced with Timber.io!
+});
+```
+
+### Custom
 
 Logging works in Node.js or the browser. Choose the appropriate lib for installation instructions:
 
@@ -73,20 +93,7 @@ Coming soon - Bunyan, Winston and more.
 
 For most Javascript projects, just `npm i @timberio/js`.
 
-This will install both the [Node.js](packages/node) and [browser](packages/browser) variants, which you can import as follows:
-
-```typescript
-import { Browser, Node } from "@timberio/js";
-
-// Create either a browser logger...
-const browserLogger = new Browser("timber-api-key");
-
-// ... or a Node logger (or both!)
-const nodeLogger = new Node("timber-api-key");
-
-// Then, log the same way via either
-browserLogger.log("Hello from the browser!");
-```
+This will install both the [Node.js](packages/node) and [browser](packages/browser) versions in a single package.
 
 Alternatively, if you only need to log in a single environment, import [`@timberio/browser`](packages/browser) or [`@timberio/node`](packages/node) directly.
 
