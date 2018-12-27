@@ -31,13 +31,13 @@ class CustomLogger extends Base {
     super(apiKey, options);
 
     // Create a custom sync method
-    this.setSync(async (log: ITimberLog) => {
+    this.setSync(async (logs: ITimberLog[]) => {
       // Sync the `log` somehow ... `this._apiKey` contains your Timber API key
 
       // ....
 
       // Finally, return the log... which will resolve our initial `.log()` call
-      return log;
+      return logs;
     });
   }
 }
