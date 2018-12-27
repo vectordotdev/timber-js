@@ -3,7 +3,8 @@ import fetch from "cross-fetch";
 import { ITimberLog, ITimberOptions } from "@timberio/types";
 import { Base } from "@timberio/core";
 
-import { getUserAgent } from "./helpers";
+// Awaiting: https://bugs.chromium.org/p/chromium/issues/detail?id=571722
+// import { getUserAgent } from "./helpers";
 
 export class Browser extends Base {
   public constructor(apiKey: string, options?: Partial<ITimberOptions>) {
@@ -15,8 +16,9 @@ export class Browser extends Base {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Basic ${btoa(this._apiKey)}`,
-          "User-Agent": getUserAgent()
+          Authorization: `Basic ${btoa(this._apiKey)}`
+          // Awaiting: https://bugs.chromium.org/p/chromium/issues/detail?id=571722
+          // "User-Agent": getUserAgent()
         },
         body: JSON.stringify(logs)
       });

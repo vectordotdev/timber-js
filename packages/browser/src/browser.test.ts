@@ -3,9 +3,10 @@ import { base64Encode } from "@timberio/tools";
 import { ITimberLog } from "@timberio/types";
 
 import { Browser } from "./browser";
-import { getUserAgent } from "./helpers";
 
-import { version } from "../package.json";
+// Awaiting: https://bugs.chromium.org/p/chromium/issues/detail?id=571722
+// import { getUserAgent } from "./helpers";
+// import { version } from "../package.json";
 
 /**
  * Create a log with a random string / current date
@@ -20,11 +21,13 @@ function getRandomLog(message: string): Partial<ITimberLog> {
 (global as any).btoa = base64Encode;
 
 describe("browser tests", () => {
-  it("should set a User-Agent based on the right version number", () => {
-    const expectedValue = `timber-js(browser)/${version}`;
-    const actualValue = getUserAgent();
-    expect(actualValue).toEqual(expectedValue);
-  });
+  // Awaiting: https://bugs.chromium.org/p/chromium/issues/detail?id=571722
+
+  // it("should set a User-Agent based on the right version number", () => {
+  //   const expectedValue = `timber-js(browser)/${version}`;
+  //   const actualValue = getUserAgent();
+  //   expect(actualValue).toEqual(expectedValue);
+  // });
 
   it("should echo log if timber sends 20x status code", async done => {
     nock("https://logs.timber.io")
