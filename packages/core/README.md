@@ -16,7 +16,7 @@ You typically wouldn't require this package directly, unless you're building a c
 
 ## The `Base` class
 
-The [Base](src/base.ts) class provides core features that is extended by loggers.
+The [Base](src/base.ts) class provides core features that are extended by loggers.
 
 For example - you could create a custom logger that implements its own sync method, for getting data over to [Timber.io](https://timber.io)
 
@@ -45,10 +45,10 @@ class CustomLogger extends Base {
 
 ## Logging
 
-Logging to Timber is simple - just call the `.log()` function.
+Logging to Timber is simple - just call the `.log()` function with a string message:
 
 ```typescript
-// Simple log message (default to the 'info' log level)
+// Simple log message (defaults to the 'info' log level)
 timber.log("Hello Timber!");
 
 // Or, add custom context keys to pass along with the log
@@ -72,7 +72,7 @@ There are four levels of logging, each corresponding to a function:
 | .warn()  | Warning - advisory messages that something probably needs fixing, but not serious enough to cause an error | SQL query ran slower than expected                     |
 | .error() | Error - something went wrong                                                                               | Couldn't connect to database                           |
 
-By default, `.log()` logs at the 'info' level. You can use the above explicit log levels instead by calling the relevant function with your log message
+By default, `.log()` logs at the 'info' level. You can use the above explicit log levels instead by calling the relevant function with your log message.
 
 All log levels return a Promise that will resolve once the log has been synced with [Timber.io](https://timber.io):
 
@@ -85,7 +85,7 @@ timber.log("some log message").then(log => {
 
 ## Middleware
 
-You can add your own middleware functions, which act as transforms on the passed log.
+You can add your own middleware functions, which act as transforms on the _ITimberLog_ log object.
 
 This is useful for augmenting the log prior to syncing with Timber, or even pushing the log to another service.
 
@@ -123,7 +123,7 @@ timber.use(addCurrentUser);
 
 You can add any number of pipeline functions to your logger instance, and they'll run in order.
 
-Note: Middleware functions run _before_ the final sync to Timber.io. Pipeline functions should return a `Promise<ITimberLog>`, making it possible to augment logs with asynchronous data from external sources.
+Middleware functions run _before_ the final sync to Timber.io. Pipeline functions should return a `Promise<ITimberLog>`, making it possible to augment logs with asynchronous data from external sources.
 
 **Note: If an exception is thrown anywhere in the pipeline chain, the log _won't_ be synced. Wrap an async `try/catch` block around your call to `.log|info|debug|warn|error()` or tack on a `.catch()` to ensure your errors are handled.**
 
@@ -139,3 +139,7 @@ timber.remove(addCurrentUser);
 This will remove the middleware function from _all_ future calls to `.log|info|debug|warn|error()`.
 
 To re-add middleware, pass it to `.use()`
+
+### LICENSE
+
+[ISC](LICENSE.md)
