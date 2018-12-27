@@ -1,6 +1,8 @@
 # 🌲 Timber - Browser logging
 
-## 👷‍️ WIP - Don't use yet! Use [this Timber JS lib](https://github.com/timberio/timber-node) for now
+![Beta: Ready for testing](https://img.shields.io/badge/early_release-beta-green.svg)
+![Speed: Blazing](https://img.shields.io/badge/speed-blazing%20%F0%9F%94%A5-brightgreen.svg)
+[![ISC License](https://img.shields.io/badge/license-ISC-ff69b4.svg)](LICENSE.md)
 
 **New to Timber?** [Here's a low-down on logging in Javascript.](https://github.com/timberio/timber-js)
 
@@ -40,7 +42,7 @@ If you're not using a Node.js module bundler, you can log in any client-side app
 
 This will place the `Timber` class on `window.Timber`.
 
-### Creating a logging client
+## Creating a client
 
 You can instantiate the client in the same way, whether you use a module bundler or the `<script>` tag method.
 
@@ -50,6 +52,15 @@ Simply pass your [Timber.io](https://timber.io) API key as a parameter to a new 
 const timber = new Timber("api-goes-here");
 ```
 
-### Logging
+## Documentation
 
-TBA
+This browser library extends [`@timberio/core`](https://github.com/timberio/timber-js/tree/master/packages/core), which provides a simple API for logging, adding middleware and more.
+
+Visit the relevant readme section for more info/how-to:
+
+- [Logging](https://github.com/timberio/timber-js/tree/master/packages/core#logging)
+- [Middleware](https://github.com/timberio/timber-js/tree/master/packages/core#middleware)
+
+### LICENSE
+
+[ISC](LICENSE.md)
