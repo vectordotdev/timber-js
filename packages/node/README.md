@@ -10,7 +10,7 @@
 
 This NPM library is for logging in Node.js.
 
-If you have a universal or client-side app that requires logging in the browser, check out [`@timberio/browser`](https://github.com/timberio/timber-js/tree/master/packages/browser) or [`@timberio/js`](https://github.com/timberio/timber-js/tree/master/packages/js) -- which combines the two packages.
+If you have a universal or client-side app that requires logging in the browser, check out [`@timberio/browser`](https://github.com/timberio/timber-js/tree/master/packages/browser) or [`@timberio/js`](https://github.com/timberio/timber-js/tree/master/packages/js) (which combines the two packages.)
 
 Here's how to get started:
 
