@@ -87,6 +87,56 @@ There are a few helper libraries available that you typically won't need to use 
 
 Coming soon - Bunyan, Winston and more.
 
+## Performance
+
+This library provides out-the-box defaults for [batching](https://github.com/timberio/timber-js/tree/master/packages/tools#makebatchsize-number-flushtimeout-number) calls to `.log()` and [throttling](https://github.com/timberio/timber-js/tree/master/packages/tools#makethrottletmax-number) synchronization with Timber.io, to provide a balance between strong performance and sensible resource usage -- avoiding unnecessary slow-downs in your app down due to excessive network I/O.
+
+By default, the library will batch up to **1,000** logs at a time (emitting after **1,000ms**, whichever is sooner), and open up to **5** concurrent network requests to [Timber.io](https://timber.io) for syncing.
+
+These defaults can be tweaked by passing [custom options](https://github.com/timberio/timber-js/tree/master/packages/types#itimberoptions) when creating your `Timber` instance:
+
+```typescript
+const timber = new Timber("api-key-here", {
+  // Maximum number of logs to sync in a single request to Timber.io
+  batchSize: 1000,
+
+  // Max interval (in milliseconds) before a batch of logs proceeds to syncing
+  batchInterval: 1000,
+
+  // Maximum number of sync requests to make concurrently (useful to limit
+  // network I/O)
+  syncMax: 100 // <-- we've increased concurrent network connections up to 100
+});
+```
+
+### Metrics
+
+This table shows the time to synchronize **10,000 logs** raised by calling `.log()` 10,000x on a 2.2Ghz Intel Core i7 Macbook Pro with 16GB of RAM based in the UK, calling the Timber.io service hosted in US-East, based on various `syncMax` connections:
+
+| Connections | Time to sync 10k logs (in ms) | Improvement vs. last |
+| ----------- | ----------------------------- | -------------------- |
+| 1           | 72506.09                      | -                    |
+| 2           | 34852.11                      | 108.04%              |
+| 5           | 14488.63                      | 140.55%              |
+| 10          | 7501.31                       | 93.15%               |
+| 20          | 3876.49                       | 93.51%               |
+| 50          | 2150.37                       | 80.27%               |
+| 100         | 1736.81                       | 23.81%               |
+| 200         | 1706.66                       | 1.77%                |
+
+### Recommendations
+
+Based on your logging use-case, the following base-line recommendations can be considered when instantiating a new `Timber` instance:
+
+| If you have...                                                                                     | Recommendations                                                                                                                  |
+| -------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| A large number of logs, fired frequently, and want them to sync very quickly                       | Increase `syncMax` (`50`-`100` is a good default); lower `batchInterval` to `200`ms to emit faster                               |
+| Logs events that occur less frequently                                                             | Decrease `batchInterval` to `100`ms, so synchronization with Timber will start within 1/10th of a second                         |
+| An app that needs to preserve network I/O or limit outgoing requests                               | Drop `syncMax` to `5`; increase `batchInterval` to `2000`ms to fire less often                                                   |
+| Intermittent periods of large logging activity (and you want fast syncing), followed by inactivity | Increase `syncMax` to `20` to 'burst' connections as needed; lower `batchSize` to match your typical log activity to emit faster |
+
+Or, you can simply leave the default settings in place, which will be adequate for the vast majority of use-cases.
+
 ## FAQs
 
 **Which package should I install to start logging?**
