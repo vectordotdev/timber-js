@@ -1,6 +1,8 @@
 # 🌲 Timber - Node.js + browser logging
 
-## 👷‍️ WIP - Don't use yet! Use [this Timber JS lib](https://github.com/timberio/timber-node) for now
+![Beta: Ready for testing](https://img.shields.io/badge/early_release-beta-green.svg)
+![Speed: Blazing](https://img.shields.io/badge/speed-blazing%20%F0%9F%94%A5-brightgreen.svg)
+[![ISC License](https://img.shields.io/badge/license-ISC-ff69b4.svg)](LICENSE.md)
 
 **New to Timber?** [Here's a low-down on logging in Javascript.](https://github.com/timberio/timber-js)
 
@@ -64,4 +66,6 @@ The [browser](https://github.com/timberio/timber-js/tree/master/packages/browser
 
 But, each have their own optimizations for how they sync logs with Timber.io, and extra methods to take advantage of unique Node.js and browser features not available in the other environment.
 
-> More TBA
+### LICENSE
+
+[ISC](LICENSE.md)
