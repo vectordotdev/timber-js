@@ -145,6 +145,7 @@ Based on your logging use-case, the following base-line recommendations can be c
 | Logs events that occur less frequently                                                             | Decrease `batchInterval` to `100`ms, so synchronization with Timber will start within 1/10th of a second                         |
 | An app that needs to preserve network I/O or limit outgoing requests                               | Drop `syncMax` to `5`; increase `batchInterval` to `2000`ms to fire less often                                                   |
 | Intermittent periods of large logging activity (and you want fast syncing), followed by inactivity | Increase `syncMax` to `20` to 'burst' connections as needed; lower `batchSize` to match your typical log activity to emit faster |
+| Low log activity, that you want to sync with Timber ASAP                                           | Lower `batchInterval` to `10`ms, so synchronization with Timber occurs very quickly                                              |
 
 Or, you can simply leave the default settings in place, which will be adequate for the vast majority of applications.
 
