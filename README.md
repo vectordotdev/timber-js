@@ -93,7 +93,7 @@ This library provides out-the-box defaults for [batching](https://github.com/tim
 
 We believe a logging library should be a good citizen of your stack - avoiding unnecessary slow-downs in your app down due to excessive network I/O or large memory usage.
 
-By default, the library will batch up to **1,000** logs at a time (emitting after **1,000ms**, whichever is sooner), and open up to **5** concurrent network requests to [Timber.io](https://timber.io) for syncing.
+By default, the library will batch up to **1,000** logs at a time (syncing after **1,000ms**, whichever is sooner), and open up to **5** concurrent network requests to [Timber.io](https://timber.io) for syncing.
 
 These defaults can be tweaked by passing [custom options](https://github.com/timberio/timber-js/tree/master/packages/types#itimberoptions) when creating your `Timber` instance:
 
