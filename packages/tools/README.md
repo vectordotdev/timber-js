@@ -1,6 +1,12 @@
-# 🌲 Timber - Javascript tools
+# 🌲 Timber - JS lib tools
 
-## 👷‍️ WIP - Don't use yet! Use [this Timber JS lib](https://github.com/timberio/timber-node) for now
+![Beta: Ready for testing](https://img.shields.io/badge/early_release-beta-green.svg)
+![Speed: Blazing](https://img.shields.io/badge/speed-blazing%20%F0%9F%94%A5-brightgreen.svg)
+[![ISC License](https://img.shields.io/badge/license-ISC-ff69b4.svg)](LICENSE.md)
+
+**New to Timber?** [Here's a low-down on logging in Javascript.](https://github.com/timberio/timber-js)
+
+## `@timberio/tools`
 
 This library provides helper tools used by the [Javascript logger](https://github.com/timberio/timber-js).
 
@@ -9,6 +15,8 @@ This library provides helper tools used by the [Javascript logger](https://githu
 ### `Queue<T>`
 
 Generic [FIFO](<https://en.wikipedia.org/wiki/FIFO_(computing_and_electronics)>) queue. Used by `makeThrottle` to store pipeline functions to be executed as concurrent 'slots' become available. Provides fast retrieval for any primitive or object that needs ordered, first-in, first-out retrieval.
+
+Used to store `.log()` Promises that are being batched/throttled.
 
 **Usage example**
 
@@ -74,6 +82,31 @@ for (let i = 0; i < 10; i++) {
 void (async () => {
   void (await promises); // <-- will take 10 seconds total!
 })();
+```
+
+### `makeBatch(size: number, flushTimeout: number)`
+
+Creates a higher-order batch function aggregates Timber logs and resolves when either `size` # of logs have been collected, or when `flushTimeout` (in ms) has elapsed -- whichever occurs first.
+
+This is used alongside the throttler to provide an array of [`ITimberLog`](https://github.com/timberio/timber-js/tree/master/packages/types#itimberlog) to the function set in the `.setSync()` method, to be synced with [Timber.io](https://timber.io)
+
+Used internally by the [`@timberio/core Base class`](https://github.com/timberio/timber-js/blob/master/packages/core/src/base.ts) to implicitly batch logs:
+
+```typescript
+// Create a throttler, for sync operations
+const throttle = makeThrottle(this._options.syncMax);
+
+// Sync after throttling
+const throttler = throttle((logs: any) => {
+  return this._sync!(logs);
+});
+
+// Create a batcher, for aggregating logs by buffer size/interval
+const batcher = makeBatch(this._options.batchSize, this._options.batchInterval);
+
+this._batch = batcher((logs: any) => {
+  return throttler(logs);
+});
 ```
 
 ### `base64Encode(str: string): string`
