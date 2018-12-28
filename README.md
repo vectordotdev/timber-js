@@ -124,6 +124,15 @@ This table shows the time to synchronize **10,000 logs** raised by calling `.log
 | 100         | 1736.81                       | 23.81%               |
 | 200         | 1706.66                       | 1.77%                |
 
+In general, a higher `syncMax` number (i.e. number of concurrent throttled connections made to [Timber.io](https://timber.io)) will provide linear improvements in total time to sync logs vs. lower numbers.
+
+Bear in mind:
+
+1. This simple benchmark was performed on 10,000 immediate calls to `.log()`, which is unlikely to represent typical usage. A more common pattern in a typical app would be periodic log events, followed by periods of inactivity.
+2. Although higher numbers naturally synchronize more quickly (due to concurrent network calls to timber.io), more apps will only require 1-2 open network requests since it's likely that the default `batchSize: 1000` will be enough to capture 99.9% of logging workloads within the default `batchInterval: 1000`ms time period before proceeding to sync with Timber servers.
+3. Performance drops sharply after 50 concurrent connections (and infers almost no extra benefit after 100), likely due to the latency between the test machine and the Timber.io server.
+4. A typical app won't need to care too much about performance; the defaults will be sufficient.
+
 ### Recommendations
 
 Based on your logging use-case, the following base-line recommendations can be considered when instantiating a new `Timber` instance:
@@ -135,7 +144,7 @@ Based on your logging use-case, the following base-line recommendations can be c
 | An app that needs to preserve network I/O or limit outgoing requests                               | Drop `syncMax` to `5`; increase `batchInterval` to `2000`ms to fire less often                                                   |
 | Intermittent periods of large logging activity (and you want fast syncing), followed by inactivity | Increase `syncMax` to `20` to 'burst' connections as needed; lower `batchSize` to match your typical log activity to emit faster |
 
-Or, you can simply leave the default settings in place, which will be adequate for the vast majority of use-cases.
+Or, you can simply leave the default settings in place, which will be adequate for the vast majority of applications.
 
 ## FAQs
 
