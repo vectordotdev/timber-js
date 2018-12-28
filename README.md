@@ -131,9 +131,9 @@ In general, a higher `syncMax` number (i.e. number of concurrent throttled conne
 Bear in mind:
 
 1. This simple benchmark was performed on 10,000 immediate calls to `.log()`, which is unlikely to represent typical usage. A more common pattern in a typical app would be periodic log events, followed by periods of inactivity.
-2. Although higher numbers naturally synchronize more quickly (due to concurrent network calls to timber.io), more apps will only require 1-2 open network requests since it's likely that the default `batchSize: 1000` will be enough to capture 99.9% of logging workloads within the default `batchInterval: 1000`ms time period before proceeding to sync with Timber servers.
+2. Although higher numbers naturally synchronize more quickly (due to concurrent network calls to timber.io), most apps will run sufficiently with just 1-2 open network requests since it's likely that the default `batchSize: 1000` will be enough to capture 99.9% of logging workloads within the default `batchInterval: 1000`ms time period before proceeding to sync with Timber servers.
 3. Performance drops sharply after 50 concurrent connections (and infers almost no extra benefit after 100), likely due to the latency between the test machine and the Timber.io server.
-4. A typical app won't need to care too much about performance; the defaults will be sufficient.
+4. A typical app won't need to consider performance; the defaults will be be sufficient.
 
 ### Recommendations
 
@@ -152,13 +152,15 @@ Or, you can simply leave the default settings in place, which will be adequate f
 
 When you log via `.log()`, you're creating a Promise that resolves when the log has been synchronized with [Timber.io](https://timber.io)
 
-While there are no hard limits on firing `.log()` events, the effective limit of concurrent logs will be determined by memory available to your Node.js V8 process (or in the user's browser, for browser logging.)
+This provides a mechanism for guaranteed consistency in your application.
 
-As a general rule, you might run into stack size limits beyond 100,000 - 500,000 concurrent logs -- therefore, we recommend adjusting your `syncMax`, `batchSize` and `batchInterval` settings to ensure that logs aren't sitting around in memory awaiting synchronization with Timber.io for long periods of time.
+While there are no hard limits on firing `.log()` events, the effective limit of concurrent logs will be determined by memory available to your Node.js V8 process (or in the user's browser, for browser logging.) to create a new stack for each Promise executed.
 
-This only applies if you are working with an application that emits a large number of logs (100,000+) at short intervals (within a 5-10 second window.)
+As a general rule, you might run into stack size limits beyond 100,000 - 500,000 concurrent logs -- therefore, we recommend adjusting your `syncMax`, `batchSize` and `batchInterval` settings to ensure that logs aren't sitting around in memory for long periods of time, awaiting synchronization with Timber.io.
 
-99%+ of apps will run performantly with the default settings.
+This is a sensible strategy regardless of memory limits, to ensure logs are being written consistently to Timber and are not at risk of loss due to an app crash or server downtime.
+
+Note: This only applies if you are working with an application that emits a large number of logs (100,000+) at short intervals (within a 5-10 second window.) 99%+ of apps will see adequate performance with the default settings.
 
 ## FAQs
 
