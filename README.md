@@ -89,7 +89,9 @@ Coming soon - Bunyan, Winston and more.
 
 ## Performance
 
-This library provides out-the-box defaults for [batching](https://github.com/timberio/timber-js/tree/master/packages/tools#makebatchsize-number-flushtimeout-number) calls to `.log()` and [throttling](https://github.com/timberio/timber-js/tree/master/packages/tools#makethrottletmax-number) synchronization with Timber.io, to provide a balance between strong performance and sensible resource usage -- avoiding unnecessary slow-downs in your app down due to excessive network I/O.
+This library provides out-the-box defaults for [batching](https://github.com/timberio/timber-js/tree/master/packages/tools#makebatchsize-number-flushtimeout-number) calls to `.log()` and [throttling](https://github.com/timberio/timber-js/tree/master/packages/tools#makethrottletmax-number) synchronization with Timber.io, aiming to provide a balance between strong performance and sensible resource usage.
+
+We believe a logging library should be a good citizen of your stack - avoiding unnecessary slow-downs in your app down due to excessive network I/O or large memory usage.
 
 By default, the library will batch up to **1,000** logs at a time (emitting after **1,000ms**, whichever is sooner), and open up to **5** concurrent network requests to [Timber.io](https://timber.io) for syncing.
 
@@ -145,6 +147,18 @@ Based on your logging use-case, the following base-line recommendations can be c
 | Intermittent periods of large logging activity (and you want fast syncing), followed by inactivity | Increase `syncMax` to `20` to 'burst' connections as needed; lower `batchSize` to match your typical log activity to emit faster |
 
 Or, you can simply leave the default settings in place, which will be adequate for the vast majority of applications.
+
+### Log limits
+
+When you log via `.log()`, you're creating a Promise that resolves when the log has been synchronized with [Timber.io](https://timber.io)
+
+While there are no hard limits on firing `.log()` events, the effective limit of concurrent logs will be determined by memory available to your Node.js V8 process (or in the user's browser, for browser logging.)
+
+As a general rule, you might run into stack size limits beyond 100,000 - 500,000 concurrent logs -- therefore, we recommend adjusting your `syncMax`, `batchSize` and `batchInterval` settings to ensure that logs aren't sitting around in memory awaiting synchronization with Timber.io for long periods of time.
+
+This only applies if you are working with an application that emits a large number of logs (100,000+) at short intervals (within a 5-10 second window.)
+
+99%+ of apps will run performantly with the default settings.
 
 ## FAQs
 
