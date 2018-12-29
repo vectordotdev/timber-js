@@ -53,6 +53,55 @@ Visit the relevant readme section for more info/how-to:
 - [Logging](https://github.com/timberio/timber-js/tree/master/packages/core#logging)
 - [Middleware](https://github.com/timberio/timber-js/tree/master/packages/core#middleware)
 
+### Streaming
+
+In addition to [`.log|debug|info|warn|error()` returning a Promise](https://github.com/timberio/timber-js/tree/master/packages/core#logging), the Node.js logger offers a `.pipe()` function for piping successfully synchronized logs to any writable stream.
+
+This makes it trivial to additionally save logs to a file, stream logs over the network, or interface with other loggers that accept streamed data.
+
+Here's a simple example of saving logs to a `logs.txt` file:
+
+```typescript
+// Import the Node.js `fs` lib
+import * as fs from "fs";
+
+// Import the Node.js Timber library
+import { Timber } from "@timberio/node";
+
+// Open a writable stream to `logs.txt`
+const logsTxt = fs.createWriteStream("./logs.txt");
+
+// Create a new Timber instance, and pipe output to `logs.txt`
+const timber = new Timber("api-key-here");
+timber.pipe(logsTxt);
+
+// When you next log, `logs.txt` will get a JSON string copy
+timber.log("This will also show up in logs.txt");
+```
+
+Streamed logs passed to your write stream's `.write()` function will be JSON strings in the format of type [`ITimberLog`](https://github.com/timberio/timber-js/tree/master/packages/types#itimberlog), and always contain exactly one complete log _after_ it has been transformed by middleware _and_ synced with Timber.io.
+
+e.g:
+
+```text
+{"dt":"2018-12-29T08:38:33.272Z","level":"info","message":"message 1","$schema":"https://raw.githubusercontent.com/timberio/log-event-json-schema/v4.1.0/schema.json"}
+```
+
+If you want to further process logs in your stream, remember to `JSON.parse(chunk.toString())` the written 'chunk', to turn it back into an [`ITimberLog`](https://github.com/timberio/timber-js/tree/master/packages/types#itimberlog) object.
+
+Calls to `.pipe()` will return the passed writable stream, allowing you to chain multiple `.pipe()` operations or access any other stream function:
+
+```typescript
+// Import a 'pass-through' stream, to prove it works
+import { PassThrough } from "stream";
+
+// This stream won't do anything, except copy input -> output
+const passThroughStream = new PassThrough();
+
+// Passing to multiple streams works...
+timber.pipe(passThroughStream).pipe(logsTxt);
+```
+
 ### LICENSE
 
 [ISC](LICENSE.md)

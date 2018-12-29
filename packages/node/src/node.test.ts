@@ -1,7 +1,7 @@
 import * as os from "os";
 import * as path from "path";
 import * as fs from "fs";
-import { Writable } from "stream";
+import { PassThrough, Writable } from "stream";
 
 import nock from "nock";
 import { ITimberLog, LogLevel } from "@timberio/types";
@@ -88,9 +88,12 @@ describe("node tests", () => {
     // Create a write stream based on that temp file
     const writeStream = fs.createWriteStream(temp);
 
+    // Create a Pass-through stream, to ensure multiplexing works
+    const passThrough = new PassThrough();
+
     // Pass write stream to Timber
     const timber = new Node("test");
-    timber.pipe(writeStream);
+    timber.pipe(passThrough).pipe(writeStream);
 
     // Mock the sync method by simply returning the same logs
     timber.setSync(async logs => logs);
