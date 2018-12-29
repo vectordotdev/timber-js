@@ -91,7 +91,7 @@ Coming soon - Bunyan, Winston and more.
 
 This library provides out-the-box defaults for [batching](https://github.com/timberio/timber-js/tree/master/packages/tools#makebatchsize-number-flushtimeout-number) calls to `.log()` and [throttling](https://github.com/timberio/timber-js/tree/master/packages/tools#makethrottletmax-number) synchronization with Timber.io, aiming to provide a balance between strong performance and sensible resource usage.
 
-We believe a logging library should be a good citizen of your stack - avoiding unnecessary slow-downs in your app down due to excessive network I/O or large memory usage.
+We believe a logging library should be a good citizen of your stack - avoiding unnecessary slow-downs in your app due to excessive network I/O or large memory usage.
 
 By default, the library will batch up to **1,000** logs at a time (syncing after **1,000ms**, whichever is sooner), and open up to **5** concurrent network requests to [Timber.io](https://timber.io) for syncing.
 
