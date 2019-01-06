@@ -84,7 +84,7 @@ Streamed logs passed to your write stream's `.write()` function will be JSON str
 e.g:
 
 ```text
-{"dt":"2018-12-29T08:38:33.272Z","level":"info","message":"message 1","$schema":"https://raw.githubusercontent.com/timberio/log-event-json-schema/v4.1.0/schema.json"}
+{"dt":"2018-12-29T08:38:33.272Z","level":"info","message":"message 1"}
 ```
 
 If you want to further process logs in your stream, remember to `JSON.parse(chunk.toString())` the written 'chunk', to turn it back into an [`ITimberLog`](https://github.com/timberio/timber-js/tree/master/packages/types#itimberlog) object.

@@ -12,21 +12,14 @@ interface IBuffer {
 }
 
 /*
- * Min buffer size to gracefully fix a bad value with an obvious default.
- * So caller can not defeat the purpose of batching.
+ * Default buffer size
  */
-const MIN_BUFFER_SIZE = 5;
+const DEFAULT_BUFFER_SIZE = 5;
 
 /*
- * Min buffer size to flush when limit is about to be reached.
+ * Default flush timeout
  */
-const MAX_BUFFER_SIZE = 100;
-
-/*
- * Min timeout to gracefully fix a bad value with an obvious default.
- * So caller can not defeat the purpose of batching.
- */
-const MIN_FLUSH_TIMEOUT = 1000;
+const DEFAULT_FLUSH_TIMEOUT = 1000;
 
 /**
  * batch the buffer coming in, process them and then resolve
@@ -35,22 +28,9 @@ const MIN_FLUSH_TIMEOUT = 1000;
  * @param flushTimeout - Number
  */
 export default function makeBatch(
-  size: number = MIN_BUFFER_SIZE,
-  flushTimeout: number = MIN_FLUSH_TIMEOUT
+  size: number = DEFAULT_BUFFER_SIZE,
+  flushTimeout: number = DEFAULT_FLUSH_TIMEOUT
 ) {
-  if (size < MIN_BUFFER_SIZE) {
-    console.warn(
-      `warning: Gracefully fixing bad value of batch size to default ${MIN_BUFFER_SIZE}`
-    );
-    size = MIN_BUFFER_SIZE;
-  }
-  if (flushTimeout < MIN_FLUSH_TIMEOUT) {
-    console.warn(
-      `warning: Gracefully fixing bad value of timeout to default ${MIN_FLUSH_TIMEOUT}`
-    );
-    flushTimeout = MIN_FLUSH_TIMEOUT;
-  }
-
   let timeout: NodeJS.Timeout | null;
   let cb: Function;
   let buffer: IBuffer[] = [];
@@ -101,7 +81,7 @@ export default function makeBatch(
       return new Promise<ITimberLog>(async (resolve, reject) => {
         buffer.push({ log, resolve, reject });
 
-        if (buffer.length >= size || buffer.length === MAX_BUFFER_SIZE - 1) {
+        if (buffer.length >= size) {
           await flush();
         } else {
           await setupTimeout();

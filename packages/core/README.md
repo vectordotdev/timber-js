@@ -104,11 +104,9 @@ async function addCurrentUser(log: ITimberLog): Promise<ITimberLog> {
     ...log, // <-- copy the existing log
     context: {
       // ... and add our own `context` data
-      custom: {
-        user: {
-          id: 1000,
-          name: "Lee"
-        }
+      user: {
+        id: 1000,
+        name: "Lee"
       }
     }
   };

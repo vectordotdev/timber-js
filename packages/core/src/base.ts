@@ -139,11 +139,7 @@ class Timber {
       level,
 
       // Explicit message
-      message,
-
-      // Finally, add the definitive schema
-      $schema:
-        "https://raw.githubusercontent.com/timberio/log-event-json-schema/v4.1.0/schema.json"
+      message
     };
 
     // Pass the log through the middleware pipeline

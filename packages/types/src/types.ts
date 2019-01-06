@@ -36,7 +36,6 @@ export enum LogLevel {
  * Interface representing a Timber log
  */
 export interface ITimberLog {
-  $schema: "https://raw.githubusercontent.com/timberio/log-event-json-schema/v4.1.0/schema.json";
   dt: Date;
   level: LogLevel;
   message: string;

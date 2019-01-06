@@ -73,7 +73,6 @@ The log object which is implicitly created by calling `.log()` (or any explicit 
 
 ```typescript
 interface ITimberLog {
-  $schema: "https://raw.githubusercontent.com/timberio/log-event-json-schema/v4.1.0/schema.json";
   dt: Date;
   level: LogLevel; // <-- see `LogLevel` above
   message: string;
