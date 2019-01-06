@@ -1,6 +1,6 @@
 {
   "name": "@timberio/tools",
-  "version": "0.22.0",
+  "version": "0.23.0",
   "description": "Javascript logging tools",
   "main": "dist/cjs/index.js",
   "module": "dist/es6/index.js",
@@ -35,6 +35,6 @@
   },
   "gitHead": "567de366ac0cc9e6b398c5f40072cdb94341cda7",
   "dependencies": {
-    "@timberio/types": "^0.22.0"
+    "@timberio/types": "^0.23.0"
   }
 }
