@@ -54,7 +54,7 @@ These can be passed when creating a new `Timber` instance as follows:
 const timberOptions = {
   /**
    * For example -- setting the maximum number of sync requests to
-   * make * concurrently (useful to limit network I/O)
+   * make concurrently (useful to limit network I/O)
    */
   syncMax: 10
 };
@@ -69,7 +69,7 @@ const timber = new Timber("api-goes-here", timberOptions, koaOptions);
 
 ## Attaching to Koa
 
-To activate the plugin and enable logging, simply attach to any Koa instance's `.use()` middleware pipeline:
+To activate the plugin and enable logging, simply attach a Koa instance:
 
 ```typescript
 import Koa from "koa";
@@ -81,8 +81,8 @@ const koa = new Koa();
 // Create a new Timber client
 const timber = new Timber("api-key");
 
-// Attach to Koa middleware to enable HTTP request logging
-koa.use(timber.middleware);
+// Attach Koa to enable HTTP request logging
+timber.attach(koa);
 ```
 
 ## Koa options

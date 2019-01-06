@@ -17,7 +17,7 @@ function getServer(): [KoaTimber, Koa] {
   const koa = new Koa();
 
   // Attach Koa Timber middleware
-  koa.use(timber.middleware);
+  timber.attach(koa);
 
   // Create a new router, with test routes
   const router = new KoaRouter()

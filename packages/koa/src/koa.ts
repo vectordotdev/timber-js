@@ -1,6 +1,6 @@
 import { Timber } from "@timberio/node";
 import { ITimberOptions, LogLevel } from "@timberio/types";
-import { Context } from "koa";
+import Koa, { Context } from "koa";
 import { path } from "rambda";
 
 interface IKoaOptions {
@@ -49,7 +49,13 @@ class KoaTimber extends Timber {
     };
   }
 
-  public middleware = async (ctx: Context, next: () => Promise<void>) => {
+  /**
+   * Koa middleware handler
+   *
+   * @param ctx - Koa context
+   * @param next - Function to invoke the next middleware in the pipeline
+   */
+  private middleware = async (ctx: Context, next: () => Promise<void>) => {
     // By default, use the 'info' log level
     let logLevel: LogLevel = LogLevel.Info;
 
@@ -78,6 +84,16 @@ class KoaTimber extends Timber {
       void this[logLevel](msg!, this._fromContext(ctx));
     }
   };
+
+  /**
+   * Attach Timber's Koa middleware handler to a Koa instance
+   *
+   * @param koa - an instance of Koa
+   */
+  public attach(koa: Koa): this {
+    koa.use(this.middleware);
+    return this;
+  }
 }
 
 export default KoaTimber;
