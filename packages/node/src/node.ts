@@ -7,8 +7,6 @@ import { base64Encode } from "@timberio/tools";
 import { ITimberLog, ITimberOptions, LogLevel } from "@timberio/types";
 import { Base } from "@timberio/core";
 
-import { getUserAgent } from "./helpers";
-
 // Namespace the msgpack library
 // const msgpack = Msgpack();
 
@@ -30,7 +28,7 @@ export class Node extends Base {
           // "Content-Type": "application/msgpack",
           "Content-Type": "application/json",
           Authorization: `Basic ${base64Encode(this._apiKey)}`,
-          "User-Agent": getUserAgent()
+          "User-Agent": "timber-js(node)"
         },
         // body: logs.map(log => `${log.level}: ${log.message}`).join("\n")
         // body: msgpack.encode(logsWithSchema).slice()

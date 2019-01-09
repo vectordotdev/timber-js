@@ -4,10 +4,6 @@ import { ITimberLog } from "@timberio/types";
 
 import { Browser } from "./browser";
 
-// Awaiting: https://bugs.chromium.org/p/chromium/issues/detail?id=571722
-// import { getUserAgent } from "./helpers";
-// import { version } from "../package.json";
-
 /**
  * Create a log with a random string / current date
  */
