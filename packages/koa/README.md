@@ -117,6 +117,48 @@ Nested object properties are separated using a period (`.`)
 ];
 ```
 
+## How logging works
+
+All HTTP requests handled by Koa will be logged automatically, and synced with the [Timber.io](https://timber.io) service, to the source defined by your Timber API key.
+
+### Successful requests
+
+A 'successful' request is one that returns a non-`4xx` or `5xx` status code, and doesn't throw any uncaught errors while handling the requests.
+
+These are logged to Timber using [`LogLevel.Info`](https://github.com/timberio/timber-js/tree/master/packages/types#loglevel) with the log message:
+
+```
+Koa HTTP request: ${ctx.status}
+```
+
+### 4xx status codes
+
+These are not considered errors but warnings, and log with the same message using [`LogLevel.Warn`](https://github.com/timberio/timber-js/tree/master/packages/types#loglevel)
+
+A typical example of a 4xx class of response would be `404 Not Found` or `401 Unauthorized`.
+
+### 5xx status codes
+
+Responses that contain a `5xx` status code are considered errors, and are logged with [`LogLevel.Error`](https://github.com/timberio/timber-js/tree/master/packages/types#loglevel)
+
+An example of a 5xx status code is `500 Internal Server Error` - typically indicating that something unexpected has happened.
+
+### Uncaught errors
+
+If an error is thrown in Koa middleware and remains uncaught, the Timber middleware handling will catch, log it with [`LogLevel.Error`](https://github.com/timberio/timber-js/tree/master/packages/types#loglevel) and re-throw, to handle in your own code.
+
+The log message will be:
+
+```
+`Koa HTTP request error: ${(typeof e === "object" && e.message) || e}`
+```
+
+If the error thrown is a regular Node.js error object (i.e. has a `.message` property), it will be interpolated with the log message.
+
+Otherwise, an attempt will be made to stringify the message.
+
+If your app throws non-errors, it's recommended that you catch the thrown entity in your code and throw a regular Node.js instead, to provide a useful string message to your log.
+
 ## Additional logging
 
 Since this Koa plugin extends the regular [`@timberio/node`](https://github.com/timberio/timber-js/tree/master/packages/node) logger, you can use the `.log|info|warn|error` functions as normal to handle logging anywhere in your app.

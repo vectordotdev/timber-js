@@ -9,7 +9,7 @@
     "Node"
   ],
   "author": "Lee Benson <lee@leebenson.com>",
-  "homepage": "https://github.com/timberio/timber-js/tree/master/koa#readme",
+  "homepage": "https://github.com/timberio/timber-js/tree/master/packages/koa#readme",
   "license": "ISC",
   "main": "dist/cjs/index.js",
   "module": "dist/es6/index.js",
