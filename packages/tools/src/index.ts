@@ -3,6 +3,7 @@ import Queue from "./queue";
 import { base64Encode } from "./encode";
 import makeBatch from "./batch";
 import makeThrottle from "./throttle";
+import pluckMultiple from "./pluck-multiple";
 
 export {
   // Types
@@ -12,5 +13,6 @@ export {
   // Functions
   base64Encode,
   makeBatch,
-  makeThrottle
+  makeThrottle,
+  pluckMultiple,
 };

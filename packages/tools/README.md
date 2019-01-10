@@ -125,6 +125,30 @@ import { atob } from "@timberio/tools";
 console.log(atob("hello world")); // <-- returns "aGVsbG8gd29ybGQ="
 ```
 
+### `pluckMultiple(source: { [key: string]: any }, paths: string[])`
+
+Returns a new object with just those paths which is requested from source object.
+
+** Usage example **
+
+```typescript
+import { pluckMultiple } from '@timberio/tools';
+const paths = ["length", "response.status"];
+const source = {
+  request: {
+    secure: true,
+    headers: { "content-type": "text/plain" },
+    href: "http://google.com/?q=whatever",
+  },
+  response: { status: 200 },
+  length: 40,
+  message: null,
+};
+
+const result = pluckMultiple(source, paths);
+console.log(result); // { "length": 40, "response": { status: 200 }}
+```
+
 ### LICENSE
 
 [ISC](LICENSE.md)
