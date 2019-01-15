@@ -34,7 +34,7 @@ This Javascript library features:
 
 - **Light as a feather.** The gzipped browser bundle weighs in at just **4.3kb**!
 
-- **Plays nicely with other loggers**. Using Bunyan or Winston? Official integrations are coming soon.
+- **Plays nicely with other loggers**. Plays well with Winston (available [now](packages/winston)) and Bunyan (coming soon)
 
 ## Installation
 
@@ -85,7 +85,11 @@ There are a few helper libraries available that you typically won't need to use 
 
 ## Integrations
 
-Coming soon - Bunyan, Winston and more.
+| Package                                 | What's it for?        |
+| --------------------------------------- | --------------------- |
+| [`@timberio/winston`](packages/winston) | Winston 3.x transport |
+
+More integrations coming soon.
 
 ## Performance
 
