@@ -12,7 +12,7 @@ This NPM library is for logging [Koa](https://koajs.com/) HTTP web server reques
 
 It extends the [Timber Node JS library](https://github.com/timberio/timber-js/tree/master/packages/node) with Koa middleware.
 
-### Installation
+## Installation
 
 Install the package directly from NPM:
 
@@ -20,7 +20,7 @@ Install the package directly from NPM:
 npm i @timberio/koa
 ```
 
-### Importing
+## Importing
 
 In ES6/Typescript, import the `Timber` class:
 
@@ -56,12 +56,12 @@ const timberOptions = {
    * For example -- setting the maximum number of sync requests to
    * make concurrently (useful to limit network I/O)
    */
-  syncMax: 10
+  syncMax: 10,
 };
 
 const koaOptions = {
   // Override default Koa context data to include in each log
-  contextPaths: ["statusCode", "request.headers", "request.method"]
+  contextPaths: ["statusCode", "request.headers", "request.method"],
 };
 
 const timber = new Timber("api-goes-here", timberOptions, koaOptions);
@@ -113,7 +113,7 @@ Nested object properties are separated using a period (`.`)
   "request.method",
   "request.length",
   "request.url",
-  "request.query"
+  "request.query",
 ];
 ```
 
@@ -165,6 +165,6 @@ Since this Koa plugin extends the regular [`@timberio/node`](https://github.com/
 
 See the [Timber Node.js logger documentation](https://github.com/timberio/timber-js/tree/master/packages/node#documentation) for details.
 
-### LICENSE
+## LICENSE
 
 [ISC](LICENSE.md)

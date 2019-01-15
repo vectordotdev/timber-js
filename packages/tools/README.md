@@ -125,6 +125,6 @@ import { atob } from "@timberio/tools";
 console.log(atob("hello world")); // <-- returns "aGVsbG8gd29ybGQ="
 ```
 
-### LICENSE
+## LICENSE
 
 [ISC](LICENSE.md)

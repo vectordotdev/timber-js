@@ -46,13 +46,13 @@ For CommonJS, require the package instead:
 const { Browser, Node } = require("@timberio/js");
 ```
 
-### Logging
+## Logging
 
 Both the Node.js and browser logging classes provide a `.log()` function for logging to [Timber.io](https://timber.io)
 
 See the readme for the [Node.js](https://github.com/timberio/timber-js/tree/master/packages/node) and [browser](https://github.com/timberio/timber-js/tree/master/packages/browser) logging for the full API.
 
-### FAQ
+## FAQ
 
 **Why install this instead of each package separately?**
 

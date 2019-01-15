@@ -14,7 +14,7 @@ Various types are shared between multiple packages. Those shared types have been
 
 That's what you'll find in this package.
 
-### Importing types
+## Importing types
 
 You can import a shared type into a Typescript project by importing directly from this package:
 
@@ -63,7 +63,7 @@ enum LogLevel {
   Debug = "debug",
   Info = "info",
   Warn = "warn",
-  Error = "error"
+  Error = "error",
 }
 ```
 
@@ -98,6 +98,6 @@ Note: Differs from the `Middleware` type because it receives - and resolves to a
 Sync = (logs: ITimberLog[]) => Promise<ITimberLog[]>
 ```
 
-### LICENSE
+## LICENSE
 
 [ISC](LICENSE.md)

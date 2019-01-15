@@ -14,7 +14,7 @@ If you have a universal or client-side app that requires logging in the browser,
 
 Here's how to get started:
 
-### Installation
+## Installation
 
 Install the package directly from NPM:
 
@@ -22,7 +22,7 @@ Install the package directly from NPM:
 npm i @timberio/node
 ```
 
-### Importing
+## Importing
 
 In ES6/Typescript, import the `Timber` class:
 
@@ -53,7 +53,7 @@ Visit the relevant readme section for more info/how-to:
 - [Logging](https://github.com/timberio/timber-js/tree/master/packages/core#logging)
 - [Middleware](https://github.com/timberio/timber-js/tree/master/packages/core#middleware)
 
-### Streaming
+## Streaming
 
 In addition to [`.log|debug|info|warn|error()` returning a Promise](https://github.com/timberio/timber-js/tree/master/packages/core#logging), the Node.js logger offers a `.pipe()` function for piping successfully synchronized logs to any writable stream.
 
@@ -102,6 +102,6 @@ const passThroughStream = new PassThrough();
 timber.pipe(passThroughStream).pipe(logsTxt);
 ```
 
-### LICENSE
+## LICENSE
 
 [ISC](LICENSE.md)
