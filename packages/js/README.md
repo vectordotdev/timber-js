@@ -20,7 +20,7 @@ It's provided for convenience, as an alternative to installing multiple packages
 
 Here's how to get started:
 
-### Any Node.js environent (including Webpack/Rollup)
+### Any Node.js environment (including Webpack/Rollup)
 
 First, install the package via NPM:
 
