@@ -6,6 +6,10 @@
   "module": "dist/es6/index.js",
   "types": "dist/es6/index.d.ts",
   "sideEffects": false,
+  "files": [
+    "src",
+    "dist"
+  ],
   "scripts": {
     "build:cjs": "tsc",
     "build:es6": "tsc -p tsconfig.es6.json",
@@ -33,7 +37,6 @@
     "ts-jest": "^23.10.5",
     "typescript": "^3.2.1"
   },
-  "gitHead": "567de366ac0cc9e6b398c5f40072cdb94341cda7",
   "dependencies": {
     "@timberio/types": "^0.26.0"
   }

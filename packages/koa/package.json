@@ -15,7 +15,8 @@
   "module": "dist/es6/index.js",
   "types": "dist/es6/index.d.ts",
   "files": [
-    "src"
+    "src",
+    "dist"
   ],
   "repository": {
     "type": "git",
