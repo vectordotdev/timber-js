@@ -1,6 +1,6 @@
 {
   "name": "@timberio/winston",
-  "version": "0.25.0",
+  "version": "0.26.0",
   "description": "Timber.io - Winston transport",
   "keywords": [
     "Timber",
@@ -33,7 +33,7 @@
     "url": "https://github.com/timberio/timber-js/issues"
   },
   "devDependencies": {
-    "@timberio/node": "^0.25.0",
+    "@timberio/node": "^0.26.0",
     "npm-run-all": "^4.1.5",
     "typescript": "^3.2.1",
     "winston": "^3.1.0"
@@ -43,7 +43,7 @@
     "winston": ">= 3.0.0"
   },
   "dependencies": {
-    "@timberio/types": "^0.25.0",
+    "@timberio/types": "^0.26.0",
     "winston-transport": "^4.3.0"
   }
 }
