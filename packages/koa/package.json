@@ -1,6 +1,6 @@
 {
   "name": "@timberio/koa",
-  "version": "0.27.0",
+  "version": "0.28.0",
   "description": "Timber.io - Koa logger",
   "keywords": [
     "Timber",
@@ -33,7 +33,7 @@
     "url": "https://github.com/timberio/timber-js/issues"
   },
   "devDependencies": {
-    "@timberio/types": "^0.27.0",
+    "@timberio/types": "^0.28.0",
     "@types/koa": "^2.0.48",
     "@types/koa-router": "^7.0.37",
     "@types/supertest": "^2.0.7",
@@ -43,7 +43,7 @@
     "supertest": "^3.3.0"
   },
   "dependencies": {
-    "@timberio/node": "^0.27.0",
+    "@timberio/node": "^0.28.0",
     "rambda": "^2.2.0"
   },
   "peerDependencies": {
