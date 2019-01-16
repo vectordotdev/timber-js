@@ -102,7 +102,6 @@ describe("Bunyan tests", () => {
     timber.setSync(async logs => {
       expect(logs.length).toBe(levels.length);
       done();
-
       return logs;
     });
 
