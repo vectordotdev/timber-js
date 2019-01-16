@@ -9,7 +9,7 @@ export class TimberTransport extends Transport {
     super();
   }
 
-  public async log(info: LogEntry, cb: Function) {
+  public log(info: LogEntry, cb: Function) {
     // Pass the log to Winston's internal event handlers
     setImmediate(() => {
       this.emit("logged", info);
@@ -37,7 +37,7 @@ export class TimberTransport extends Transport {
     }
 
     // Log out to Timber
-    await this._timber.log(info.message, level);
+    void this._timber.log(info.message, level);
 
     // Winston callback...
     cb();

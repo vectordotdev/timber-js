@@ -4,11 +4,19 @@ import { LogLevel } from "@timberio/types";
 
 import { TimberTransport } from "./winston";
 
+// Sample log message
+const message = "Something to do with something";
+
+/**
+ * Test a Winston level vs. Timber level
+ * @param level - Winston log level
+ * @param logLevel LogLevel - Timber log level
+ */
 async function testLevel(level: string, logLevel: LogLevel) {
   // Sample log
   const log: LogEntry = {
     level,
-    message: "Something to do with something"
+    message
   };
 
   // Timber fixtures
@@ -55,5 +63,59 @@ describe("Winston logging tests", () => {
 
   it("should default to 'info' level when using custom logging", async () => {
     return testLevel("silly", LogLevel.Info);
+  });
+
+  it("should sync multiple logs", async done => {
+    // Create multiple log entries
+    const entries: LogEntry[] = [
+      {
+        level: "info",
+        message: `${message} 1`
+      },
+      {
+        level: "debug",
+        message: `${message} 2`
+      },
+      {
+        level: "warn",
+        message: `${message} 3`
+      },
+      {
+        level: "error",
+        message: `${message} 4`
+      }
+    ];
+
+    // Fixtures
+    const timber = new Timber("test", {
+      batchInterval: 1000, // <-- shouldn't be exceeded
+      batchSize: entries.length
+    });
+
+    timber.setSync(async logs => {
+      expect(logs.length).toBe(entries.length);
+
+      // Logs should be identical
+      const isIdentical = logs.every(
+        log =>
+          entries.findIndex(entry => {
+            return entry.message == log.message;
+          }) > -1
+      );
+      expect(isIdentical).toBe(true);
+
+      // Test completion
+      done();
+
+      return logs;
+    });
+
+    // Create a Winston logger
+    const logger = winston.createLogger({
+      level: "debug", // <-- debug and above
+      transports: [new TimberTransport(timber)]
+    });
+
+    entries.forEach(entry => logger.log(entry.level, entry.message));
   });
 });
