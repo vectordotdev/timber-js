@@ -111,13 +111,13 @@ class Timber {
    *
    * @param message: string - Log message
    * @param level (LogLevel) - Level to log at (debug|info|warn|error)
-   * @param log: (Partial<ITimberLog>) - Initial log (optional)
+   * @param context: (Pick<ITimberLog, "context">) - Context (optional)
    * @returns Promise<ITimberLog> after syncing
    */
   public async log(
     message: string,
     level: LogLevel = LogLevel.Info,
-    log: Partial<ITimberLog> = {}
+    context: Pick<ITimberLog, "context"> = {}
   ): Promise<ITimberLog> {
     // Check that we have a sync function
     if (typeof this._sync !== "function") {
@@ -132,8 +132,8 @@ class Timber {
       // Implicit date timestamp
       dt: new Date(),
 
-      // Overwrite defaults / add context, with `log` object
-      ...log,
+      // Add context
+      context,
 
       // Explicit level
       level,
@@ -163,14 +163,14 @@ class Timber {
    * Debug level log, to be synced with Timber.io
    *
    * @param message: string - Log message
-   * @param log: (Partial<ITimberLog>) - Initial log (optional)
+   * @param context: (Pick<ITimberLog, "context">) - Context (optional)
    * @returns Promise<ITimberLog> after syncing
    */
   public async debug(
     message: string,
-    log: Partial<ITimberLog> = {}
+    context?: Pick<ITimberLog, "context">
   ): Promise<ITimberLog> {
-    return this.log(message, LogLevel.Debug, log);
+    return this.log(message, LogLevel.Debug, context);
   }
 
   /**
@@ -178,14 +178,14 @@ class Timber {
    * Info level log, to be synced with Timber.io
    *
    * @param message: string - Log message
-   * @param log: (Partial<ITimberLog>) - Initial log (optional)
+   * @param context: (Pick<ITimberLog, "context">) - Context (optional)
    * @returns Promise<ITimberLog> after syncing
    */
   public async info(
     message: string,
-    log: Partial<ITimberLog> = {}
+    context?: Pick<ITimberLog, "context">
   ): Promise<ITimberLog> {
-    return this.log(message, LogLevel.Info, log);
+    return this.log(message, LogLevel.Info, context);
   }
 
   /**
@@ -193,14 +193,14 @@ class Timber {
    * Warning level log, to be synced with Timber.io
    *
    * @param message: string - Log message
-   * @param log: (Partial<ITimberLog>) - Initial log (optional)
+   * @param context: (Pick<ITimberLog, "context">) - Context (optional)
    * @returns Promise<ITimberLog> after syncing
    */
   public async warn(
     message: string,
-    log: Partial<ITimberLog> = {}
+    context?: Pick<ITimberLog, "context">
   ): Promise<ITimberLog> {
-    return this.log(message, LogLevel.Warn, log);
+    return this.log(message, LogLevel.Warn, context);
   }
 
   /**
@@ -208,14 +208,14 @@ class Timber {
    * Warning level log, to be synced with Timber.io
    *
    * @param message: string - Log message
-   * @param log: (Partial<ITimberLog>) - Initial log (optional)
+   * @param context: (Pick<ITimberLog, "context">) - Context (optional)
    * @returns Promise<ITimberLog> after syncing
    */
   public async error(
     message: string,
-    log: Partial<ITimberLog> = {}
+    context?: Pick<ITimberLog, "context">
   ): Promise<ITimberLog> {
-    return this.log(message, LogLevel.Error, log);
+    return this.log(message, LogLevel.Error, context);
   }
 
   /**

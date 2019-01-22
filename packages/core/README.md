@@ -53,13 +53,11 @@ timber.log("Hello Timber!");
 
 // Or, add custom context keys to pass along with the log
 timber.log("Once more, with context", {
-  context: {
-    custom: {
-      "user-agent": {
-        browser: "Chrome"
-      }
-    }
-  }
+  custom: {
+    "user-agent": {
+      browser: "Chrome",
+    },
+  },
 });
 ```
 
@@ -106,9 +104,9 @@ async function addCurrentUser(log: ITimberLog): Promise<ITimberLog> {
       // ... and add our own `context` data
       user: {
         id: 1000,
-        name: "Lee"
-      }
-    }
+        name: "Lee",
+      },
+    },
   };
 }
 ```
