@@ -7,6 +7,9 @@ import {
 } from "@timberio/types";
 import { makeBatch, makeThrottle } from "@timberio/tools";
 
+// Types
+type Message = string | Error;
+
 // Set default options for Timber
 const defaultOptions: ITimberOptions = {
   // Default sync endpoint:
@@ -86,6 +89,13 @@ class Timber {
     });
   }
 
+  /* PRIVATE METHODS */
+  private getContextFromError(e: Error) {
+    return {
+      stack: e.stack
+    };
+  }
+
   /* PUBLIC METHODS */
 
   /**
@@ -115,7 +125,7 @@ class Timber {
    * @returns Promise<ITimberLog> after syncing
    */
   public async log(
-    message: string,
+    message: Message,
     level: LogLevel = LogLevel.Info,
     context: Pick<ITimberLog, "context"> = {}
   ): Promise<ITimberLog> {
@@ -127,25 +137,49 @@ class Timber {
     // Increment log count
     this._countLogged++;
 
-    // Build the initial log
-    const initialLog: ITimberLog = {
+    // Start building the log message
+    let log: Partial<ITimberLog> = {
       // Implicit date timestamp
       dt: new Date(),
-
-      // Add context
-      context,
 
       // Explicit level
       level,
 
-      // Explicit message
-      message
+      // Add initial context
+      context
     };
+
+    // Determine the type of message...
+
+    // Is this an error?
+    if (message instanceof Error) {
+      log = {
+        // Add stub
+        ...log,
+
+        // Add stack trace
+        context: {
+          ...log.context,
+          ...this.getContextFromError(message)
+        },
+
+        // Add error message
+        message: message.message
+      };
+    } else {
+      log = {
+        // Add stub
+        ...log,
+
+        // Add string message
+        message
+      };
+    }
 
     // Pass the log through the middleware pipeline
     const transformedLog = await this._middleware.reduceRight(
       (fn, pipedLog) => fn.then(pipedLog),
-      Promise.resolve(initialLog)
+      Promise.resolve(log as ITimberLog)
     );
 
     // Push the log through the batcher, and sync
@@ -167,7 +201,7 @@ class Timber {
    * @returns Promise<ITimberLog> after syncing
    */
   public async debug(
-    message: string,
+    message: Message,
     context?: Pick<ITimberLog, "context">
   ): Promise<ITimberLog> {
     return this.log(message, LogLevel.Debug, context);
@@ -182,7 +216,7 @@ class Timber {
    * @returns Promise<ITimberLog> after syncing
    */
   public async info(
-    message: string,
+    message: Message,
     context?: Pick<ITimberLog, "context">
   ): Promise<ITimberLog> {
     return this.log(message, LogLevel.Info, context);
@@ -197,7 +231,7 @@ class Timber {
    * @returns Promise<ITimberLog> after syncing
    */
   public async warn(
-    message: string,
+    message: Message,
     context?: Pick<ITimberLog, "context">
   ): Promise<ITimberLog> {
     return this.log(message, LogLevel.Warn, context);
@@ -212,7 +246,7 @@ class Timber {
    * @returns Promise<ITimberLog> after syncing
    */
   public async error(
-    message: string,
+    message: Message,
     context?: Pick<ITimberLog, "context">
   ): Promise<ITimberLog> {
     return this.log(message, LogLevel.Error, context);

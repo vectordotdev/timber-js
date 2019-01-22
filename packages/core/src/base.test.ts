@@ -205,4 +205,23 @@ describe("base class tests", () => {
     // Should log at 'info' level
     expect(log.level).toEqual(LogLevel.Error);
   });
+
+  it("should handle logging an `Error` object", async () => {
+    // Fixtures
+    const message = "This is the error";
+    const e = new Error(message);
+    const base = new Base("testing");
+
+    // Add a mock sync method
+    base.setSync(async log => log);
+
+    // Log
+    const log = await base.error(e);
+
+    // The error message should match
+    expect(log.message).toBe(message);
+
+    // Context should contain a stack trace
+    expect((log.context as any).stack).toBe(e.stack);
+  });
 });
