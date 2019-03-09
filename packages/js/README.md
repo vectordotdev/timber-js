@@ -34,10 +34,13 @@ In ES6/Typescript, you can then import either the `Browser` or `Node` class as r
 import { Browser, Node } from "@timberio/js";
 
 // `Browser` is equivalent to the `Timber` class exported by @timberio/browser
-const clientLogger = new Browser("timber-api-key");
+const clientLogger = new Browser(
+  "timber-organization-key",
+  "timber-source-key",
+);
 
 // And the same with `Node` and @timberio/node
-const serverLogger = new Node("timber-api-key");
+const serverLogger = new Node("timber-organization-key", "timber-source-key");
 ```
 
 For CommonJS, require the package instead:

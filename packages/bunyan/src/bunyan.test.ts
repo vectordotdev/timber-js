@@ -21,9 +21,9 @@ function createLogger(timber: Timber): bunyan {
     level: "debug", // <-- default to 'debug' and above
     streams: [
       {
-        stream: new TimberStream(timber)
-      }
-    ]
+        stream: new TimberStream(timber),
+      },
+    ],
   });
 }
 
@@ -37,10 +37,10 @@ function createLogger(timber: Timber): bunyan {
 async function testLevel(
   level: LogLevelString,
   logLevel: LogLevel,
-  cb: Function
+  cb: Function,
 ) {
   // Timber fixtures
-  const timber = new Timber("test", { batchInterval: 1 });
+  const timber = new Timber("test", "someSource", { batchInterval: 1 });
   timber.setSync(async logs => {
     // Should be exactly one log
     expect(logs.length).toBe(1);
@@ -91,12 +91,12 @@ describe("Bunyan tests", () => {
       [25, LogLevel.Debug, "debug"],
       [35, LogLevel.Info, "info"],
       [45, LogLevel.Warn, "warn"],
-      [55, LogLevel.Error, "error"]
+      [55, LogLevel.Error, "error"],
     ];
 
-    const timber = new Timber("test", {
+    const timber = new Timber("test", "someSource", {
       batchInterval: 1000,
-      batchSize: levels.length
+      batchSize: levels.length,
     });
 
     timber.setSync(async logs => {

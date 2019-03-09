@@ -13,8 +13,8 @@ type Message = string | Error;
 
 // Set default options for Timber
 const defaultOptions: ITimberOptions = {
-  // Default sync endpoint:
-  endpoint: "https://logs.timber.io/frames",
+  // Default sync endpoint (protocol + domain)
+  endpoint: "https://logs.timber.io",
 
   // Maximum number of logs to sync in a single request to Timber.io
   batchSize: 1000,
@@ -33,8 +33,11 @@ const defaultOptions: ITimberOptions = {
  * Timber core class for logging to the Timber.io service
  */
 class Timber {
-  // Timber API key
+  // Timber organization API key
   protected _apiKey: string;
+
+  // Timber source key
+  protected _sourceKey: string;
 
   // Timber library options
   protected _options: ITimberOptions;
@@ -62,7 +65,11 @@ class Timber {
    * @param apiKey: string - Private API key for logging to Timber.io
    * @param options?: ITimberOptions - Optionally specify Timber options
    */
-  public constructor(apiKey: string, options?: Partial<ITimberOptions>) {
+  public constructor(
+    apiKey: string,
+    sourceKey: string,
+    options?: Partial<ITimberOptions>,
+  ) {
     // First, check we have a valid API key
     if (typeof apiKey !== "string" || apiKey === "") {
       throw new Error("Timber API key missing");
@@ -70,6 +77,9 @@ class Timber {
 
     // Store the API key, to use for syncing with Timber.io
     this._apiKey = apiKey;
+
+    // Store the source key, to connect the log to a particular source
+    this._sourceKey = sourceKey;
 
     // Merge default and user options
     this._options = { ...defaultOptions, ...options };

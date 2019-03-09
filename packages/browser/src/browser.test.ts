@@ -9,7 +9,7 @@ import { Browser } from "./browser";
  */
 function getRandomLog(message: string): Partial<ITimberLog> {
   return {
-    message
+    message,
   };
 }
 
@@ -26,13 +26,14 @@ describe("browser tests", () => {
   // });
 
   it("should echo log if timber sends 20x status code", async done => {
+    const source = "someSource";
     nock("https://logs.timber.io")
-      .post("/frames")
+      .post(`/sources/${source}/frames`)
       .reply(201);
 
     const message: string = String(Math.random());
     const expectedLog = getRandomLog(message);
-    const browser = new Browser("valid api key");
+    const browser = new Browser("valid api key", source);
     const echoedLog = await browser.log(message);
     expect(echoedLog.message).toEqual(expectedLog.message);
 
@@ -40,11 +41,12 @@ describe("browser tests", () => {
   });
 
   it("should throw error if timber sends non 200 status code", async done => {
+    const source = "someSource";
     nock("https://logs.timber.io")
-      .post("/frames")
+      .post(`/sources/${source}/frames`)
       .reply(401);
 
-    const browser = new Browser("invalid api key");
+    const browser = new Browser("invalid api key", source);
     const message: string = String(Math.random);
     await expect(browser.log(message)).rejects.toThrow();
 

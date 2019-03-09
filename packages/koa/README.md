@@ -39,7 +39,7 @@ const { Timber } = require("@timberio/koa");
 Simply pass your [Timber.io](https://timber.io) API key as a parameter to a new `Timber` instance:
 
 ```typescript
-const timber = new Timber("api-goes-here");
+const timber = new Timber("timber-organization-key", "timber-source-key");
 ```
 
 `Timber` accepts two optional, additional parameters:
@@ -56,15 +56,20 @@ const timberOptions = {
    * For example -- setting the maximum number of sync requests to
    * make concurrently (useful to limit network I/O)
    */
-  syncMax: 10
+  syncMax: 10,
 };
 
 const koaOptions = {
   // Override default Koa context data to include in each log
-  contextPaths: ["statusCode", "request.headers", "request.method"]
+  contextPaths: ["statusCode", "request.headers", "request.method"],
 };
 
-const timber = new Timber("api-goes-here", timberOptions, koaOptions);
+const timber = new Timber(
+  "timber-organization-key",
+  "timber-source-key",
+  timberOptions,
+  koaOptions,
+);
 ```
 
 ## Attaching to Koa
@@ -79,7 +84,7 @@ import { Timber } from "@timberio/koa";
 const koa = new Koa();
 
 // Create a new Timber client
-const timber = new Timber("api-key");
+const timber = new Timber("timber-organization-key", "timber-source-key");
 
 // Attach Koa to enable HTTP request logging
 timber.attach(koa);
@@ -113,7 +118,7 @@ Nested object properties are separated using a period (`.`)
   "request.method",
   "request.length",
   "request.url",
-  "request.query"
+  "request.query",
 ];
 ```
 

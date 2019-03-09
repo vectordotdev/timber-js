@@ -3,7 +3,6 @@ import { Duplex, Writable } from "stream";
 import fetch from "cross-fetch";
 // import Msgpack from "msgpack5";
 
-import { base64Encode } from "@timberio/tools";
 import { ITimberLog, Context, ITimberOptions, LogLevel } from "@timberio/types";
 import { Base } from "@timberio/core";
 
@@ -17,25 +16,32 @@ export class Node extends Base {
    */
   private _writeStream?: Writable | Duplex;
 
-  public constructor(apiKey: string, options?: Partial<ITimberOptions>) {
-    super(apiKey, options);
+  public constructor(
+    apiKey: string,
+    sourceKey: string,
+    options?: Partial<ITimberOptions>,
+  ) {
+    super(apiKey, sourceKey, options);
 
     // Sync function
     const sync = async (logs: ITimberLog[]): Promise<ITimberLog[]> => {
-      const res = await fetch(this._options.endpoint, {
-        method: "POST",
-        headers: {
-          // "Content-Type": "application/msgpack",
-          "Content-Type": "application/json",
-          Authorization: `Basic ${base64Encode(this._apiKey)}`,
-          "User-Agent": "timber-js(node)"
-        },
-        // body: logs.map(log => `${log.level}: ${log.message}`).join("\n")
-        // body: msgpack.encode(logsWithSchema).slice()
+      const res = await fetch(
+        `${this._options.endpoint}/sources/${this._sourceKey}/frames`,
+        {
+          method: "POST",
+          headers: {
+            // "Content-Type": "application/msgpack",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${this._apiKey}`,
+            "User-Agent": "timber-js(node)",
+          },
+          // body: logs.map(log => `${log.level}: ${log.message}`).join("\n")
+          // body: msgpack.encode(logsWithSchema).slice()
 
-        // TODO - using JSON for now; switch to msgpack later
-        body: JSON.stringify(logs)
-      });
+          // TODO - using JSON for now; switch to msgpack later
+          body: JSON.stringify(logs),
+        },
+      );
 
       if (res.ok) {
         return logs;
@@ -63,7 +69,7 @@ export class Node extends Base {
   public async log<TContext extends Context>(
     message: string,
     level?: LogLevel,
-    context: TContext = {} as TContext
+    context: TContext = {} as TContext,
   ) {
     // Process/sync the log, per `Base` logic
     const processedLog = await super.log(message, level, context);

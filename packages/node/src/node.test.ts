@@ -15,29 +15,31 @@ function getRandomLog(message: string): Partial<ITimberLog> {
   return {
     dt: new Date(),
     level: LogLevel.Info,
-    message
+    message,
   };
 }
 
 describe("node tests", () => {
   it("should echo log if timber sends 20x status code", async () => {
+    const source = "someSource";
     nock("https://logs.timber.io")
-      .post("/frames")
+      .post(`/sources/${source}/frames`)
       .reply(201);
 
     const message: string = String(Math.random());
     const expectedLog = getRandomLog(message);
-    const node = new Node("valid api key");
+    const node = new Node("valid api key", source);
     const echoedLog = await node.log(message);
     expect(echoedLog.message).toEqual(expectedLog.message);
   });
 
   it("should throw error if timber sends non 200 status code", async () => {
+    const source = "someSource";
     nock("https://logs.timber.io")
-      .post("/frames")
+      .post(`/sources/${source}/frames`)
       .reply(401);
 
-    const node = new Node("invalid api key");
+    const node = new Node("invalid api key", "someSource");
     const message: string = String(Math.random);
     await expect(node.log(message)).rejects.toThrow();
   });
@@ -48,7 +50,7 @@ describe("node tests", () => {
       write(
         chunk: any,
         encoding: string,
-        callback: (error?: Error | null) => void
+        callback: (error?: Error | null) => void,
       ): void {
         // Will be a buffered JSON string -- parse
         const log: ITimberLog = JSON.parse(chunk.toString());
@@ -57,11 +59,11 @@ describe("node tests", () => {
         expect(log.message).toEqual(message);
 
         callback();
-      }
+      },
     });
 
     // Fixtures
-    const timber = new Node("test");
+    const timber = new Node("test", "someSource");
     timber.pipe(writeStream);
 
     const message = "This should be streamed";
@@ -84,7 +86,7 @@ describe("node tests", () => {
     const passThrough = new PassThrough();
 
     // Pass write stream to Timber
-    const timber = new Node("test");
+    const timber = new Node("test", "someSource");
     timber.pipe(passThrough).pipe(writeStream);
 
     // Mock the sync method by simply returning the same logs

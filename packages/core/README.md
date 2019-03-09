@@ -26,13 +26,17 @@ import { ITimberOptions, ITimberLog } from "@timberio/types";
 
 class CustomLogger extends Base {
   // Constructor must take a Timber.io API key, and (optional) options
-  public constructor(apiKey: string, options?: Partial<ITimberOptions>) {
-    // Make sure you pass the API key to the parent constructor!
-    super(apiKey, options);
+  public constructor(
+    orgApiKey: string,
+    sourceKey: string,
+    options?: Partial<ITimberOptions>,
+  ) {
+    // Make sure you pass the organization API + source key to the parent constructor!
+    super(apiKey, sourceKey, options);
 
     // Create a custom sync method
     this.setSync(async (logs: ITimberLog[]) => {
-      // Sync the `log` somehow ... `this._apiKey` contains your Timber API key
+      // Sync the `log` somehow ... `this._apiKey` contains your Timber organization API key
 
       // ....
 

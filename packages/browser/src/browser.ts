@@ -7,21 +7,28 @@ import { Base } from "@timberio/core";
 // import { getUserAgent } from "./helpers";
 
 export class Browser extends Base {
-  public constructor(apiKey: string, options?: Partial<ITimberOptions>) {
-    super(apiKey, options);
+  public constructor(
+    apiKey: string,
+    sourceKey: string,
+    options?: Partial<ITimberOptions>,
+  ) {
+    super(apiKey, sourceKey, options);
 
     // Sync function
     const sync = async (logs: ITimberLog[]): Promise<ITimberLog[]> => {
-      const res = await fetch(this._options.endpoint, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Basic ${btoa(this._apiKey)}`
-          // Awaiting: https://bugs.chromium.org/p/chromium/issues/detail?id=571722
-          // "User-Agent": getUserAgent()
+      const res = await fetch(
+        `${this._options.endpoint}/sources/${this._sourceKey}/frames`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${this._apiKey}`,
+            // Awaiting: https://bugs.chromium.org/p/chromium/issues/detail?id=571722
+            // "User-Agent": getUserAgent()
+          },
+          body: JSON.stringify(logs),
         },
-        body: JSON.stringify(logs)
-      });
+      );
 
       if (res.ok) {
         return logs;

@@ -37,13 +37,13 @@ const defaultKoaOpt: IKoaOptions = {
     "request.method",
     "request.length",
     "request.url",
-    "request.query"
+    "request.query",
   ],
   excludedRoutes: [],
   excludedMethods: [],
   messageFormatter: ctx => `Koa HTTP request: ${ctx.status}`,
   errorMessageFormatter: (ctx, e) =>
-    `Koa HTTP request error: ${(typeof e === "object" && e.message) || e}`
+    `Koa HTTP request error: ${(typeof e === "object" && e.message) || e}`,
 };
 
 class KoaTimber extends Timber {
@@ -51,10 +51,11 @@ class KoaTimber extends Timber {
 
   public constructor(
     apiKey: string,
+    sourceKey: string,
     timberOpt?: Partial<ITimberOptions>,
-    koaOpt?: Partial<IKoaOptions>
+    koaOpt?: Partial<IKoaOptions>,
   ) {
-    super(apiKey, timberOpt);
+    super(apiKey, sourceKey, timberOpt);
 
     // Set Koa-specific logging options
     this._koaOptions = { ...defaultKoaOpt, ...koaOpt };

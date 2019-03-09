@@ -52,10 +52,13 @@ Then in your code, import the relevant logger -- either `Browser` (for any web b
 import { Browser, Node } from "@timberio/js";
 
 // Create either a browser logger...
-const browserLogger = new Browser("timber-api-key");
+const browserLogger = new Browser(
+  "timber-organization-key",
+  "timber-source-key",
+);
 
 // ... or a Node logger (or both!)
-const nodeLogger = new Node("timber-api-key");
+const nodeLogger = new Node("timber-organization-key", "timber-source-key");
 
 // You can log by .debug, .info, .warn or .error -- returns a Promise
 browserLogger.info("Hello from the browser!").then(log => {
@@ -101,7 +104,7 @@ By default, the library will batch up to **1,000** logs at a time (syncing after
 These defaults can be tweaked by passing [custom options](https://github.com/timberio/timber-js/tree/master/packages/types#itimberoptions) when creating your `Timber` instance:
 
 ```typescript
-const timber = new Timber("api-key-here", {
+const timber = new Timber("timber-organization-key", "timber-source-key", {
   // Maximum number of logs to sync in a single request to Timber.io
   batchSize: 1000,
 

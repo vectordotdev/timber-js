@@ -45,7 +45,7 @@ You can [create a client](https://github.com/timberio/timber-js/tree/master/pack
 import bunyan from "bunyan";
 
 // Create a Timber client
-const timber = new Timber("api-key-here");
+const timber = new Timber("timber-organization-key", "timber-source-key");
 
 // Create a Bunyan logger - passing in the Timber stream
 const logger = bunyan.createLogger({
@@ -53,9 +53,9 @@ const logger = bunyan.createLogger({
   level: "debug",
   streams: [
     {
-      stream: new TimberStream(timber)
-    }
-  ]
+      stream: new TimberStream(timber),
+    },
+  ],
 });
 
 // Log as normal in Bunyan - your logs will sync with Timber.io!

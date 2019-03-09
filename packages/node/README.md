@@ -38,10 +38,10 @@ const { Timber } = require("@timberio/node");
 
 ## Creating a client
 
-Simply pass your [Timber.io](https://timber.io) API key as a parameter to a new `Timber` instance:
+Simply pass your [Timber.io](https://timber.io) organization API + source keys as parameters to a new `Timber` instance (you can grab both from the Timber.io console):
 
 ```typescript
-const timber = new Timber("api-goes-here");
+const timber = new Timber("timber-organization-key", "timber-source-key");
 ```
 
 ## Documentation
@@ -72,7 +72,7 @@ import { Timber } from "@timberio/node";
 const logsTxt = fs.createWriteStream("./logs.txt");
 
 // Create a new Timber instance, and pipe output to `logs.txt`
-const timber = new Timber("api-key-here");
+const timber = new Timber("timber-organization-key", "timber-source-key");
 timber.pipe(logsTxt);
 
 // When you next log, `logs.txt` will get a JSON string copy

@@ -41,7 +41,6 @@
   },
   "dependencies": {
     "@timberio/core": "^0.32.0",
-    "@timberio/tools": "^0.32.0",
     "@timberio/types": "^0.32.0",
     "@types/msgpack5": "^3.4.1",
     "cross-fetch": "^2.2.3",

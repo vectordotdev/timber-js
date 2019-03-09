@@ -109,22 +109,6 @@ this._batch = batcher((logs: any) => {
 });
 ```
 
-### `base64Encode(str: string): string`
-
-**Node.js only**
-
-Converts a plain-text string to a Base64 encoded string. Similar to [window.btoa()](https://www.w3schools.com/jsref/met_win_atob.asp) in the browser.
-
-Used by the logger to convert an API key to Timber's `user:password` basic auth.
-
-**Usage example:**
-
-```typescript
-import { atob } from "@timberio/tools";
-
-console.log(atob("hello world")); // <-- returns "aGVsbG8gd29ybGQ="
-```
-
 ## LICENSE
 
 [ISC](LICENSE.md)

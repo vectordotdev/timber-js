@@ -1,7 +1,7 @@
 import { Writable } from "stream";
 
 import { Timber } from "@timberio/node";
-import { ITimberLog, Context, LogLevel } from "@timberio/types";
+import { Context, LogLevel } from "@timberio/types";
 
 import { getLogLevel } from "./helpers";
 

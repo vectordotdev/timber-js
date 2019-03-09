@@ -48,10 +48,10 @@ This will place the `Timber` class on `window.Timber`.
 
 You can instantiate the client in the same way, whether you use a module bundler or the `<script>` tag method.
 
-Simply pass your [Timber.io](https://timber.io) API key as a parameter to a new `Timber` instance:
+Simply pass your [Timber.io](https://timber.io) organization API + source keys as parameters to a new `Timber` instance (you can grab both from the Timber.io console):
 
 ```typescript
-const timber = new Timber("api-goes-here");
+const timber = new Timber("timber-organization-key", "timber-source-key");
 ```
 
 ## Documentation
