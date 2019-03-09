@@ -30,7 +30,7 @@ import { ITimberLog } from "@timberio/types";
 Config options for the Timber [Base class](https://github.com/timberio/timber-js/tree/master/packages/core#the-base-class) for creating a Timber client instance.
 
 ```typescript
-interface ITimberOptions {
+export interface ITimberOptions {
   /**
    * Endpoint URL for syncing logs with Timber.io
    */
@@ -51,6 +51,11 @@ interface ITimberOptions {
    * network I/O)
    */
   syncMax: number;
+
+  /**
+   * Boolean to specify whether thrown errors/failed logs should be ignored
+   */
+  ignoreExceptions: boolean;
 }
 ```
 
@@ -63,8 +68,22 @@ enum LogLevel {
   Debug = "debug",
   Info = "info",
   Warn = "warn",
-  Error = "error"
+  Error = "error",
 }
+```
+
+### `Context`
+
+You can add meta information to your logs by adding a `string`, `boolean`, `Date` or `number` to a string field (or any nested object containing fields of the same.)
+
+We call this 'context' and these are the types:
+
+```typescript
+/**
+ * Context type - a string/number/bool/Date, or a nested object of the same
+ */
+export type ContextKey = string | number | boolean | Date;
+export type Context = { [key: string]: ContextKey | Context };
 ```
 
 ### `ITimberLog`
@@ -76,7 +95,7 @@ interface ITimberLog {
   dt: Date;
   level: LogLevel; // <-- see `LogLevel` above
   message: string;
-  context?: object;
+  [key: string]: ContextKey | Context; // <-- see `Context` bove
 }
 ```
 

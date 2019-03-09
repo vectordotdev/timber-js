@@ -53,11 +53,11 @@ timber.log("Hello Timber!");
 
 // Or, add custom context keys to pass along with the log
 timber.log("Once more, with context", {
-  custom: {
+  httpRequest: {
     "user-agent": {
-      browser: "Chrome"
-    }
-  }
+      browser: "Chrome",
+    },
+  },
 });
 ```
 
@@ -92,7 +92,7 @@ Here's what a middleware function looks like:
 ```typescript
 import { ITimberLog } from "@timberio/types";
 
-// In this example function, we'll add a custom `context` to the log
+// In this example function, we'll add custom 'context' meta to the log
 // representing the currently logged in user.
 //
 // Note: a middleware function is any function that takes an `ITimberLog`
@@ -100,13 +100,11 @@ import { ITimberLog } from "@timberio/types";
 async function addCurrentUser(log: ITimberLog): Promise<ITimberLog> {
   return {
     ...log, // <-- copy the existing log
-    context: {
+    user: {
       // ... and add our own `context` data
-      user: {
-        id: 1000,
-        name: "Lee"
-      }
-    }
+      id: 1000,
+      name: "Lee",
+    },
   };
 }
 ```

@@ -101,7 +101,7 @@ describe("base class tests", () => {
     base.use(async log => {
       return {
         ...log,
-        message: newMessage
+        message: newMessage,
       };
     });
 
@@ -222,6 +222,39 @@ describe("base class tests", () => {
     expect(log.message).toBe(message);
 
     // Context should contain a stack trace
-    expect((log.context as any).stack).toBe(e.stack);
+    expect((log as any).stack).toBe(e.stack);
+  });
+
+  it("should not ignore exceptions by default", async () => {
+    // Fixtures
+    const message = "Testing exceptions";
+    const e = new Error("Should NOT be ignored!");
+    const base = new Base("testing");
+
+    // Add a mock sync method which throws an error
+    base.setSync(async () => {
+      throw e;
+    });
+
+    expect(base.info(message)).rejects.toEqual(e);
+  });
+
+  it("should ignore exceptions if `ignoreExceptions` opt == true", async () => {
+    // Fixtures
+    const message = "Testing exceptions";
+    const base = new Base("testing", {
+      ignoreExceptions: true,
+    });
+
+    // Add a mock sync method which throws an error
+    base.setSync(async () => {
+      throw new Error("Should be ignored!");
+    });
+
+    // Log - shouldn't throw!
+    const log = await base.info(message);
+
+    // Should return the log, even though there was an error
+    expect(log.message).toBe(message);
   });
 });

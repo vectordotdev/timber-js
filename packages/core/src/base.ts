@@ -4,7 +4,7 @@ import {
   Context,
   LogLevel,
   Middleware,
-  Sync
+  Sync,
 } from "@timberio/types";
 import { makeBatch, makeThrottle } from "@timberio/tools";
 
@@ -23,7 +23,10 @@ const defaultOptions: ITimberOptions = {
   batchInterval: 1000,
 
   // Maximum number of sync requests to make concurrently
-  syncMax: 5
+  syncMax: 5,
+
+  // If true, errors/failed logs should be ignored
+  ignoreExceptions: false,
 };
 
 /**
@@ -82,7 +85,7 @@ class Timber {
     // Create a batcher, for aggregating logs by buffer size/interval
     const batcher = makeBatch(
       this._options.batchSize,
-      this._options.batchInterval
+      this._options.batchInterval,
     );
 
     this._batch = batcher((logs: any) => {
@@ -93,7 +96,7 @@ class Timber {
   /* PRIVATE METHODS */
   private getContextFromError(e: Error) {
     return {
-      stack: e.stack
+      stack: e.stack,
     };
   }
 
@@ -128,7 +131,7 @@ class Timber {
   public async log<TContext extends Context>(
     message: Message,
     level: LogLevel = LogLevel.Info,
-    context: TContext = {} as TContext
+    context: TContext = {} as TContext,
   ): Promise<ITimberLog & TContext> {
     // Check that we have a sync function
     if (typeof this._sync !== "function") {
@@ -147,7 +150,7 @@ class Timber {
       level,
 
       // Add initial context
-      ...context
+      ...context,
     };
 
     // Determine the type of message...
@@ -162,7 +165,7 @@ class Timber {
         ...this.getContextFromError(message),
 
         // Add error message
-        message: message.message
+        message: message.message,
       };
     } else {
       log = {
@@ -170,21 +173,28 @@ class Timber {
         ...log,
 
         // Add string message
-        message
+        message,
       };
     }
 
     // Pass the log through the middleware pipeline
     const transformedLog = await this._middleware.reduceRight(
       (fn, pipedLog) => fn.then(pipedLog),
-      Promise.resolve(log as ITimberLog)
+      Promise.resolve(log as ITimberLog),
     );
 
-    // Push the log through the batcher, and sync
-    await this._batch(transformedLog);
+    try {
+      // Push the log through the batcher, and sync
+      await this._batch(transformedLog);
 
-    // Increment sync count
-    this._countSynced++;
+      // Increment sync count
+      this._countSynced++;
+    } catch (e) {
+      // Catch any errors - re-throw if `ignoreExceptions` == false
+      if (!this._options.ignoreExceptions) {
+        throw e;
+      }
+    }
 
     // Return the resulting log
     return transformedLog as ITimberLog & TContext;
@@ -200,7 +210,7 @@ class Timber {
    */
   public async debug<TContext extends Context>(
     message: Message,
-    context: TContext = {} as TContext
+    context: TContext = {} as TContext,
   ) {
     return this.log(message, LogLevel.Debug, context);
   }
@@ -215,7 +225,7 @@ class Timber {
    */
   public async info<TContext extends Context>(
     message: Message,
-    context: TContext = {} as TContext
+    context: TContext = {} as TContext,
   ) {
     return this.log(message, LogLevel.Info, context);
   }
@@ -230,7 +240,7 @@ class Timber {
    */
   public async warn<TContext extends Context>(
     message: Message,
-    context: TContext = {} as TContext
+    context: TContext = {} as TContext,
   ) {
     return this.log(message, LogLevel.Warn, context);
   }
@@ -245,7 +255,7 @@ class Timber {
    */
   public async error<TContext extends Context>(
     message: Message,
-    context: TContext = {} as TContext
+    context: TContext = {} as TContext,
   ) {
     return this.log(message, LogLevel.Error, context);
   }

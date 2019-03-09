@@ -23,13 +23,18 @@ export interface ITimberOptions {
    * network I/O)
    */
   syncMax: number;
+
+  /**
+   * Boolean to specify whether thrown errors/failed logs should be ignored
+   */
+  ignoreExceptions: boolean;
 }
 
 export enum LogLevel {
   Debug = "debug",
   Info = "info",
   Warn = "warn",
-  Error = "error"
+  Error = "error",
 }
 
 /**

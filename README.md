@@ -110,7 +110,10 @@ const timber = new Timber("api-key-here", {
 
   // Maximum number of sync requests to make concurrently (useful to limit
   // network I/O)
-  syncMax: 100 // <-- we've increased concurrent network connections up to 100
+  syncMax: 100, // <-- we've increased concurrent network connections up to 100
+
+  // Boolean to specify whether thrown errors/failed logs should be ignored
+  ignoreExceptions: false,
 });
 ```
 
