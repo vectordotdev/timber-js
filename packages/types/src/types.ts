@@ -33,13 +33,19 @@ export enum LogLevel {
 }
 
 /**
- * Interface representing a Timber log
+ * Context type - a string/number/bool/Date, or a nested object of the same
+ */
+export type ContextKey = string | number | boolean | Date;
+export type Context = { [key: string]: ContextKey | Context };
+
+/**
+ * Interface representing a minimal Timber log
  */
 export interface ITimberLog {
   dt: Date;
   level: LogLevel;
   message: string;
-  context?: object;
+  [key: string]: ContextKey | Context;
 }
 
 /**

@@ -4,7 +4,7 @@ import fetch from "cross-fetch";
 // import Msgpack from "msgpack5";
 
 import { base64Encode } from "@timberio/tools";
-import { ITimberLog, ITimberOptions, LogLevel } from "@timberio/types";
+import { ITimberLog, Context, ITimberOptions, LogLevel } from "@timberio/types";
 import { Base } from "@timberio/core";
 
 // Namespace the msgpack library
@@ -60,13 +60,13 @@ export class Node extends Base {
    * @param log: (Partial<ITimberLog>) - Initial log (optional)
    * @returns Promise<ITimberLog> after syncing
    */
-  public async log(
+  public async log<TContext extends Context>(
     message: string,
     level?: LogLevel,
-    log?: Partial<ITimberLog>
-  ): Promise<ITimberLog> {
+    context: TContext = {} as TContext
+  ) {
     // Process/sync the log, per `Base` logic
-    const processedLog = await super.log(message, level, log);
+    const processedLog = await super.log(message, level, context);
 
     // Push the processed log to the stream, for piping
     if (this._writeStream) {
@@ -74,7 +74,7 @@ export class Node extends Base {
     }
 
     // Return the transformed log
-    return processedLog;
+    return processedLog as ITimberLog & TContext;
   }
 
   /**

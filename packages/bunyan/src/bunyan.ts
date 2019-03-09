@@ -1,7 +1,7 @@
 import { Writable } from "stream";
 
 import { Timber } from "@timberio/node";
-import { ITimberLog, LogLevel } from "@timberio/types";
+import { ITimberLog, Context, LogLevel } from "@timberio/types";
 
 import { getLogLevel } from "./helpers";
 
@@ -29,7 +29,7 @@ export class TimberStream extends Writable {
     }
 
     // Logging meta data
-    const meta: Partial<ITimberLog> = {};
+    const meta: Context = {};
 
     // Copy `time` if set
     if (typeof log.time === "string" || log.time.length) {

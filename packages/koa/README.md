@@ -56,12 +56,12 @@ const timberOptions = {
    * For example -- setting the maximum number of sync requests to
    * make concurrently (useful to limit network I/O)
    */
-  syncMax: 10,
+  syncMax: 10
 };
 
 const koaOptions = {
   // Override default Koa context data to include in each log
-  contextPaths: ["statusCode", "request.headers", "request.method"],
+  contextPaths: ["statusCode", "request.headers", "request.method"]
 };
 
 const timber = new Timber("api-goes-here", timberOptions, koaOptions);
@@ -113,7 +113,7 @@ Nested object properties are separated using a period (`.`)
   "request.method",
   "request.length",
   "request.url",
-  "request.query",
+  "request.query"
 ];
 ```
 

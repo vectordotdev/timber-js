@@ -55,9 +55,9 @@ timber.log("Hello Timber!");
 timber.log("Once more, with context", {
   custom: {
     "user-agent": {
-      browser: "Chrome",
-    },
-  },
+      browser: "Chrome"
+    }
+  }
 });
 ```
 
@@ -104,9 +104,9 @@ async function addCurrentUser(log: ITimberLog): Promise<ITimberLog> {
       // ... and add our own `context` data
       user: {
         id: 1000,
-        name: "Lee",
-      },
-    },
+        name: "Lee"
+      }
+    }
   };
 }
 ```

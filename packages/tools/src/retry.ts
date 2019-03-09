@@ -14,7 +14,6 @@ function delay(sec: number): Promise<any> {
   return new Promise(resolve => setTimeout(resolve, sec * 1000));
 }
 
-
 /**
  * tries to process logs maximum 3 times in case of server error.
  *
@@ -41,7 +40,6 @@ export default async function makeRetry(
     //TODO: retry only when there is server error.
     while (tries++ < MAX_TRIES) {
       try {
-
         /**
          * returns Fibonacci timeout based on try time list
          */
@@ -55,7 +53,6 @@ export default async function makeRetry(
         await delay(timeout);
         return await fn(logs);
       } catch (e) {
-
         /**
          * throw error if could not process logs all three tries
          */

@@ -50,13 +50,13 @@ const timber = new Timber("api-key-here");
 
 // Create a Winston logger - passing in the Timber transport
 const logger = winston.createLogger({
-  transports: [new TimberTransport(timber)],
+  transports: [new TimberTransport(timber)]
 });
 
 // Log as normal in Winston - your logs will sync with Timber.io!
 logger.log({
   level: "info", // <-- will use Timber's `info` log level,
-  message: "Some message", // <-- will also be passed to Timber
+  message: "Some message" // <-- will also be passed to Timber
 });
 ```
 

@@ -1,6 +1,7 @@
 import {
   ITimberLog,
   ITimberOptions,
+  Context,
   LogLevel,
   Middleware,
   Sync
@@ -121,14 +122,14 @@ class Timber {
    *
    * @param message: string - Log message
    * @param level (LogLevel) - Level to log at (debug|info|warn|error)
-   * @param context: (Pick<ITimberLog, "context">) - Context (optional)
+   * @param context: (Context) - Context (optional)
    * @returns Promise<ITimberLog> after syncing
    */
-  public async log(
+  public async log<TContext extends Context>(
     message: Message,
     level: LogLevel = LogLevel.Info,
-    context: Pick<ITimberLog, "context"> = {}
-  ): Promise<ITimberLog> {
+    context: TContext = {} as TContext
+  ): Promise<ITimberLog & TContext> {
     // Check that we have a sync function
     if (typeof this._sync !== "function") {
       throw new Error("No Timber logger sync function provided");
@@ -146,7 +147,7 @@ class Timber {
       level,
 
       // Add initial context
-      context
+      ...context
     };
 
     // Determine the type of message...
@@ -158,10 +159,7 @@ class Timber {
         ...log,
 
         // Add stack trace
-        context: {
-          ...log.context,
-          ...this.getContextFromError(message)
-        },
+        ...this.getContextFromError(message),
 
         // Add error message
         message: message.message
@@ -189,7 +187,7 @@ class Timber {
     this._countSynced++;
 
     // Return the resulting log
-    return transformedLog;
+    return transformedLog as ITimberLog & TContext;
   }
 
   /**
@@ -200,10 +198,10 @@ class Timber {
    * @param context: (Pick<ITimberLog, "context">) - Context (optional)
    * @returns Promise<ITimberLog> after syncing
    */
-  public async debug(
+  public async debug<TContext extends Context>(
     message: Message,
-    context?: Pick<ITimberLog, "context">
-  ): Promise<ITimberLog> {
+    context: TContext = {} as TContext
+  ) {
     return this.log(message, LogLevel.Debug, context);
   }
 
@@ -215,10 +213,10 @@ class Timber {
    * @param context: (Pick<ITimberLog, "context">) - Context (optional)
    * @returns Promise<ITimberLog> after syncing
    */
-  public async info(
+  public async info<TContext extends Context>(
     message: Message,
-    context?: Pick<ITimberLog, "context">
-  ): Promise<ITimberLog> {
+    context: TContext = {} as TContext
+  ) {
     return this.log(message, LogLevel.Info, context);
   }
 
@@ -230,10 +228,10 @@ class Timber {
    * @param context: (Pick<ITimberLog, "context">) - Context (optional)
    * @returns Promise<ITimberLog> after syncing
    */
-  public async warn(
+  public async warn<TContext extends Context>(
     message: Message,
-    context?: Pick<ITimberLog, "context">
-  ): Promise<ITimberLog> {
+    context: TContext = {} as TContext
+  ) {
     return this.log(message, LogLevel.Warn, context);
   }
 
@@ -245,10 +243,10 @@ class Timber {
    * @param context: (Pick<ITimberLog, "context">) - Context (optional)
    * @returns Promise<ITimberLog> after syncing
    */
-  public async error(
+  public async error<TContext extends Context>(
     message: Message,
-    context?: Pick<ITimberLog, "context">
-  ): Promise<ITimberLog> {
+    context: TContext = {} as TContext
+  ) {
     return this.log(message, LogLevel.Error, context);
   }
 

@@ -53,9 +53,9 @@ const logger = bunyan.createLogger({
   level: "debug",
   streams: [
     {
-      stream: new TimberStream(timber),
-    },
-  ],
+      stream: new TimberStream(timber)
+    }
+  ]
 });
 
 // Log as normal in Bunyan - your logs will sync with Timber.io!
