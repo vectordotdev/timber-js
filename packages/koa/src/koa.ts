@@ -8,6 +8,26 @@ interface IKoaOptions {
    * Properties to pluck from the Koa `Context` object
    */
   contextPaths: string[];
+
+	/**
+	 * urls to exclude from logging
+	 */
+  excludedRoutes: string[];
+
+	/**
+	 * HTTP Methods to exclude from logging
+	 */
+  excludedMethods: string[];
+
+  /**
+	 * Route Message customization
+	 */
+  messageFormatter(ctx: Context): string;
+
+	/**
+	 * Error Message customization
+	 */
+	errorMessageFormatter(ctx: Context, error: Error): string;
 }
 
 const defaultKoaOpt: IKoaOptions = {
@@ -18,7 +38,11 @@ const defaultKoaOpt: IKoaOptions = {
     "request.length",
     "request.url",
     "request.query"
-  ]
+  ],
+	excludedRoutes: [],
+	excludedMethods: [],
+	messageFormatter: (ctx) => `Koa HTTP request: ${ctx.status}`,
+	errorMessageFormatter: (ctx, e) => `Koa HTTP request error: ${(typeof e === "object" && e.message) || e}`
 };
 
 class KoaTimber extends Timber {
@@ -40,13 +64,14 @@ class KoaTimber extends Timber {
    * @param ctx - Koa Context
    */
   private _fromContext(ctx: Context) {
-    return {
-      context: {
-        ...this._koaOptions.contextPaths.map(p => ({
-          [p]: path(p, ctx)
-        }))
-      }
-    };
+    const context = {};
+
+		this._koaOptions.contextPaths.forEach(p => {
+			// @ts-ignore
+			context[p] = path(p, ctx)
+		});
+
+  	return context;
   }
 
   /**
@@ -66,7 +91,7 @@ class KoaTimber extends Timber {
       await next();
 
       // If not thrown, middleware executed successfully
-      msg = `Koa HTTP request: ${ctx.status}`;
+      msg = this._koaOptions.messageFormatter(ctx);
 
       // 4xx | 5xx status codes should be considered a warning
       if (ctx.status.toString().startsWith("4")) {
@@ -77,11 +102,13 @@ class KoaTimber extends Timber {
     } catch (e) {
       // Error was thrown in middleware / HTTP request handling
       logLevel = LogLevel.Error;
-      msg = `Koa HTTP request error: ${(typeof e === "object" && e.message) ||
-        e}`;
+      msg = this._koaOptions.errorMessageFormatter(ctx, e);
     } finally {
       // Finally, log to the correct log level
-      void this[logLevel](msg!, this._fromContext(ctx));
+			if (!this._koaOptions.excludedMethods.includes(ctx.request.method)
+				&& !this._koaOptions.excludedRoutes.includes(ctx.request.url)) {
+				void this[logLevel](msg!, this._fromContext(ctx));
+			}
     }
   };
 
