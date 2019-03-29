@@ -25,7 +25,21 @@ important stats easier than ever.
 
 ---
 
-* **[Features](https://docs.timber.io/setup/languages/javascript#features)**
+### Features
+
+* Universal Node/browser support.
+* NPM or CDN.
+* Written in Typescript; runs anywhere.
+* Blazing fast.
+* Guaranteed consistency.
+* Easy logging middleware.
+* Light as a feather. The gzipped browser bundle weighs in at just 4.3kb!
+* Plays nicely with other loggers.
+
+---
+
+### Get Started
+
 * **[Installation](https://docs.timber.io/setup/languages/javascript#installation)**
 * **[Configuration](https://docs.timber.io/setup/languages/javascript#configuration)**
 * **[Usage](https://docs.timber.io/setup/languages/javascript#usage)**
