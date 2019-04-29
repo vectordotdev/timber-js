@@ -15,29 +15,31 @@ export class TimberTransport extends Transport {
       this.emit("logged", info);
     });
 
-    // Determine the log level
-    let level: LogLevel;
+    const { level, message, ...meta } = info;
 
-    switch (info.level) {
+    // Determine the log level
+    let logLevel: LogLevel;
+
+    switch (level) {
       case "debug":
-        level = LogLevel.Debug;
+        logLevel = LogLevel.Debug;
         break;
 
       case "warn":
-        level = LogLevel.Warn;
+        logLevel = LogLevel.Warn;
         break;
 
       case "error":
-        level = LogLevel.Error;
+        logLevel = LogLevel.Error;
         break;
 
       // All other log levels use `Info` by default
       default:
-        level = LogLevel.Info;
+        logLevel = LogLevel.Info;
     }
 
     // Log out to Timber
-    void this._timber.log(info.message, level);
+    void this._timber.log(message, logLevel, meta);
 
     // Winston callback...
     cb();
