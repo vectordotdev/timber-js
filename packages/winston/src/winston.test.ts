@@ -1,6 +1,6 @@
 import winston, { LogEntry } from "winston";
 import { Timber } from "@timberio/node";
-import { LogLevel } from "@timberio/types";
+import { LogLevel, ITimberLog } from "@timberio/types";
 
 import { TimberTransport } from "./winston";
 
@@ -21,17 +21,11 @@ async function testLevel(level: string, logLevel: LogLevel) {
 
   // Timber fixtures
   const timber = new Timber("test", "someSource");
-  timber.setSync(async logs => {
-    // Should be exactly one log
-    expect(logs.length).toBe(1);
-
-    // Message should match
-    expect(logs[0].message).toBe(log.message);
-
-    // Log level should be 'info'
-    expect(logs[0].level).toBe(logLevel);
-
-    return logs;
+  const logged = new Promise<ITimberLog[]>((resolve) => {
+    timber.setSync(async logs => {
+      resolve(logs);
+      return logs;
+    });
   });
 
   // Create a Winston logger
@@ -41,7 +35,18 @@ async function testLevel(level: string, logLevel: LogLevel) {
   });
 
   // Log it!
-  return logger.log(log);
+  logger.log(log);
+
+  const logs = await logged;
+
+  // Should be exactly one log
+  expect(logs.length).toBe(1);
+
+  // Message should match
+  expect(logs[0].message).toBe(log.message);
+
+  // Log level should be 'info'
+  expect(logs[0].level).toBe(logLevel);
 }
 
 describe("Winston logging tests", () => {
@@ -117,5 +122,73 @@ describe("Winston logging tests", () => {
     });
 
     entries.forEach(entry => logger.log(entry.level, entry.message));
+  });
+
+  it("should log metadata with the message and level", async () => {
+    const timber = new Timber("test", "someSource");
+    const logged = new Promise<ITimberLog[]>((resolve) => {
+      timber.setSync(async logs => {
+        resolve(logs);
+        return logs;
+      });
+    });
+
+    // Create a Winston logger
+    const logger = winston.createLogger({
+      level: LogLevel.Info,
+      transports: [new TimberTransport(timber)],
+    });
+
+    // Log it!
+    logger.log(LogLevel.Info, "a test message", { request_id: 123 });
+
+    const logs = await logged;
+
+    // Should be exactly one log
+    expect(logs.length).toBe(1);
+
+    // Message should match
+    expect(logs[0].message).toBe("a test message");
+
+    // Log level should be 'info'
+    expect(logs[0].level).toBe(LogLevel.Info);
+
+    expect(logs[0]['request_id']).toBe(123);
+  });
+
+  it("should log defaultMetadata with the message and level", async () => {
+    const timber = new Timber("test", "someSource");
+    const logged = new Promise<ITimberLog[]>((resolve) => {
+      timber.setSync(async logs => {
+        resolve(logs);
+        return logs;
+      });
+    });
+
+    // Create a Winston logger
+    const logger = winston.createLogger({
+      level: LogLevel.Info,
+      transports: [new TimberTransport(timber)],
+      defaultMeta: {
+        component: 'server',
+      }
+    });
+
+    // Log it!
+    logger.log(LogLevel.Info, "a test message", { request_id: 123 });
+
+    const logs = await logged;
+
+    // Should be exactly one log
+    expect(logs.length).toBe(1);
+
+    // Message should match
+    expect(logs[0].message).toBe("a test message");
+
+    // Log level should be 'info'
+    expect(logs[0].level).toBe(LogLevel.Info);
+
+    expect(logs[0]['request_id']).toBe(123);
+    expect(logs[0]['component']).toBe('server');
   });
 });
