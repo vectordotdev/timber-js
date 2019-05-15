@@ -95,7 +95,7 @@ interface ITimberLog {
   dt: Date;
   level: LogLevel; // <-- see `LogLevel` above
   message: string;
-  [key: string]: ContextKey | Context; // <-- see `Context` bove
+  [key: string]: ContextKey | Context; // <-- see `Context` above
 }
 ```
 
