@@ -21,7 +21,7 @@ async function testLevel(level: string, logLevel: LogLevel) {
 
   // Timber fixtures
   const timber = new Timber("test", "someSource");
-  const logged = new Promise<ITimberLog[]>((resolve) => {
+  const logged = new Promise<ITimberLog[]>(resolve => {
     timber.setSync(async logs => {
       resolve(logs);
       return logs;
@@ -126,7 +126,7 @@ describe("Winston logging tests", () => {
 
   it("should log metadata with the message and level", async () => {
     const timber = new Timber("test", "someSource");
-    const logged = new Promise<ITimberLog[]>((resolve) => {
+    const logged = new Promise<ITimberLog[]>(resolve => {
       timber.setSync(async logs => {
         resolve(logs);
         return logs;
@@ -153,12 +153,12 @@ describe("Winston logging tests", () => {
     // Log level should be 'info'
     expect(logs[0].level).toBe(LogLevel.Info);
 
-    expect(logs[0]['request_id']).toBe(123);
+    expect(logs[0]["request_id"]).toBe(123);
   });
 
   it("should log defaultMetadata with the message and level", async () => {
     const timber = new Timber("test", "someSource");
-    const logged = new Promise<ITimberLog[]>((resolve) => {
+    const logged = new Promise<ITimberLog[]>(resolve => {
       timber.setSync(async logs => {
         resolve(logs);
         return logs;
@@ -170,8 +170,8 @@ describe("Winston logging tests", () => {
       level: LogLevel.Info,
       transports: [new TimberTransport(timber)],
       defaultMeta: {
-        component: 'server',
-      }
+        component: "server",
+      },
     });
 
     // Log it!
@@ -188,7 +188,7 @@ describe("Winston logging tests", () => {
     // Log level should be 'info'
     expect(logs[0].level).toBe(LogLevel.Info);
 
-    expect(logs[0]['request_id']).toBe(123);
-    expect(logs[0]['component']).toBe('server');
+    expect(logs[0]["request_id"]).toBe(123);
+    expect(logs[0]["component"]).toBe("server");
   });
 });

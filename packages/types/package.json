@@ -37,7 +37,7 @@
   "devDependencies": {
     "npm-run-all": "^4.1.5"
   },
-  "gitHead": "567de366ac0cc9e6b398c5f40072cdb94341cda7",
+  "gitHead": "6ba0a0e9f65e1aa58e6421c9716eda7d0848d46d",
   "dependencies": {
     "js": "^0.1.0"
   }
