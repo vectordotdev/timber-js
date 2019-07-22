@@ -14,7 +14,7 @@ export class TimberStream extends Writable {
     // Sanity check for the format of the log
     const jsonString = chunk.toString();
 
-    let log;
+    let log: any;
 
     // Should be JSON parsable
     try {
@@ -38,6 +38,11 @@ export class TimberStream extends Writable {
         meta.dt = time;
       }
     }
+
+    // Carry over any additional data fields
+    Object.keys(log)
+      .filter(key => ["time", "msg", "level", "v"].indexOf(key) < 0)
+      .forEach(key => meta[key] = log[key]);
 
     // Determine the log level
     let level: LogLevel;
