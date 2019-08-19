@@ -29,7 +29,7 @@ class CustomLogger extends Base {
   public constructor(
     orgApiKey: string,
     sourceKey: string,
-    options?: Partial<ITimberOptions>,
+    options?: Partial<ITimberOptions>
   ) {
     // Make sure you pass the organization API + source key to the parent constructor!
     super(apiKey, sourceKey, options);
@@ -59,9 +59,9 @@ timber.log("Hello Timber!");
 timber.log("Once more, with context", {
   httpRequest: {
     "user-agent": {
-      browser: "Chrome",
-    },
-  },
+      browser: "Chrome"
+    }
+  }
 });
 ```
 
@@ -107,8 +107,8 @@ async function addCurrentUser(log: ITimberLog): Promise<ITimberLog> {
     user: {
       // ... and add our own `context` data
       id: 1000,
-      name: "Lee",
-    },
+      name: "Lee"
+    }
   };
 }
 ```

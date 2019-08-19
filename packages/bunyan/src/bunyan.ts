@@ -42,7 +42,7 @@ export class TimberStream extends Writable {
     // Carry over any additional data fields
     Object.keys(log)
       .filter(key => ["time", "msg", "level", "v"].indexOf(key) < 0)
-      .forEach(key => meta[key] = log[key]);
+      .forEach(key => (meta[key] = log[key]));
 
     // Determine the log level
     let level: LogLevel;

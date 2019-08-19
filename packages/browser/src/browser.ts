@@ -10,7 +10,7 @@ export class Browser extends Base {
   public constructor(
     apiKey: string,
     sourceKey: string,
-    options?: Partial<ITimberOptions>,
+    options?: Partial<ITimberOptions>
   ) {
     super(apiKey, sourceKey, options);
 
@@ -22,12 +22,12 @@ export class Browser extends Base {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${this._apiKey}`,
+            Authorization: `Bearer ${this._apiKey}`
             // Awaiting: https://bugs.chromium.org/p/chromium/issues/detail?id=571722
             // "User-Agent": getUserAgent()
           },
-          body: JSON.stringify(logs),
-        },
+          body: JSON.stringify(logs)
+        }
       );
 
       if (res.ok) {

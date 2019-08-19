@@ -10,7 +10,7 @@ function getServer(): [KoaTimber, Koa] {
   // Init new Koa Timber instance
   const timber = new KoaTimber("test", "someSource", {
     // Override `batchInterval` to test logs faster
-    batchInterval: 1,
+    batchInterval: 1
   });
 
   // Create a new Koa instance

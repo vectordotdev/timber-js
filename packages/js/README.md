@@ -36,7 +36,7 @@ import { Browser, Node } from "@timberio/js";
 // `Browser` is equivalent to the `Timber` class exported by @timberio/browser
 const clientLogger = new Browser(
   "timber-organization-key",
-  "timber-source-key",
+  "timber-source-key"
 );
 
 // And the same with `Node` and @timberio/node

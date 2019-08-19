@@ -102,7 +102,7 @@ describe("base class tests", () => {
     base.use(async log => {
       return {
         ...log,
-        message: newMessage,
+        message: newMessage
       };
     });
 
@@ -244,7 +244,7 @@ describe("base class tests", () => {
     // Fixtures
     const message = "Testing exceptions";
     const base = new Base("testing", "someSource", {
-      ignoreExceptions: true,
+      ignoreExceptions: true
     });
 
     // Add a mock sync method which throws an error

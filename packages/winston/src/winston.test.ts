@@ -16,7 +16,7 @@ async function testLevel(level: string, logLevel: LogLevel) {
   // Sample log
   const log: LogEntry = {
     level,
-    message,
+    message
   };
 
   // Timber fixtures
@@ -31,7 +31,7 @@ async function testLevel(level: string, logLevel: LogLevel) {
   // Create a Winston logger
   const logger = winston.createLogger({
     level,
-    transports: [new TimberTransport(timber)],
+    transports: [new TimberTransport(timber)]
   });
 
   // Log it!
@@ -75,26 +75,26 @@ describe("Winston logging tests", () => {
     const entries: LogEntry[] = [
       {
         level: "info",
-        message: `${message} 1`,
+        message: `${message} 1`
       },
       {
         level: "debug",
-        message: `${message} 2`,
+        message: `${message} 2`
       },
       {
         level: "warn",
-        message: `${message} 3`,
+        message: `${message} 3`
       },
       {
         level: "error",
-        message: `${message} 4`,
-      },
+        message: `${message} 4`
+      }
     ];
 
     // Fixtures
     const timber = new Timber("test", "someSource", {
       batchInterval: 1000, // <-- shouldn't be exceeded
-      batchSize: entries.length,
+      batchSize: entries.length
     });
 
     timber.setSync(async logs => {
@@ -105,7 +105,7 @@ describe("Winston logging tests", () => {
         log =>
           entries.findIndex(entry => {
             return entry.message == log.message;
-          }) > -1,
+          }) > -1
       );
       expect(isIdentical).toBe(true);
 
@@ -118,7 +118,7 @@ describe("Winston logging tests", () => {
     // Create a Winston logger
     const logger = winston.createLogger({
       level: "debug", // <-- debug and above
-      transports: [new TimberTransport(timber)],
+      transports: [new TimberTransport(timber)]
     });
 
     entries.forEach(entry => logger.log(entry.level, entry.message));
@@ -136,7 +136,7 @@ describe("Winston logging tests", () => {
     // Create a Winston logger
     const logger = winston.createLogger({
       level: LogLevel.Info,
-      transports: [new TimberTransport(timber)],
+      transports: [new TimberTransport(timber)]
     });
 
     // Log it!
@@ -170,8 +170,8 @@ describe("Winston logging tests", () => {
       level: LogLevel.Info,
       transports: [new TimberTransport(timber)],
       defaultMeta: {
-        component: "server",
-      },
+        component: "server"
+      }
     });
 
     // Log it!

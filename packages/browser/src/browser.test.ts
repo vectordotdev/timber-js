@@ -9,7 +9,7 @@ import { Browser } from "./browser";
  */
 function getRandomLog(message: string): Partial<ITimberLog> {
   return {
-    message,
+    message
   };
 }
 

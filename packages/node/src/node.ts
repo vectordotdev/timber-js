@@ -19,7 +19,7 @@ export class Node extends Base {
   public constructor(
     apiKey: string,
     sourceKey: string,
-    options?: Partial<ITimberOptions>,
+    options?: Partial<ITimberOptions>
   ) {
     super(apiKey, sourceKey, options);
 
@@ -33,14 +33,14 @@ export class Node extends Base {
             // "Content-Type": "application/msgpack",
             "Content-Type": "application/json",
             Authorization: `Bearer ${this._apiKey}`,
-            "User-Agent": "timber-js(node)",
+            "User-Agent": "timber-js(node)"
           },
           // body: logs.map(log => `${log.level}: ${log.message}`).join("\n")
           // body: msgpack.encode(logsWithSchema).slice()
 
           // TODO - using JSON for now; switch to msgpack later
-          body: JSON.stringify(logs),
-        },
+          body: JSON.stringify(logs)
+        }
       );
 
       if (res.ok) {
@@ -69,7 +69,7 @@ export class Node extends Base {
   public async log<TContext extends Context>(
     message: string,
     level?: LogLevel,
-    context: TContext = {} as TContext,
+    context: TContext = {} as TContext
   ) {
     // Process/sync the log, per `Base` logic
     const processedLog = await super.log(message, level, context);

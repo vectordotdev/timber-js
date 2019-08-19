@@ -15,7 +15,7 @@ function getRandomLog(message: string): Partial<ITimberLog> {
   return {
     dt: new Date(),
     level: LogLevel.Info,
-    message,
+    message
   };
 }
 
@@ -50,7 +50,7 @@ describe("node tests", () => {
       write(
         chunk: any,
         encoding: string,
-        callback: (error?: Error | null) => void,
+        callback: (error?: Error | null) => void
       ): void {
         // Will be a buffered JSON string -- parse
         const log: ITimberLog = JSON.parse(chunk.toString());
@@ -59,7 +59,7 @@ describe("node tests", () => {
         expect(log.message).toEqual(message);
 
         callback();
-      },
+      }
     });
 
     // Fixtures
