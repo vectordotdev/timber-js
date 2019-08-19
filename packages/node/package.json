@@ -1,6 +1,6 @@
 {
   "name": "@timberio/node",
-  "version": "0.34.2",
+  "version": "0.35.0",
   "description": "Timber.io - Node.js logger",
   "keywords": [
     "Timber",
@@ -40,8 +40,8 @@
     "typescript": "^3.5.3"
   },
   "dependencies": {
-    "@timberio/core": "^0.34.2",
-    "@timberio/types": "^0.34.2",
+    "@timberio/core": "^0.35.0",
+    "@timberio/types": "^0.35.0",
     "@types/msgpack5": "^3.4.1",
     "cross-fetch": "^3.0.4",
     "msgpack5": "^4.2.1"
