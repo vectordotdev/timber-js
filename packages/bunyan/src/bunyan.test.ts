@@ -111,4 +111,18 @@ describe("Bunyan tests", () => {
     // Cycle through levels, and log
     levels.forEach(level => logger[level[2]](message));
   });
+
+  it("should include arbitrary extra data fields", async done => {
+    const timber = new Timber("test", "someSource");
+    timber.setSync(async logs => {
+      expect(logs).toHaveLength(1);
+      expect(logs[0].message).toEqual("i am the message");
+      expect(logs[0].foo).toEqual("bar");
+      expect(logs[0].some).toEqual({ nested: 'stuff' });
+      done();
+      return logs;
+    });
+    const logger = createLogger(timber);
+    logger.info({ foo: "bar", some: { nested: "stuff" } }, "i am the message");
+  });
 });
